@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script type="text/javascript" src="vue.js"></script> 
+</head>
+
+
+<!-- TESTING:
+
+This is a PayPal Sandbox Account, so don't worry about actual charges!
+
+1. Click on PayPal Button and enter login credentials:
+
+            email: sarahwoon@gmail.com
+            pw: 2G?yV/pI
+
+2. Select Payment Method as PayPal Balance and Pay
+
+3. Web page should change to Paid
+-->
+
+<body>
+    <div id='app'>
+        <template >
+            <div>
+                <div v-if="!paidFor">
+                    <h1>Payment for Facility - ${{ space.price }} </h1>
+                    
+                </div>
+                <div v-else><h1>Paid!</h1></div>
+                <div ref='paypal'></div>
+            </div>
+        </template>
+
+    </div>
+
+
+  <script>
+      var vm = new Vue ({
+          el: '#app',
+          data: function() {
+              return {
+                  paidFor: false,
+                  space: {
+                      price: 10.00
+                  }
+              }
+          },
+          mounted: function() {
+              const script = document.createElement("script");
+              script.src = "https://www.paypal.com/sdk/js?currency=SGD&client-id=ARqV8Dq2UHOZV1yd0pSTUq2O0mt-zXjTO4iUafSZoC52Cv2fm8_jEvuev9c5o_MRPl1CMFckaj1Z5ipe";
+              script.addEventListener("load", this.setLoaded);
+              document.body.appendChild(script);
+          },
+          methods: {
+              setLoaded: function() {
+                  this.loaded = true;
+                  window.paypal
+                      .Buttons({
+                          createOrder: (data, actions) => {
+                              return actions.order.create({
+                                  purchase_units: [
+                                      {
+                                          description: 'test',
+                                          amount: {
+                                              currency_code: 'SGD',
+                                              value: this.space.price
+                                          }
+    
+                                      }
+                                  ]
+                                  
+                              });
+                          },
+                          onApprove: async(data, actions) => {
+                            const order = await actions.order.capture();
+                            this.paidFor = true;
+                            console.log(order);
+                        },
+                        onError: err => {
+                            console.log(err);
+                        }
+
+    
+                      })
+                      .render(this.$refs.paypal);
+              }
+          }
+
+
+
+
+
+      })
+
+  </script>
+</body>
+</html>
