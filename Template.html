@@ -3,11 +3,11 @@
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <script type="text/javascript" src="vue.js"></script>
+
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.0/gsap.min.js"></script>
+
         <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap/dist/css/bootstrap.min.css" />
         <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.css" />
-
-        <!-- Load polyfills to support older browsers -->
-        <!-- <script src="//polyfill.io/v3/polyfill.min.js?features=es2015%2CIntersectionObserver" crossorigin="anonymous"></script> -->
 
         <!-- Load Vue followed by BootstrapVue -->
         <script src="https://unpkg.com/vue@latest/dist/vue.min.js"></script>
@@ -30,12 +30,36 @@
         </div>
     
     
-      <script>
-            var vm = new Vue ({
-              el: '#app'
-    
-          })
-    
-      </script>
+    <script>
+    // import ErrorHandler from "./ErrorHandler.vue";
+
+    var vm = new Vue ({
+        el: '#app',
+        // components: { ErrorHandler },
+        // name: "NameOfComponent",
+        // data() {
+
+        //     return {
+
+        //     };
+        // },
+        // async mounted() {
+
+        // },
+        // computed: {
+
+        // },
+        // methods: {
+
+        // },
+
+    })
+
+    </script>
+
+    <style scoped>
+
+    </style>
+
     </body>
 </html>
