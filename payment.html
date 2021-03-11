@@ -37,60 +37,55 @@ This is a PayPal Sandbox Account, so don't worry about actual charges!
 
   <script>
       var vm = new Vue ({
-          el: '#app',
-          data: function() {
-              return {
-                  paidFor: false,
-                  space: {
-                      price: 10.00
-                  }
-              }
-          },
-          mounted: function() {
-              const script = document.createElement("script");
-              script.src = "https://www.paypal.com/sdk/js?currency=SGD&client-id=ARqV8Dq2UHOZV1yd0pSTUq2O0mt-zXjTO4iUafSZoC52Cv2fm8_jEvuev9c5o_MRPl1CMFckaj1Z5ipe";
-              script.addEventListener("load", this.setLoaded);
-              document.body.appendChild(script);
-          },
-          methods: {
-              setLoaded: function() {
-                  this.loaded = true;
-                  window.paypal
-                      .Buttons({
-                          createOrder: (data, actions) => {
-                              return actions.order.create({
-                                  purchase_units: [
-                                      {
-                                          description: 'test',
-                                          amount: {
-                                              currency_code: 'SGD',
-                                              value: this.space.price
-                                          }
-    
-                                      }
-                                  ]
-                                  
-                              });
-                          },
-                          onApprove: async(data, actions) => {
-                            const order = await actions.order.capture();
-                            this.paidFor = true;
-                            console.log(order);
-                        },
-                        onError: err => {
-                            console.log(err);
-                        }
+            el: '#app',
+            data: function() {
+                return {
+                    paidFor: false,
+                    space: {
+                        price: 10.00
+                    }
+                }
+            },
+            mounted: function() {
+                const script = document.createElement("script");
+                script.src = "https://www.paypal.com/sdk/js?currency=SGD&client-id=ARqV8Dq2UHOZV1yd0pSTUq2O0mt-zXjTO4iUafSZoC52Cv2fm8_jEvuev9c5o_MRPl1CMFckaj1Z5ipe";
+                script.addEventListener("load", this.setLoaded);
+                document.body.appendChild(script);
+            },
+            methods: {
+                setLoaded: function() {
+                    this.loaded = true;
+                    window.paypal
+                        .Buttons({
+                            createOrder: (data, actions) => {
+                                return actions.order.create({
+                                    purchase_units: [
+                                        {
+                                            description: 'test',
+                                            amount: {
+                                                currency_code: 'SGD',
+                                                value: this.space.price
+                                            }
+        
+                                        }
+                                    ]
+                                    
+                                });
+                            },
+                            onApprove: async(data, actions) => {
+                                const order = await actions.order.capture();
+                                this.paidFor = true;
+                                console.log(order);
+                            },
+                            onError: err => {
+                                console.log(err);
+                            }
 
-    
-                      })
-                      .render(this.$refs.paypal);
-              }
-          }
-
-
-
-
-
+        
+                        })
+                        .render(this.$refs.paypal);
+                }
+            }
       })
 
   </script>
