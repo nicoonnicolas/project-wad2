@@ -1,2 +1,9 @@
-@import 'bootstrap.min.css';
-@import 'bootstrap-vue.min.css';
+
+@import 'bootstrap.min';
+@import 'bootstrap-vue.min';
+
+$primary-color: #333;
+
+.btn-primary {
+    background-color: $primary-color;
+}
