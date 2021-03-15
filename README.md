@@ -29,3 +29,13 @@
         ```
         1.32.8
         ```
+
+### Run Sass watcher:
+    * In a terminal/command prompt:
+        ```
+        sass --watch C:\wamp64\www\project-wad2\scss\custom.scss C:\wamp64\www\project-wad2\scss\custom.css
+        ```
+    
+    *This will help you to convert your custom.scss to custom.css
+
+<br>
