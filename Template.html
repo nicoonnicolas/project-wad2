@@ -18,23 +18,25 @@
 
     <body>
         <div id='app'>
-            <div>
-                <b-button variant="custom">Button</b-button>
-                <b-button variant="primary">Button</b-button>
-                <b-button variant="success">Button</b-button>
-                <b-button variant="outline-primary">Button</b-button>
-            </div>
-            <div>
-                <b-button v-b-toggle.sidebar-1>Toggle Sidebar</b-button>
-                <b-sidebar id="sidebar-1" title="Sidebar" shadow>
-                  <div class="px-3 py-2">
-                    <p>
-                      Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis
-                      in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
-                    </p>
-                    <b-img src="https://picsum.photos/500/500/?image=54" fluid thumbnail></b-img>
-                  </div>
-                </b-sidebar>
+            <div class=container>
+                <div :class="{'btngrp--margin': btngrpMargin, 'btngrp--nomargin': btngrpNoMargin}">
+                    <b-button>Button</b-button>
+                    <b-button variant="primary">Button</b-button>
+                    <b-button variant="success">Button</b-button>
+                    <b-button variant="outline-primary">Button</b-button>
+                    <b-button v-b-toggle.sidebar-1>Toggle Sidebar</b-button>
+                </div>
+                <div>
+                    <b-sidebar id="sidebar-1" title="Sidebar" shadow @change="changeMargin">
+                    <div class="px-3 py-2">
+                        <p>
+                        Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis
+                        in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
+                        </p>
+                        <b-img src="https://picsum.photos/500/500/?image=54" fluid thumbnail></b-img>
+                    </div>
+                    </b-sidebar>
+                </div>
             </div>
     
         </div>
@@ -47,28 +49,43 @@
         el: '#app',
         // components: { ErrorHandler },
         // name: "NameOfComponent",
-        // data() {
+        data: {
+            btngrpMargin: false,
+            btngrpNoMargin: true,
+            // return {
 
-        //     return {
-
-        //     };
-        // },
+            // };
+        },
         // async mounted() {
 
         // },
         // computed: {
 
         // },
-        // methods: {
-
-        // },
+        methods: {
+            changeMargin: function() {
+                if (this.btngrpNoMargin) {
+                    this.btngrpNoMargin = false;
+                    this.btngrpMargin = true;
+                } else {
+                    this.btngrpNoMargin = true;
+                    this.btngrpMargin = false;
+                }
+            }
+        },
 
     })
 
     </script>
 
     <style lang="scss">
+        .btngrp--margin {
+            margin-left: 200px;
+        }
 
+        .btngrp--nomargin {
+            margin-left: 0px;
+        }
 
     </style>
 
