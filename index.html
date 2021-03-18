@@ -81,7 +81,20 @@
 		<!-------------------- SEARCH BAR-------------- -->
 		<div class="container">
 			<b-jumbotron lead="Start searching for spaces with Huddle.">
-				<b-button variant="primary" href="#">Start</b-button>
+				<!-- <b-button variant="primary" href="#">Start</b-button> -->
+				<b-form inline>
+					<label class="sr-only" for="inline-form-input-name">Name</label>
+					<b-form-input
+					  id="inline-form-input-name"
+					  class="mb-2 mr-sm-2 mb-sm-0"
+					  placeholder="e.g. 12 Victoria Rd"
+					></b-form-input>
+									
+					<b-form-select class="mb-2 mr-sm-2 mb-sm-0" v-model="selected" :options="listing_type"></b-form-select>
+					<b-form-datepicker placeholder="Start Date"	class="mb-2 mr-sm-2 mb-sm-0"></b-form-datepicker>
+					<b-form-datepicker  class="mb-2 mr-sm-2 mb-sm-0" placeholder="End Date"	></b-form-datepicker>
+					<b-button variant="primary">Go</b-button>
+				  </b-form>
 			  </b-jumbotron>
 		  </div>
 
@@ -148,7 +161,14 @@
 				btngrpMargin: false,
 				btngrpNoMargin: true,
 				listings: null,
-				type: null
+				type: null,
+				selected: '*',
+				listing_type: [
+				{ value: "*", text: 'All Workspace Types' },
+				{ value: "Single", text: 'Single' },
+				{ value: 'Group', text: 'Group' },
+				{ value: 'Corporate Function', text: 'Corporate Function' },
+				]
 			},
 			created: function () {
 				this.listings = "";
