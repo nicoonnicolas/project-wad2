@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>GSAP Demo</title>
+		<link rel="stylesheet" href="Style/GSAPCSS.css" />
+		<style>
+			body {
+				font-family: Arial;
+			}
+			.box {
+				display: block;
+			}
+		</style>
+	</head>
+	<body>
+		<h2 class="title">GSAP(to) Basic Usage</h2>
+		<div class="box orange">Orange</div>
+		<div class="box grey">Grey</div>
+		<div class="box green">Green</div>
+		<div class="app">
+			<label>Username: </label>
+			<input placeholder="Enter username"/>
+			<br>
+			<label>Password: </label>
+			<input type="password" placeholder="Enter Password"/>
+		</div>
+
+		<button class="button" onclick="userClicks()">Click Me!</button>
+
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.0/gsap.min.js"></script>
+		<script>
+			function userClicks() {
+				gsap.to("h2.title", { duration: 1, opacity: 0.8, x: '40%', color: 'red'});
+				gsap.to(".box", { duration: 2, x: 300 });
+				gsap.to(".green", { duration: 3, rotation: 360, scale: 0.5 });
+				gsap.to(".app", {duration: 1, opacity: 0.0});
+				gsap.to(".button", {duration: 1, opacity: 0.0});
+			}
+		</script>
+	</body>
+</html>
