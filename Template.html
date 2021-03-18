@@ -14,33 +14,117 @@
 
         <!-- Load the following for BootstrapVueIcons support -->
         <script src="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue-icons.min.js"></script>
+
+        <!-- Firebase Source Files-->
+        <script src="https://www.gstatic.com/firebasejs/8.3.0/firebase-app.js"></script>
+        <!-- <script src="https://www.gstatic.com/firebasejs/8.3.0/firebase-analytics.js"></script> -->
+        <script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-database.js"></script>
+        <!-- <script src="https://www.gstatic.com/firebasejs/8.2.6/firebase-auth.js"></script> -->
+        <script>
+            // Initialize Firebase
+            var firebaseConfig = {
+				apiKey: "AIzaSyDhBjd0INJO6MpP_SX3vJJFRQzgrc1yCbc",
+				authDomain: "just-clover-301402.firebaseapp.com",
+				databaseURL:
+					"https://just-clover-301402-default-rtdb.firebaseio.com",
+				projectId: "just-clover-301402",
+				storageBucket: "just-clover-301402.appspot.com",
+				messagingSenderId: "999591178620",
+				appId: "1:999591178620:web:5ed2ca489e1fee2836b4f9",
+				measurementId: "G-4M8XE224JF",
+			}
+            firebase.initializeApp(firebaseConfig);
+			// firebase.analytics();
+        </script>
+
     </head>
 
     <body>
         <div id='app'>
             <div class=container>
-                <div :class="{'btngrp--margin': btngrpMargin, 'btngrp--nomargin': btngrpNoMargin}">
-                    <b-button>Button</b-button>
-                    <b-button variant="primary">Button</b-button>
-                    <b-button variant="success">Button</b-button>
-                    <b-button variant="outline-primary">Button</b-button>
-                    <b-button v-b-toggle.sidebar-1>Toggle Sidebar</b-button>
-                </div>
-                <div>
-                    <b-sidebar id="sidebar-1" title="Sidebar" shadow @change="changeMargin">
-                    <div class="px-3 py-2">
-                        <p>
-                        Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis
-                        in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
-                        </p>
-                        <b-img src="https://picsum.photos/500/500/?image=54" fluid thumbnail></b-img>
+                <div class="row">
+                    <div class="col">
+                        <div>
+                            <!-- <b-sidebar id="sidebar-1" title="Sidebar" shadow @change="changeMargin" >
+                            <div class="px-3 py-2">
+                                <p>
+                                Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis
+                                in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
+                                </p>
+                                <b-img src="https://picsum.photos/500/500/?image=54" fluid thumbnail></b-img>
+                            </div>
+                            </b-sidebar> -->
+                            <div>
+                                <b-navbar toggleable="xs" type="light" variant="light">
+                                  <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+                              
+                                  <b-collapse id="nav-collapse" is-nav>
+                                    <b-navbar-nav>
+                                      <b-nav-item href="#">Link</b-nav-item>
+                                      
+                              
+                                    </b-navbar-nav>
+                              
+                                  </b-collapse>
+                                </b-navbar>
+                              </div>
+                        </div>
                     </div>
-                    </b-sidebar>
+                    <div class="col-sm-10">
+                        <div :class="{'btngrp--margin': btngrpMargin, 'btngrp--nomargin': btngrpNoMargin}">
+                            <b-button @click="displayListings">Show Listings</b-button>
+                            <b-button variant="primary">Button</b-button>
+                            <b-button variant="success">Button</b-button>
+                            <b-button variant="outline-primary">Button</b-button>
+                            <b-button v-b-toggle.sidebar-1>Toggle Sidebar</b-button>
+                            <b-navbar-toggle target="nav-collapse" class="navbar-toggle-color"></b-navbar-toggle>
+                        </div>
+                        <div>
+                            <b-table-simple hover small responsive>
+                            <b-thead head-variant="dark">
+                                <b-tr>
+                                <b-th></b-th>
+                                <b-th>Capacity</b-th>
+                                <b-th>Type</b-th>
+                                <b-th>Area</b-th>
+                                <b-th>Address</b-th>
+                                </b-tr>
+                            </b-thead>
+                            <b-tbody>
+                                <trow
+                                    v-for="listing in listings"
+                                    v-bind:listing="listing"
+                                    v-bind:images="'./images/listing/' + listing.images[0]"
+                                ></trow>
+                            </b-tbody>
+                            </b-table-simple>
+                        </div>
+                    </div>
                 </div>
             </div>
     
         </div>
     
+    
+    <script>
+        // note: template must have a single root element!
+        Vue.component('trow', {
+            props: ['listing', 'images'],
+            template: `<b-tr>
+                            <b-td><b-img v-bind:src=images alt="Fluid image" height="100px"></b-img></b-td>
+                            <b-td>{{ listing.capacity}}</b-td>
+                            <b-td>{{ listing.type}}</b-td>
+                            <b-td>{{ listing.area}}</b-td>
+                            <b-td>{{ listing.address}}</b-td>
+                        </b-tr>`
+        })
+        Vue.component('im', {
+            props: [''],
+            template: `<div>
+  <b-img src="https://picsum.photos/1024/400/?image=41" fluid alt="Responsive image"></b-img>
+</div>`
+        })
+    </script>
     
     <script>
     // import ErrorHandler from "./ErrorHandler.vue";
@@ -52,25 +136,37 @@
         data: {
             btngrpMargin: false,
             btngrpNoMargin: true,
-            // return {
-
-            // };
+            listings: null
         },
-        // async mounted() {
-
-        // },
+        created: function() {
+            this.displayListings();
+        },
         // computed: {
 
         // },
         methods: {
             changeMargin: function() {
-                if (this.btngrpNoMargin) {
-                    this.btngrpNoMargin = false;
-                    this.btngrpMargin = true;
-                } else {
-                    this.btngrpNoMargin = true;
-                    this.btngrpMargin = false;
-                }
+                // if (this.btngrpNoMargin) {
+                //     this.btngrpNoMargin = false;
+                //     this.btngrpMargin = true;
+                // } else {
+                //     this.btngrpNoMargin = true;
+                //     this.btngrpMargin = false;
+                // }
+            },
+            getAllListings: function() {
+                var listings = firebase.database().ref("listing/");
+				allListings = "";
+				listings.on("value", (snapshot) => {
+					// console.log(snapshot.val());
+					allListings = snapshot.val();
+				});
+				return allListings;
+            },
+            displayListings: function() {
+                var allListings = this.getAllListings();
+                this.listings = allListings;
+                console.log(this.listings)
             }
         },
 
@@ -79,12 +175,15 @@
     </script>
 
     <style lang="scss">
-        .btngrp--margin {
+        /* .btngrp--margin {
             margin-left: 200px;
         }
 
         .btngrp--nomargin {
             margin-left: 0px;
+        } */
+        .navbar-toggle-color {
+            background-color: grey;
         }
 
     </style>
