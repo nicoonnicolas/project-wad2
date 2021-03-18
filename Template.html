@@ -74,7 +74,7 @@
                     <div class="col-sm-10">
                         <div :class="{'btngrp--margin': btngrpMargin, 'btngrp--nomargin': btngrpNoMargin}">
                             <b-button @click="displayListings">Show Listings</b-button>
-                            <b-button variant="primary">Button</b-button>
+                            <b-button @click="animate" variant="primary">Button</b-button>
                             <b-button variant="success">Button</b-button>
                             <b-button variant="outline-primary">Button</b-button>
                             <b-button v-b-toggle.sidebar-1>Toggle Sidebar</b-button>
@@ -100,6 +100,7 @@
                             </b-tbody>
                             </b-table-simple>
                         </div>
+                        <h2 class="title">GSAP(to) Basic Usage</h2>
                     </div>
                 </div>
             </div>
@@ -155,6 +156,11 @@
             }
         },
         methods: {
+            animate: function() {
+                console.log("clicked")
+				gsap.to("h2.title", { duration: 1, opacity: 0.8, x: '40%', color: 'red'});
+
+            },
             changeMargin: function() {
                 // if (this.btngrpNoMargin) {
                 //     this.btngrpNoMargin = false;
