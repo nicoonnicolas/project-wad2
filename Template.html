@@ -41,6 +41,7 @@
 
     <body>
         <div id='app'>
+            <div v:if="!loading()">
             <div class=container>
                 <div class="row">
                     <div class="col">
@@ -102,7 +103,7 @@
                     </div>
                 </div>
             </div>
-    
+            </div>
         </div>
     
     
@@ -118,12 +119,6 @@
                             <b-td>{{ listing.address}}</b-td>
                         </b-tr>`
         })
-        Vue.component('im', {
-            props: [''],
-            template: `<div>
-  <b-img src="https://picsum.photos/1024/400/?image=41" fluid alt="Responsive image"></b-img>
-</div>`
-        })
     </script>
     
     <script>
@@ -136,14 +131,29 @@
         data: {
             btngrpMargin: false,
             btngrpNoMargin: true,
-            listings: null
+            listings: null,
+            loaded: false
         },
         created: function() {
-            this.displayListings();
-        },
-        // computed: {
+            this.listings = "";
 
-        // },
+            var listings = firebase.database().ref("listing/");
+            allListings = "";
+            listings.on("value", (snapshot) => {
+                console.log(snapshot);
+                allListings = snapshot.val();
+                this.listings = allListings;
+
+                this.loaded = true;
+
+            });
+
+        },
+        computed: {
+            loading: function() {
+                return loaded;
+            }
+        },
         methods: {
             changeMargin: function() {
                 // if (this.btngrpNoMargin) {
@@ -155,18 +165,27 @@
                 // }
             },
             getAllListings: function() {
+                // var listings = firebase.database().ref("listing/");
+				// allListings = "";
+				// listings.on("value", (snapshot) => {
+				// 	console.log(snapshot);
+				// 	allListings = snapshot.val();
+				// });
+				// return allListings;
+            },
+            displayListings: function() {
+                this.listings = "";
+
                 var listings = firebase.database().ref("listing/");
 				allListings = "";
 				listings.on("value", (snapshot) => {
-					// console.log(snapshot.val());
+					console.log(snapshot);
 					allListings = snapshot.val();
 				});
-				return allListings;
-            },
-            displayListings: function() {
-                var allListings = this.getAllListings();
+
                 this.listings = allListings;
                 console.log(this.listings)
+                loaded = true
             }
         },
 
