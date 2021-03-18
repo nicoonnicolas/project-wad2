@@ -1,238 +1,210 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous"/>
-	<meta name="google-signin-client_id" content="999591178620-sgthqg1ea8e8uo0qiuhstkra6ms3783a.apps.googleusercontent.com"/>
-
-	
-	<!-- Firebase Source Files-->
-	<script src="https://www.gstatic.com/firebasejs/8.3.0/firebase-app.js"></script>
-	<script src="https://www.gstatic.com/firebasejs/8.3.0/firebase-analytics.js"></script>
-	<script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-database.js"></script>
-	<script src="https://www.gstatic.com/firebasejs/8.2.6/firebase-auth.js"></script>
-
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<script type="text/javascript" src="vue.js"></script>
 
-	
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.0/gsap.min.js"></script>
-	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-	<script	src="https://apis.google.com/js/platform.js" async defer></script>
 
-	<head>
-		<style>
-			.sidenav {
-				height: 100%; 
-				width: 0; 
-				position: fixed; 
-				z-index: 1; 
-				top: 0; 
-				left: 0;
-				background-color: lightblue; 
-				overflow-x: hidden; 
-				padding-top: 60px;
-				transition: 0.5s; 
-			}
+	<link type="text/css" rel="stylesheet" href="scss/custom.css" />
 
-			.sidenav a {
-				padding: 8px 8px 8px 32px;
-				text-decoration: none;
-				font-size: 25px;
-				color: #818181;
-				display: block;
-				transition: 0.3s;
-			}
+	<!-- Load Vue followed by BootstrapVue -->
+	<script src="https://unpkg.com/vue@latest/dist/vue.min.js"></script>
+	<script src="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.js"></script>
 
-			.sidenav a:hover {
-				color: lightcoral;
-			}
+	<!-- Load the following for BootstrapVueIcons support -->
+	<script src="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue-icons.min.js"></script>
 
-			.sidenav .closebtn {
-				position: absolute;
-				top: 0;
-				right: 25px;
-				font-size: 36px;
-				margin-left: 50px;
-			}
+	<!-- Firebase Source Files-->
+	<script src="https://www.gstatic.com/firebasejs/8.3.0/firebase-app.js"></script>
+	<!-- <script src="https://www.gstatic.com/firebasejs/8.3.0/firebase-analytics.js"></script> -->
+	<script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-database.js"></script>
+	<!-- <script src="https://www.gstatic.com/firebasejs/8.2.6/firebase-auth.js"></script> -->
+	<script>
+		// Initialize Firebase
+		var firebaseConfig = {
+			apiKey: "AIzaSyDhBjd0INJO6MpP_SX3vJJFRQzgrc1yCbc",
+			authDomain: "just-clover-301402.firebaseapp.com",
+			databaseURL:
+				"https://just-clover-301402-default-rtdb.firebaseio.com",
+			projectId: "just-clover-301402",
+			storageBucket: "just-clover-301402.appspot.com",
+			messagingSenderId: "999591178620",
+			appId: "1:999591178620:web:5ed2ca489e1fee2836b4f9",
+			measurementId: "G-4M8XE224JF",
+		}
+		firebase.initializeApp(firebaseConfig);
+			// firebase.analytics();
+	</script>
 
-			#main {
-				transition: margin-left 0.5s;
-				padding: 20px;
-			}
+</head>
 
-			.brand_logo {
-				margin: 40px;
-				height: 100px;
-				width: 100px;
-				border-radius: 50%;
-				border: 2px solid white;
-			}
-			img{
-				width: 150px;
-				height: 100px;
-			}
-		</style>
-	</head>
+<body>
+	<div id='app'>
+		<!-- --------------------NAVBAR------------------------- -->
+		<div>
+			<b-navbar toggleable="lg" type="light" variant="faded">
+				<b-navbar-brand href="index.html">
+					<b-img src="images\app\logo.JPG" height="70px" width="70px"></b-img> Huddle
+				</b-navbar-brand>
 
-	<body>
-		<div id="mySidenav" class="sidenav">
-			<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-			<img src="images/app/HuddleLogo.JPG" class="brand_logo" alt="Logo"/>
-			<a href="#">Search</a>
-			<a href="#">My Bookings</a>
-			<a href="#">My Account</a>
-			<a href="#" onclick="signOut();">Log out</a>
+				<b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+
+				<b-collapse id="nav-collapse" is-nav>
+					<b-navbar-nav>
+					</b-navbar-nav>
+
+					<!-- Right aligned nav items -->
+					<b-navbar-nav class="ml-auto">
+						<b-nav-item href="index.html" active>Find a Space</b-nav-item>
+						<b-nav-item href="bookings.html">My Bookings</b-nav-item>
+						<!-- <b-nav-form>
+                        <b-form-input size="sm" class="mr-sm-2" placeholder="Search"></b-form-input>
+                        <b-button size="sm" class="my-2 my-sm-0" type="submit">Search</b-button>
+                      </b-nav-form> -->
+
+
+						<b-nav-item-dropdown right>
+							<!-- Using 'button-content' slot -->
+							<template #button-content>
+								<em>User</em>
+							</template>
+							<b-dropdown-item href="#">Profile</b-dropdown-item>
+							<b-dropdown-item href="#">Sign Out</b-dropdown-item>
+						</b-nav-item-dropdown>
+					</b-navbar-nav>
+				</b-collapse>
+			</b-navbar>
 		</div>
-		<div id="main">
-			<div class="container">
-				<div class="row">
-					<div class="col-1 box">
-						<button type="button" name="button" class="btn btn-info" onclick="openNav()">Menu</button>
-					</div>
-					<div class="col-4 box">
-						<div class="input-group">
-							<input type="text" class="form-control" placeholder="Try 'Jalan Besar' or 'Central'"/>
-							<div class="input-group-append">
-								<button class="btn btn-secondary" type="button">
-									<i class="fa fa-search"></i>
-								</button>
-							</div>
-						</div>
-					</div>
-					<div class="col-2 box">
-						<div class="dropdown">
-							<button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-							  Workspace Type
-							</button>
-							<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-							  <a class="dropdown-item" href="#">Single</a>
-							  <a class="dropdown-item" href="#">Group</a>
-							  <a class="dropdown-item" href="#">Corporate Function</a>
-							</div>
-						</div>
-					</div>
-					<div class="col-1 box">
-					</div>
-					<div class="col-3 box">
-						<button class="btn btn-info" onclick="displayAllListings()">Show All Listings</button>
-					</div>
-				</div>
-			</div>
-			<div class="container">
 
-			</div>
-			<div id="theListings">
-				<div>
-					<!-- {{listings}} -->
-					<table class="table table-striped">
-						<thead>
-							<tr>
-								<th></th>
-								<th>Capacity</th>
-								<th>Workspace Type</th>
-								<th>Area</th>
-								<th>Address</th>
-								<th></th>
-							</tr>
-						</thead>
-						<tbody id="tableListings">
-						</tbody>
-					</table>
+		<!-------------------- SEARCH BAR-------------- -->
+		<div class="container">
+			<b-jumbotron lead="Start searching for spaces with Huddle.">
+				<b-button variant="primary" href="#">Start</b-button>
+			  </b-jumbotron>
+		  </div>
+
+		  <!-- --------------------Listing and Map Main Body------------ -->
+		<div class="container">
+			<div class="row">
+				<div class="col" >
+					<listings v-for="listing in listings" v-bind:listing="listing"
+					v-bind:images="'./images/listing/' + listing.images[0]"></listings>
+				</div>
+				<div class="col">
+					
+					<p>Column 2. Search View: Display Map. <br> Detailed Listings View: Display details</p>
 				</div>
 			</div>
 		</div>
+		
+	</div>
 
-		<script>
-			function openNav() {
-				document.getElementById("mySidenav").style.width = "250px";
-				document.getElementById("main").style.marginLeft = "250px";
-			}
 
-			function closeNav() {
-				document.getElementById("mySidenav").style.width = "0";
-				document.getElementById("main").style.marginLeft= "0";
-			}
+	<script>
+		// note: template must have a single root element!
+		Vue.component('listings', {
+			props: ['listing', 'images'],
+			template: `
+			<div>
+						<b-card no-body bg-variant="light" class="overflow-hidden mb-2" style="max-width: 540px;">
+							<b-row no-gutters>
+								<b-col md="6">
+									<b-card-img v-bind:src="images" fluid alt="Image" height="200px" class="rounded-0">
+									</b-card-img>
+								</b-col>
+								<b-col md="6">
+									<b-card-body title="Column 1">
+										<b-card-text>
+											Display Listing details (Search View) <br> Booking details (My Bookings) <br> Can use this column for Carousel slide of images (Detailed Listings)
+										</b-card-text>
+									</b-card-body>
+								</b-col>
+							</b-row>
+						</b-card>
+					</div>`
+		})
+		Vue.component('im', {
+			props: [''],
+			template: `<div>
+  <b-img src="https://picsum.photos/1024/400/?image=41" fluid alt="Responsive image"></b-img>
+</div>`
+		})
+	</script>
 
-			function signOut() {
-				var auth2 = gapi.auth2.getAuthInstance();
-				auth2.signOut().then(function () {
-					auth2.disconnect();
-					console.log("User Signed Out");
-				});
-			}
+	<script>
+		// import ErrorHandler from "./ErrorHandler.vue";
 
-			var firebaseConfig = {
-				apiKey: "AIzaSyDhBjd0INJO6MpP_SX3vJJFRQzgrc1yCbc",
-				authDomain: "just-clover-301402.firebaseapp.com",
-				databaseURL:
-					"https://just-clover-301402-default-rtdb.firebaseio.com",
-				projectId: "just-clover-301402",
-				storageBucket: "just-clover-301402.appspot.com",
-				messagingSenderId: "999591178620",
-				appId: "1:999591178620:web:5ed2ca489e1fee2836b4f9",
-				measurementId: "G-4M8XE224JF",
-			};
+		var vm = new Vue({
+			el: '#app',
+			// components: { ErrorHandler },
+			// name: "NameOfComponent",
+			data: {
+				btngrpMargin: false,
+				btngrpNoMargin: true,
+				listings: null
+			},
+			created: function () {
+				this.listings = "";
 
-			firebase.initializeApp(firebaseConfig);
-			firebase.analytics();
-
-			function getAllListings(){
 				var listings = firebase.database().ref("listing/");
 				allListings = "";
-				listings.on("value", function(snapshot){
-					// console.log(snapshot.val());
+				listings.on("value", (snapshot) => {
+					console.log(snapshot);
 					allListings = snapshot.val();
+					this.listings = allListings;
+
+					this.loaded = true;
+
 				});
-				return allListings;
-			}
+			},
+			// computed: {
 
-			function displayAllListings(){
-				// console.log(getAllListings());
-				var allListings = getAllListings();
-				var toDisplay = "";
-				for (listing in allListings){
-					// var listingNum = allListings[listing];
-					var address = allListings[listing].address;
-					var capacity = allListings[listing].capacity;
-					var end = allListings[listing].end;
-					var images = allListings[listing].images;
-					var imagesURL = [];
-					for (i in images) {
-						imagesURL.push(images[i]);
-					}
-					var postal = allListings[listing].postal;
-					var price = allListings[listing].price;
-					var start = allListings[listing].start;
-					var type = allListings[listing].type;
-					var area = allListings[listing].area;
-					var unit = allListings[listing].unit;
-
-					toDisplay += 
-					"<tr>" + 
-						"<td>" + "<img src='images/listing/" + imagesURL[0] + "'/>" + "</td>" +
-						"<td>" + capacity + "</td>" +
-						"<td>" + type + "</td>" +
-						"<td>" + area + "</td>" +
-						"<td>" + address + " #" + unit + " S"+ postal + "</td>" +
-						"<td>" + "<button class='btn btn-outline-success'>View Listing</button>" + "</td>" +
-					"</tr>"
-					// console.log(allListings[listing].address);
-				}
-				document.getElementById("tableListings").innerHTML = toDisplay;
-			}
-		</script>
-		<script>
-			var vm = new Vue({
-				el: "#theListings",
-				data: {
-					listings: getAllListings(),
+			// },
+			methods: {
+				changeMargin: function () {
+					// if (this.btngrpNoMargin) {
+					//     this.btngrpNoMargin = false;
+					//     this.btngrpMargin = true;
+					// } else {
+					//     this.btngrpNoMargin = true;
+					//     this.btngrpMargin = false;
+					// }
 				},
-				methods: {
-					
+				getAllListings: function () {
+					var listings = firebase.database().ref("listing/");
+					allListings = "";
+					listings.on("value", (snapshot) => {
+						// console.log(snapshot.val());
+						allListings = snapshot.val();
+					});
+					return allListings;
+				},
+				displayListings: function () {
+					var allListings = this.getAllListings();
+					this.listings = allListings;
+					console.log(this.listings)
 				}
-			});
-		</script>
-	</body>
+			},
+
+		})
+
+	</script>
+
+	<style lang="scss">
+		/* .btngrp--margin {
+            margin-left: 200px;
+        }
+
+        .btngrp--nomargin {
+            margin-left: 0px;
+        } */
+		.navbar-toggle-color {
+			background-color: grey;
+		}
+	</style>
+
+</body>
+
 </html>
