@@ -108,28 +108,32 @@
 			props: ['listing', 'images'],
 			template: `
 			<div>
-						<b-card no-body bg-variant="light" class="overflow-hidden mb-2" style="max-width: 540px;">
-							<b-row no-gutters>
-								<b-col md="6">
-									<b-card-img v-bind:src="images" fluid alt="Image" height="200px" class="rounded-0">
-									</b-card-img>
-								</b-col>
-								<b-col md="6">
-									<b-card-body title="Column 1">
-										<b-card-text>
-											Display Listing details (Search View) <br> Booking details (My Bookings) <br> Can use this column for Carousel slide of images (Detailed Listings)
-										</b-card-text>
-									</b-card-body>
-								</b-col>
-							</b-row>
-						</b-card>
-					</div>`
+				<b-card no-body bg-variant="light" class="overflow-hidden mb-2" style="max-width: 540px;">
+					<b-row no-gutters>
+						<b-col md="6">
+							<b-card-img v-bind:src="images" fluid alt="Image" height="200px" class="rounded-0">
+							</b-card-img>
+						</b-col>
+						<b-col md="6">
+							<b-card-body title="Column 1">
+								<b-card-text>
+									<b>Workspace Type: </b>{{listing.type}} <br> 
+									<b>Maximum Capacity: </b>{{listing.capacity}} <br> 
+									<b>Area: </b>{{listing.area}} <br>
+									<b>Address: </b>{{listing.address}} #{{listing.unit}} Singapore {{listing.postal}} <br>
+								</b-card-text>
+							</b-card-body>
+						</b-col>
+					</b-row>
+				</b-card>
+			</div>`
 		})
 		Vue.component('im', {
 			props: [''],
-			template: `<div>
-  <b-img src="https://picsum.photos/1024/400/?image=41" fluid alt="Responsive image"></b-img>
-</div>`
+			template: `
+			<div>
+				<b-img src="https://picsum.photos/1024/400/?image=41" fluid alt="Responsive image"></b-img>
+			</div>`
 		})
 	</script>
 
@@ -143,7 +147,8 @@
 			data: {
 				btngrpMargin: false,
 				btngrpNoMargin: true,
-				listings: null
+				listings: null,
+				type: null
 			},
 			created: function () {
 				this.listings = "";
