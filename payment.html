@@ -1,93 +1,250 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
+
 <head>
-    <script type="text/javascript" src="vue.js"></script> 
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<script type="text/javascript" src="vue.js"></script>
+
+	<link type="text/css" rel="stylesheet" href="scss/custom.css" />
+
+	<!-- Load Vue followed by BootstrapVue -->
+	<script src="https://unpkg.com/vue@latest/dist/vue.min.js"></script>
+	<script src="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.js"></script>
+
+	<!-- Load the following for BootstrapVueIcons support -->
+	<script src="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue-icons.min.js"></script>
+
+	<!-- Firebase Source Files-->
+	<script src="https://www.gstatic.com/firebasejs/8.3.0/firebase-app.js"></script>
+	<!-- <script src="https://www.gstatic.com/firebasejs/8.3.0/firebase-analytics.js"></script> -->
+	<script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-database.js"></script>
+	<!-- <script src="https://www.gstatic.com/firebasejs/8.2.6/firebase-auth.js"></script> -->
+
+
+	<!-- Date formatter: refer to https://github.com/datejs/Datejs for documentation -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/datejs/1.0/date.min.js"
+		integrity="sha512-/n/dTQBO8lHzqqgAQvy0ukBQ0qLmGzxKhn8xKrz4cn7XJkZzy+fAtzjnOQd5w55h4k1kUC+8oIe6WmrGUYwODA=="
+		crossorigin="anonymous"></script>
+
+	<script
+		src="https://www.paypal.com/sdk/js?currency=SGD&client-id=ARqV8Dq2UHOZV1yd0pSTUq2O0mt-zXjTO4iUafSZoC52Cv2fm8_jEvuev9c5o_MRPl1CMFckaj1Z5ipe"></script>
+
+	<script>
+		// Initialize Firebase
+		var firebaseConfig = {
+			apiKey: "AIzaSyDhBjd0INJO6MpP_SX3vJJFRQzgrc1yCbc",
+			authDomain: "just-clover-301402.firebaseapp.com",
+			databaseURL:
+				"https://just-clover-301402-default-rtdb.firebaseio.com",
+			projectId: "just-clover-301402",
+			storageBucket: "just-clover-301402.appspot.com",
+			messagingSenderId: "999591178620",
+			appId: "1:999591178620:web:5ed2ca489e1fee2836b4f9",
+			measurementId: "G-4M8XE224JF",
+		}
+		firebase.initializeApp(firebaseConfig);
+		const AppDB = firebase.database();
+	</script>
+
 </head>
 
-
-<!-- TESTING:
-
-This is a PayPal Sandbox Account, so don't worry about actual charges!
-
-1. Click on PayPal Button and enter login credentials:
-
-            email: sarahwoon@gmail.com
-            pw: 2G?yV/pI
-
-2. Select Payment Method as PayPal Balance and Pay
-
-3. Web page should change to Paid
--->
-
 <body>
-    <div id='app'>
-        <template >
-            <div>
-                <div v-if="!paidFor">
-                    <h1>Payment for Facility - ${{ space.price }} </h1>
-                    
-                </div>
-                <div v-else><h1>Paid!</h1></div>
-                <div ref='paypal'></div>
-            </div>
-        </template>
+	<div id='app'>
+		<!-- --------------------NAVBAR------------------------- -->
 
-    </div>
+		<div>
+			<b-navbar toggleable="lg" type="light" variant="faded">
+				<b-navbar-brand href="index.html">
+					<b-img src="images\app\logo.JPG" height="70px" width="70px"></b-img> Huddle
+				</b-navbar-brand>
+
+				<b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+
+				<b-collapse id="nav-collapse" is-nav>
+					<b-navbar-nav>
+					</b-navbar-nav>
+
+					<!-- Right aligned nav items -->
+					<b-navbar-nav class="ml-auto">
+						<b-nav-item href="index.html">Find a Space</b-nav-item>
+						<b-nav-item href="bookings.html">My Bookings</b-nav-item>
+						<!-- <b-nav-form>
+                        <b-form-input size="sm" class="mr-sm-2" placeholder="Search"></b-form-input>
+                        <b-button size="sm" class="my-2 my-sm-0" type="submit">Search</b-button>
+                      </b-nav-form> -->
 
 
-  <script>
-      var vm = new Vue ({
-            el: '#app',
-            data: function() {
-                return {
-                    paidFor: false,
-                    space: {
-                        price: 10.00
-                    }
-                }
-            },
-            mounted: function() {
-                const script = document.createElement("script");
-                script.src = "https://www.paypal.com/sdk/js?currency=SGD&client-id=ARqV8Dq2UHOZV1yd0pSTUq2O0mt-zXjTO4iUafSZoC52Cv2fm8_jEvuev9c5o_MRPl1CMFckaj1Z5ipe";
-                script.addEventListener("load", this.setLoaded);
-                document.body.appendChild(script);
-            },
-            methods: {
-                setLoaded: function() {
-                    this.loaded = true;
-                    window.paypal
-                        .Buttons({
-                            createOrder: (data, actions) => {
-                                return actions.order.create({
-                                    purchase_units: [
-                                        {
-                                            description: 'test',
-                                            amount: {
-                                                currency_code: 'SGD',
-                                                value: this.space.price
-                                            }
-        
-                                        }
-                                    ]
-                                    
-                                });
-                            },
-                            onApprove: async(data, actions) => {
-                                const order = await actions.order.capture();
-                                this.paidFor = true;
-                                console.log(order);
-                            },
-                            onError: err => {
-                                console.log(err);
-                            }
+						<b-nav-item-dropdown right>
+							<!-- Using 'button-content' slot -->
+							<template #button-content>
+								<em>User</em>
+							</template>
+							<b-dropdown-item href="#">Profile</b-dropdown-item>
+							<b-dropdown-item href="#">Sign Out</b-dropdown-item>
+						</b-nav-item-dropdown>
+					</b-navbar-nav>
+				</b-collapse>
+			</b-navbar>
+		</div>
 
-        
-                        })
-                        .render(this.$refs.paypal);
-                }
-            }
-      })
 
-  </script>
+		<!-- --------------------Listing and Map Main Body------------ -->
+		<div class="container">
+			<div class="row">
+				<div class="col-md m-5">
+					<!-- <b-table stacked :items="items" striped='false'></b-table> -->
+					<h2>Order Details</h2>
+					<div class="mt-5 clearfix">
+						<h4 class="float-left">{{ test.workspaceType }}</h4>
+						<h5 class="float-right">${{ test.bookingPrice }}/day</h5>
+					</div>
+					<h6 class="mt-3">{{ test.address}} ##unit number</h6>
+					<div class="mt-4">
+
+						<a href="#">Change Unit</a>
+					</div>
+					<div>
+						<h6 class="mt-4">From {{ test.startDate }} - {{test.endDate}}</h6>
+
+					</div>
+				</div>
+				<div class="col-md m-5">
+					<b-jumbotron class="mt-5" header="" lead="">
+						<div class="clearfix">
+							<h4 class="float-left">{{ test.workspaceType }}</h4>
+							<h5 class="float-right">${{ test.bookingPrice }}/day</h5>
+						</div>
+						<div class="mt-1 clearfix">
+							<h6 class="float-left">No. of Days</h6>
+							<h6 class="float-right">x5</h6>
+						</div>
+						<hr>
+						<div class="clearfix">
+							<h4 class="float-left">Total Payment</h4>
+							<h5 class="float-right">{{test.totalPrice}}</h5>
+						</div>
+						<div class="mt-2" ref='paypal'></div>
+					</b-jumbotron>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+
+	<script>
+
+		var vm = new Vue({
+			el: '#app',
+
+			data: {
+				paidFor: true,
+				test: {
+					bookingPrice: 1,
+					address: '123 Victoria Road',
+					startDate: Date.today().toString("MMMM dS"),
+					endDate: Date.today().addDays(5).toString("MMMM dS yyyy"),
+					workspaceType: 'Single',
+					totalPrice: 4,
+
+
+
+				},
+				// {
+				// 	bookingPrice: 100,
+				// 	customerID: 123,
+				// 	listingNum: 321,
+				// 	startDate: new Date(),
+				// 	endDate: new Date(),
+				// 	isReccuring: false,
+				// 	recurringDays: [],
+
+				// },
+				booking: null,
+				listings: null
+			},
+			mounted: function () {
+
+				window.paypal
+					.Buttons({
+						createOrder: (data, actions) => {
+							return actions.order.create({
+								purchase_units: [
+									{
+										description: 'test',
+										amount: {
+											currency_code: 'SGD',
+											value: this.test.totalPrice
+										}
+
+									}
+								]
+
+							});
+						},
+						onApprove: async (data, actions) => {
+							window.location.replace("http://localhost/project-wad2/index.html");
+							// const order = await actions.order.capture();
+
+							// console.log(order);
+						},
+						onError: err => {
+							console.log(err);
+						}
+
+
+					})
+					.render(this.$refs.paypal);
+			},
+
+			// created: function () {
+			// 	this.booking = "";
+
+			// 	var bookingRef = AppDB.ref("booking/9000/");
+			// 	bookingRef.on('value', (snapshot) => {
+			// 		this.booking = snapshot.val();
+			// 		console.log(this.booking);
+			// 	})
+
+			// },
+			methods: {
+				addBooking: function (bookingPrice, customerID, startDate, endDate, isReccuring, listingNum, recurringDays) {
+					AppDB.ref('booking/').set({
+						bookingPrice: bookingPrice,
+						customerID: customerID,
+						listingNum: listingNum,
+						startDate: startDate,
+						endDate: endDate,
+						isReccuring: isReccuring,
+						recurringDays: recurringDays
+					})
+				},
+				redirect: function () {
+					window.location.replace("http://www.google.com");
+				}
+			}
+		}
+
+
+
+
+		)
+
+	</script>
+
+	<style lang="scss">
+		/* .btngrp--margin {
+            margin-left: 200px;
+        }
+
+        .btngrp--nomargin {
+            margin-left: 0px;
+        } */
+		.navbar-toggle-color {
+			background-color: grey;
+		}
+	</style>
+
 </body>
+
 </html>
