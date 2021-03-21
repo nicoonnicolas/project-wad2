@@ -44,6 +44,7 @@
 		}
 		firebase.initializeApp(firebaseConfig);
 		const AppDB = firebase.database();
+
 	</script>
 
 </head>
@@ -105,7 +106,6 @@
 					</div>
 					<div>
 						<h6 class="mt-4">From {{ test.startDate }} - {{test.endDate}}</h6>
-
 					</div>
 				</div>
 				<div class="col-md m-5">
@@ -183,9 +183,12 @@
 							});
 						},
 						onApprove: async (data, actions) => {
-							window.location.replace("http://localhost/project-wad2/index.html");
-							// const order = await actions.order.capture();
 
+							// email: sarahwoon@gmail.com
+            				// pw: 2G?yV/pI
+							this.addBooking()
+							window.location.replace("http://localhost/project-wad2/paid.html");			
+							// const order = await actions.order.capture();
 							// console.log(order);
 						},
 						onError: err => {
@@ -196,32 +199,22 @@
 					})
 					.render(this.$refs.paypal);
 			},
-
-			// created: function () {
-			// 	this.booking = "";
-
-			// 	var bookingRef = AppDB.ref("booking/9000/");
-			// 	bookingRef.on('value', (snapshot) => {
-			// 		this.booking = snapshot.val();
-			// 		console.log(this.booking);
-			// 	})
-
-			// },
 			methods: {
-				addBooking: function (bookingPrice, customerID, startDate, endDate, isReccuring, listingNum, recurringDays) {
-					AppDB.ref('booking/').set({
-						bookingPrice: bookingPrice,
-						customerID: customerID,
-						listingNum: listingNum,
-						startDate: startDate,
-						endDate: endDate,
-						isReccuring: isReccuring,
-						recurringDays: recurringDays
+				addBooking: function () {
+					var bookingRef = AppDB.ref('booking/')
+					bookingRef.push({
+						bookingId: 2,
+						bookingPrice: 1,
+						customerID: 2,
+						listingNum: 42,
+						startDate: "2021-03-12",
+						endDate: "2021-03-32",
+						isReccuring: false,
+						recurringDays: []
 					})
+
+					
 				},
-				redirect: function () {
-					window.location.replace("http://www.google.com");
-				}
 			}
 		}
 
