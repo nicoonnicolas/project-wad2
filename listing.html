@@ -66,15 +66,20 @@
 			width: 50px;
 		}
 		#create {
-			background: blue;
+			background: rgb(192, 57, 43);
 			color: white;
+			padding: 7px;
+			font-size: 18px;
 		}
 		#amenities {
 			width: 100px;
-			height: 100px;
+			height: auto;
 			margin-right: 30px;
-			border: solid 1px grey;
+			margin-top: 20px;
+			border: solid 2px #f0f0f0;
 			text-align: center;
+			background-color: #f0f0f0;
+			padding: 10px;
 		}
 		#amenitiesText {
 			font-weight: bold;
@@ -82,7 +87,11 @@
 		#amenitiesImg {
 			height: 75px;
 			width: 75px;
-			padding: 5px;
+			padding: 10px;
+		}
+		#bookingBox {
+			background-color: #f0f0f0;
+			padding: 20px;
 		}
     </style>
 
@@ -152,13 +161,13 @@
 
 	<div class="container">
 		<div class="row">
-			<div class="col-9">
+			<div class="col-sm-9">
 				<div id="carousel">
 					<template>
 						<b-carousel
 							id="carousel-1"
 							v-model="slide"
-							:interval="4000"
+							:interval="6000"
 							controls
 							indicators
 							background="#ababab"
@@ -196,33 +205,38 @@
 				<!-- Image credits: https://www.flaticon.com/packs/hotel-services-23?word=amenities -->
 				<div class="container">
 					<div class="row">
-						<div class="col-2" id="amenities">
-							<a id="amenitiesText">WiFi</a>
+						<div class="col-md-2" id="amenities">
+							<a id="amenitiesText">WiFi</a><br>
 							<img src="images/app/wifi.png" id="amenitiesImg">
 						</div>
-						<div class="col-2" id="amenities">
-							<a id="amenitiesText">Non-smoking</a>
+						<div class="col-md-2" id="amenities">
+							<a id="amenitiesText">Non-smoking</a><br>
 							<img src="images/app/no-smoking.png" id="amenitiesImg">
 						</div>
-						<div class="col-2" id="amenities">
-							<a id="amenitiesText">Pantry</a>
+						<div class="col-md-2" id="amenities">
+							<a id="amenitiesText">Pantry</a><br>
 							<img src="images/app/tea.png" id="amenitiesImg">
 						</div>
-						<div class="col-2" id="amenities">
-							<a id="amenitiesText">Parking</a>
+						<div class="col-md-2" id="amenities">
+							<a id="amenitiesText">Parking</a><br>
 							<img src="images/app/parking.png" id="amenitiesImg">
 						</div>
 					</div>
 				</div>
 			</div>
 
-			<div class="col-3">
+			<div class="col-md-3">
+				<br>
 
 				<p>(Insert full address here)</p>
 
-				<a>Like this space?</a>
-				<h3>Book it now!</h3>
-				<button id="create">Create booking</button>
+				<p>(Insert price and other details here)</p>
+
+				<div id="bookingBox">
+					<a>Like this space?</a>
+					<h3>Book it now!</h3>
+					<button id="create"><b>Create booking</b></button>
+				</div>
 
 			</div>
 		</div>
