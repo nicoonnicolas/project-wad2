@@ -38,12 +38,51 @@
 			// firebase.analytics();
 	</script>
 
-    <style>
+    <style lang="scss">
         #carousel-1 {
-            width: 50%;
+            width: 60%;
             height: auto;
             margin: auto;
         }
+		#location {
+			text-align: center;
+			font-weight: bold;
+			font-size: 36px;
+		}
+		.carousel-control-prev-icon {
+			background-image: url("images/app/left-arrow.png");
+			height: 50px;
+			width: 50px;
+		}
+		.carousel-control-prev {
+			width: 50px;
+		}
+		.carousel-control-next-icon {
+			background-image: url("images/app/right-arrow.png");
+			height: 50px;
+			width: 50px;
+		}
+		.carousel-control-next {
+			width: 50px;
+		}
+		#create {
+			background: blue;
+			color: white;
+		}
+		#amenities {
+			width: 100px;
+			height: 100px;
+			margin-right: 30px;
+			border: solid 1px grey;
+			text-align: center;
+		}
+		#amenitiesText {
+			font-weight: bold;
+		}
+		#amenitiesImg {
+			height: 75px;
+			width: 75px;
+		}
     </style>
 
 </head>
@@ -85,64 +124,130 @@
 		</b-navbar>
 	</div>
 
-		<div id="carousel">
-			<template>
-				<b-carousel
-					id="carousel-1"
-					v-model="slide"
-					:interval="4000"
-					controls
-					indicators
-					background="#ababab"
-					img-width="1024"
-					img-height="480"
-					style="text-shadow: 1px 1px 2px #333;"
-					@sliding-start="onSlideStart"
-					@sliding-end="onSlideEnd"
-				>
-			
-					<!-- Text slides with image -->
-                    <b-carousel-slide
-                    caption="First slide"
-                    text="Nulla vitae elit libero, a pharetra augue mollis interdum."
-                    img-src="https://picsum.photos/1024/480/?image=52"
-                    ></b-carousel-slide>
-            
-                    <!-- Slides with custom text -->
-                    <b-carousel-slide img-src="https://picsum.photos/1024/480/?image=54">
-                    <h1>Hello world!</h1>
-                    </b-carousel-slide>
-            
-                    <!-- Slides with image only -->
-                    <b-carousel-slide img-src="https://picsum.photos/1024/480/?image=58"></b-carousel-slide>
-		
-				</b-carousel>
-			
-				<!-- <p class="mt-4">
-					Slide #: {{ slide }}<br>
-					Sliding: {{ sliding }}
-				</p> -->
-			</template>
-		</div>
+	<div id="location">Location: {{location}}</div> <br>
 
-		<script>
-			var app = new Vue({
-				el: "#carousel",
+	<script>
+		var location_vm = new Vue ({
+			el: "#location",
 			data: {
-				slide: 0,
-				sliding: null
+				location: ""
 			},
-			methods: {
-				onSlideStart(slide) {
-				this.sliding = true
-				},
-				onSlideEnd(slide) {
-				this.sliding = false
-				}
-			}
-			})
+			created: function () {
+				this.listings = "";
+
+				var listings = firebase.database().ref("listing/");
+				allListings = "";
+				listings.on("value", (snapshot) => {
+					allListings = snapshot.val();
+					this.listings = allListings;
+
+					this.loaded = true;
+					console.log(allListings["1001"]);
+
+				});
+			},
+		})
+	</script>
+
+	<div class="container inline">
+		<div class="row">
+			<div class="col-9">
+				<div id="carousel">
+					<template>
+						<b-carousel
+							id="carousel-1"
+							v-model="slide"
+							:interval="4000"
+							controls
+							indicators
+							background="#ababab"
+							img-width="1024"
+							img-height="480"
+							style="text-shadow: 1px 1px 2px #333;"
+							@sliding-start="onSlideStart"
+							@sliding-end="onSlideEnd"
+						>
+					
+							<!-- Text slides with image -->
+							<b-carousel-slide
+							caption="First slide"
+							text="Nulla vitae elit libero, a pharetra augue mollis interdum."
+							img-src="images/listings/1000.png"
+							></b-carousel-slide>
+					
+							<!-- Slides with custom text -->
+							<b-carousel-slide img-src="images/listings/1001.png">
+							<h1>Hello world!</h1>
+							</b-carousel-slide>
+				
+						</b-carousel>
+					
+						<!-- <p class="mt-4">
+							Slide #: {{ slide }}<br>
+							Sliding: {{ sliding }}
+						</p> -->
+					</template>
+				</div>
+
+				<br>
+
+				<h4>Amenities</h4>
+				<div class="container">
+					<div class="row">
+						<div class="col-2" id="amenities">
+							<a id="amenitiesText">WiFi</a>
+							<img src="images/app/wifi.png" id="amenitiesImg">
+						</div>
+						<div class="col-2" id="amenities">
+							<a id="amenitiesText">Non-smoking</a>
+							<img src="images/app/no-smoking.png" id="amenitiesImg">
+						</div>
+						<div class="col-2" id="amenities">
+							<a id="amenitiesText">Pantry</a>
+							<img src="images/app/tea.png" id="amenitiesImg">
+						</div>
+						<div class="col-2" id="amenities">
+							<a id="amenitiesText">Parking</a>
+							<img src="images/app/parking.png" id="amenitiesImg">
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-3">
+
+				<p>(Insert full address here)</p>
+
+				<a>Like this space?</a>
+				<h3>Book it now!</h3>
+				<button id="create">Create booking</button>
+
+			</div>
+		</div>
+	</div>
+
+	<div class="container">
 		
-		</script>	
+	</div>
+
+	<script>
+		var app = new Vue({
+			el: "#carousel",
+		data: {
+			slide: 0,
+			sliding: null
+		},
+		methods: {
+			onSlideStart(slide) {
+			this.sliding = true
+			},
+			onSlideEnd(slide) {
+			this.sliding = false
+			}
+		}
+		})
+	
+	</script>	
 
 	<script>
 		// import ErrorHandler from "./ErrorHandler.vue";
@@ -162,7 +267,6 @@
 				var listings = firebase.database().ref("listing/");
 				allListings = "";
 				listings.on("value", (snapshot) => {
-					console.log(snapshot);
 					allListings = snapshot.val();
 					this.listings = allListings;
 
@@ -201,10 +305,6 @@
 
 		})
 
-	</script>
-
-	<script>
-		console.log(this.$route.query.test)
 	</script>
 
 	<style lang="scss">
