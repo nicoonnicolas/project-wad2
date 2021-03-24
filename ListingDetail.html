@@ -93,7 +93,7 @@
                 style="text-shadow: 1px 1px 2px #333;"
                 >
 
-                <slide v-for="image in images" v-bind:image="image" ></slide>
+                <carou-slide v-for="image in images" v-bind:image="image" ></carou-slide>
 
 
                 </b-carousel>
@@ -222,12 +222,10 @@
             
         })
 
-        Vue.component('slide', {
+        Vue.component('carou-slide', {
             props: ['image'],
             template: `<b-carousel-slide
                         :img-src="'./images/listing/'+image"
-                        img-width="1024"
-                        img-height="480"
                         ></b-carousel-slide>`
         })
 
@@ -372,6 +370,11 @@
     </script>
 
     <style lang="scss">
+        #carousel-1 {
+            width: 70%;
+            height: auto;
+            margin: auto;
+        }
 
     </style>
 
