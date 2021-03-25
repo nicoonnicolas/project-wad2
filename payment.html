@@ -103,37 +103,54 @@
 
 
 		<div class="container-fluid">
-			<div class="row">
-				<div class="col-md m-5">
-					<!-- <b-table stacked :items="items" striped='false'></b-table> -->
-
-					<img class="img-fluid" src="./images/listing/1000/image1.png">
+			<b-row>
+				<b-col md class="m-5">
+					<img class="img-fluid" :src="image">
 					<div class="my-4">
 						<h3>{{name}}</h3>
-						<h4 class="mt-3">{{address}}</h4>
-						<p class="mt-3">Date: {{booking.startDate}} to {{booking.endDate}}</p>
-						<a href="#">Edit Booking</a>
+						<h5 class="mt-3">{{address}}</h5>
 					</div>
-				</div>
-				<div class="col-md m-5">
-					<b-jumbotron class="mt-5" header="" lead="">
+					<!-- <div class="d-flex justify-content-between">
+						<div>
+							<p class="text-right">Booking Period: {{booking.startDate}} to {{booking.endDate}}</p>
+						</div>
+						<div><a href="">Edit Booking</a></div>
+					</div> -->
+					<template v-if="show">
+					<b-card-group deck>
+						<b-card header="Your Booked Dates">
+								<b-list-group>
+									<!-- class="justify-content-between"  -->
+									<b-list-group-item v-for="date in booking.dates"> 
+										<div>{{date}}</div>
+										<!-- <div>
+											<b-icon icon="trash" variant="danger"></b-icon>
+										</div> -->
+									</b-list-group-item>
+								</b-list-group>
+							</b-card>
+						</b-card-group>
+					</template>
+					<div v-else>
+						<p>Booking Period: {{booking.startDate}} to {{booking.endDate}}</p>
+					</div>
+				</b-col>
+				<b-col md align-self="center" class="m-5">
+					<b-jumbotron class="mt-5">
 						<h2>Order Details</h2>
 						<b-table borderless thead-class="d-none" :items="table"></b-table>
 						<div class="mt-2" ref='paypal'></div>
 					</b-jumbotron>
 
-				</div>
-			</div>
+				</b-col>
+			</b-row>
 		</div>
 
 	</div>
 
-
 	<script>
-
 		var vm = new Vue({
 			el: '#app',
-
 			data: {
 				paidFor: true,
 				name: '',
@@ -142,26 +159,26 @@
 				price: 0,
 				type: '',
 				load: false,
-				dates: [],
+				is_recurring: false,
+				show: false,
 				booking: {
-					address: '',
 					startDate: "",
 					endDate: "",
 					totalPrice: 0,
-					customer_id: null,
+					user: '',
 					listing_id: '',
-					is_recurring: false,
-					recurring_days: null,
+					dates: [],
+					recurring_days: ""
 				},
 
 			},
 			computed: {
 				table: function () {
-					var days = this.days + ' 	days'
-					var total_price = this.days * this.price
-					this.booking["totalPrice"] = total_price
-					var price_per_day = "SGD " + this.price 
-					var total = "SGD " + total_price
+					days = this.days + ' days'
+					total_price = this.days * this.price * 0.90
+					price_per_day = "SGD " + this.price
+					var total = "SGD " + (Math.round((total_price + Number.EPSILON) * 100) / 100)
+					this.booking["totalPrice"] = total_price.toFixed(2);
 					var table = [
 						{ order: 'Space', cost: this.type },
 						{ order: 'Price per Day', cost: price_per_day },
@@ -170,19 +187,27 @@
 						{ order: 'Total', cost: total },
 					]
 					return table
+				},
+				image: function () {
+					url = 'images/listing/' + this.booking.listing_id + "/image1.png"
+					return url
 				}
-
 			},
 			created() {
 				let uri = window.location.search
 				let params = new URLSearchParams(uri);
 
-				// this.booking.customer_id = params.get("customer_id")
+				this.booking.user = params.get("user")
+				// user = user_id
 				this.booking.listing_id = params.get("listing_id")
 				this.booking.startDate = params.get("start_date")
 				this.booking.endDate = params.get("end_date")
-				this.booking.is_recurring = Boolean(params.get("is_recurring"))
-				this.booking.recurring_days = params.get("recurring_days").split(',')
+				this.is_recurring = params.get("is_recurring")
+				if (params.get("recurring_days") !== null){
+					this.booking.recurring_days = params.get("recurring_days").split(',')
+				}
+
+
 
 				this.getListingDetails(this.booking.listing_id)
 				this.processBooking(this.booking.startDate, this.booking.endDate, this.recurring_days)
@@ -190,9 +215,8 @@
 			updated() {
 			},
 			mounted: function () {
-
 				// email: sarahwoon@gmail.com
-            	// pw: 2G?yV/pI
+				// pw: 2G?yV/pI
 				window.paypal
 					.Buttons({
 						createOrder: (data, actions) => {
@@ -213,8 +237,6 @@
 							// pw: 2G?yV/pI
 							this.addBooking()
 							window.location.replace("http://localhost/project-wad2/paid.html");
-							// const order = await actions.order.capture();
-							// console.log(order);
 						},
 						onError: err => {
 							console.log(err);
@@ -224,7 +246,7 @@
 			},
 			methods: {
 				getListingDetails: function (id) {
-					var listing = firebase.database().ref("listing/" + id);
+					var listing = AppDB.ref("listing/" + id);
 					listing.on("value", (snapshot) => {
 						if (snapshot.val() != null) {
 							details = snapshot.val();
@@ -237,79 +259,37 @@
 					});
 				},
 				processBooking(start_date, end_date, reccuring_arr) {
-					var start = moment(start_date, "YYYY-MM-DD")
-					var end = moment(end_date, "YYYY-MM-DD")
-					this.days = end.diff(start, 'days')
-					var weeks = end.diff(start, 'weeks')
 
-					if (this.booking.is_recurring) {
-						
-						if ()
-						//get Dates of This Week
-						let firstDay = start_date
+					start = moment(start_date, "YYYY-MM-DD")
+					end = moment(end_date, "YYYY-MM-DD")
+					
+					if (this.is_recurring === 'true') {
+						this.show = true
+						weeks = end.diff(start, 'weeks')
 						recurring_days = this.booking.recurring_days
-						for (day in recurring_days){
-							this.dates.push(this.getNextEvents(firstDay, weeks, day, 1))
-						}
-						var x = this.dates.sort((a,b) => a.valueOf() - b.valueOf())
-						console.log(x)
+						this.booking.dates = this.getNextEvents(start_date, end_date, weeks, recurring_days, 1)
+						this.days = this.booking.dates.length
+					}
+					else {
+						this.days = parseInt(end.diff(start, 'days')) + 1
 					}
 				},
 				addBooking() {
 					var bookingRef = AppDB.ref('booking/')
 					bookingRef.push(this.booking)
 				},
-				getNextEvents(startDate, numEvents, dayOfWeek, weekIndex) {
-					var events = moment(startDate).recur()
-						.every(dayOfWeek)
-						.daysOfWeek()
-						.every(weekIndex)
-
-					return events.next(numEvents, "YYYY-MM-DD");
+				getNextEvents(startDate, end, numEvents, recurring_days, weekIndex) {
+					var events = moment().recur(startDate, end)
+						.every(recurring_days) //Tues, Wed
+						.daysOfWeek() // Days of the week
+						.every(weekIndex) //every X number weeks
+					return events.all("dddd, MMMM DD");
 				},
-				// getDates(start_date, recurring_days){
-				// 	var d = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
-				// 	var i = d.indexOf(days)
-					
-				// 	var i = start_date.day()
-				// 	let x = 0
-				// 	while (x > 0){
-
-				// 	}
-				// 	for (days in recurring_days){
-				// 		if (d[i] == recurring_days){
-				// 			console.log('yes')
-				// 			var x = d.indexOf(days)
-
-				// 		}
-
-
-				// 	}
-				// 	start_date = moment(this.booking.startDate)
-				// 	end_date = moment(this.booking.endDate)
-				// 	// start_date.format('dddd MMM DD YYYY')
-				// 	var n = end_date.diff(start_date, 'days')
-
-
-				// }
 			}
 		}
 		)
 
 	</script>
-
-	<style lang="scss">
-		/* .btngrp--margin {
-            margin-left: 200px;
-        }
-
-        .btngrp--nomargin {
-            margin-left: 0px;
-        } */
-		.navbar-toggle-color {
-			background-color: grey;
-		}
-	</style>
 
 </body>
 
