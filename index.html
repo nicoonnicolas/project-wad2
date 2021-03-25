@@ -91,9 +91,9 @@
 					></b-form-input>
 									
 					<b-form-select class="mb-2 mr-sm-2 mb-sm-0" v-model="selected" :options="listing_type"></b-form-select>
-					<b-form-datepicker placeholder="Start Date"	class="mb-2 mr-sm-2 mb-sm-0"></b-form-datepicker>
-					<b-form-datepicker  class="mb-2 mr-sm-2 mb-sm-0" placeholder="End Date"	></b-form-datepicker>
-					<b-button variant="primary">Go</b-button>
+					<b-form-datepicker v-model="selectedStartDate" placeholder="Start Date"	class="mb-2 mr-sm-2 mb-sm-0"></b-form-datepicker>
+					<b-form-datepicker v-model="selectedEndDate" class="mb-2 mr-sm-2 mb-sm-0" placeholder="End Date"	></b-form-datepicker>
+					<b-button variant="primary" v-on:click="searchListings">Go</b-button>
 				  </b-form>
 			  </b-jumbotron>
 		  </div>
@@ -102,11 +102,19 @@
 		<div class="container">
 			<div class="row">
 				<div class="col" >
-					<listings v-for="listing in listings" v-bind:listing="listing"
-					v-bind:images="'./images/listing/' + listing.images[0]"></listings>
+					<listings 
+						v-for="listing in listings" 
+						v-bind:listing="listing"
+						v-bind:images="'./images/listing/' + listing.images[0]" 
+					>
+					</listings>
+					<searchedListing v-if="filterTriggered"
+						v-for="idx in filteredListing"
+						v-bind:listing="filteredListing[idx]" 
+						v-bind:listImage="'./images/' + filteredListing[idx] + '/' + listing.images[0]">
+					</searchedListing>
 				</div>
 				<div class="col">
-					
 					<p>Column 2. Search View: Display Map. <br> Detailed Listings View: Display details</p>
 				</div>
 			</div>
@@ -117,18 +125,20 @@
 
 	<script>
 		// note: template must have a single root element!
-		Vue.component('listings', {
-			props: ['listing', 'images'],
+
+		Vue.component('searchedListing', {
+			props: ['listing', 'listImage'],
 			template: `
 			<div>
 				<b-card no-body bg-variant="light" class="overflow-hidden mb-2" style="max-width: 540px;">
 					<b-row no-gutters>
 						<b-col md="6">
-							<b-card-img v-bind:src="images" fluid alt="Image" height="200px" class="rounded-0">
+							<b-card-img v-bind:src="listImage" fluid alt="Image" height="200px" class="rounded-0">
 							</b-card-img>
 						</b-col>
 						<b-col md="6">
-							<b-card-body title="Column 1">
+							<b-card-body v-bind:title="">
+							{{listing.name}}
 								<b-card-text>
 									<b>Workspace Type: </b>{{listing.type}} <br> 
 									<b>Maximum Capacity: </b>{{listing.capacity}} <br> 
@@ -140,7 +150,34 @@
 					</b-row>
 				</b-card>
 			</div>`
-		})
+		});
+
+		Vue.component('listings', {
+			props: ['listing', 'images'],
+			template: `
+			<div>
+				<b-card no-body bg-variant="light" class="overflow-hidden mb-2" style="max-width: 540px;">
+					<b-row no-gutters>
+						<b-col md="6">
+							<b-card-img v-bind:src="images" fluid alt="Image" height="200px" class="rounded-0">
+							</b-card-img>
+						</b-col>
+						<b-col md="6">
+							<b-card-body v-bind:title="listing.name">
+							
+								<b-card-text>
+									<b>Workspace Type: </b>{{listing.type}} <br> 
+									<b>Maximum Capacity: </b>{{listing.capacity}} <br> 
+									<b>Area: </b>{{listing.area}} <br>
+									<b>Address: </b>{{listing.address}} #{{listing.unit}} Singapore {{listing.postal}} <br>
+								</b-card-text>
+							</b-card-body>
+						</b-col>
+					</b-row>
+				</b-card>
+			</div>`
+		});
+
 		Vue.component('im', {
 			props: [''],
 			template: `
@@ -161,13 +198,17 @@
 				btngrpMargin: false,
 				btngrpNoMargin: true,
 				listings: null,
+				filteredListing: null,
 				type: null,
+				filterTriggered: false,
 				selected: '*',
+				selectedStartDate: "",
+				selectedEndDate: "",
 				listing_type: [
-				{ value: "*", text: 'All Workspace Types' },
-				{ value: "Single", text: 'Single' },
-				{ value: 'Group', text: 'Group' },
-				{ value: 'Corporate Function', text: 'Corporate Function' },
+					{ value: "*", text: 'All Workspace Types' },
+					{ value: "Single", text: 'Single' },
+					{ value: 'Group', text: 'Group' },
+					{ value: 'Corporate Function', text: 'Corporate Function' },
 				]
 			},
 			created: function () {
@@ -176,7 +217,7 @@
 				var listings = firebase.database().ref("listing/");
 				allListings = "";
 				listings.on("value", (snapshot) => {
-					console.log(snapshot);
+					// console.log(snapshot);
 					allListings = snapshot.val();
 					this.listings = allListings;
 
@@ -209,7 +250,28 @@
 				displayListings: function () {
 					var allListings = this.getAllListings();
 					this.listings = allListings;
-					console.log(this.listings)
+					// console.log(this.listings)
+				},
+				searchListings: function (){
+					var allListings = this.getAllListings();
+					var foundListing = [];
+					for (listingNum in allListings){
+						var selectedStart = Date.parse(this.selectedStartDate);
+						var listingStart = Date.parse(allListings[listingNum].start);
+						var selectedEnd = Date.parse(this.selectedEndDate);
+						var listingEnd = Date.parse(allListings[listingNum].end);
+						console.log(selectedStart < listingStart && listingEnd > selectedEnd);
+						if (listingStart < selectedStart && listingEnd > selectedEnd){
+							foundListing.push(allListings[listingNum]);
+						}
+					}
+					this.filteredListing = foundListing;
+					console.log(this.filteredListing);
+					for (listing in this.filteredListing){
+						console.log(listing);
+					}
+					this.filterTriggered = true;
+
 				}
 			},
 
