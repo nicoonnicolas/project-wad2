@@ -1,239 +1,178 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Login</title>
 
-<head>
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<script type="text/javascript" src="vue.js"></script>
+		<!--Styling for Login-->
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous"/>
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous"/>
+		<style>
+			body,
+			html {
+				margin: 0;
+				padding: 0;
+				height: 100%;
+				background-image: url("images/app/loginBackground.jpg");
+				height: 100%;
+			}
+			.user_card {
+				height: 400px;
+				width: 350px;
+				margin-top: auto;
+				margin-bottom: auto;
+				background: lightblue;
+				position: relative;
+				display: flex;
+				justify-content: center;
+				flex-direction: column;
+				padding: 10px;
+				box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+					0 6px 20px 0 rgba(0, 0, 0, 0.19);
+				-webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+					0 6px 20px 0 rgba(0, 0, 0, 0.19);
+				-moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+					0 6px 20px 0 rgba(0, 0, 0, 0.19);
+				border-radius: 5px;
+			}
+			.brand_logo_container {
+				position: absolute;
+				height: 170px;
+				width: 170px;
+				top: -75px;
+				border-radius: 50%;
+				background: #60a3bc;
+				padding: 10px;
+				text-align: center;
+			}
+			.brand_logo {
+				height: 150px;
+				width: 150px;
+				border-radius: 50%;
+				border: 2px solid white;
+			}
+			.form_container {
+				margin-top: 60px;
+			}
+			.login_btn:focus {
+				box-shadow: none !important;
+				outline: 0px !important;
+			}
+			.login_container {
+				padding: 0 2rem;
+			}
+			.input-group-text {
+				background: #c0392b !important;
+				color: white !important;
+				border: 0 !important;
+				border-radius: 0.25rem 0 0 0.25rem !important;
+			}
+			.input_user,
+			.input_pass:focus {
+				box-shadow: none !important;
+				outline: 0px !important;
+			}
+			#login_text {
+				color: white;
+				font-size: 40px;
+				font-weight: bold;
+				display: table;
+    			margin: auto;
+				margin-bottom: 20px;
 
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.0/gsap.min.js"></script>
+			}
+		</style>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.0/gsap.min.js"></script>
+		<meta name="google-signin-client_id" content="999591178620-sgthqg1ea8e8uo0qiuhstkra6ms3783a.apps.googleusercontent.com"/>
+		<script type="text/javascript" src="vue.js"></script>
+		<script	src="https://apis.google.com/js/platform.js" async defer></script>
 
-	<link type="text/css" rel="stylesheet" href="scss/custom.css" />
-
-	<!-- Load Vue followed by BootstrapVue -->
-	<script src="https://unpkg.com/vue@latest/dist/vue.min.js"></script>
-	<script src="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.js"></script>
-
-	<!-- Load the following for BootstrapVueIcons support -->
-	<script src="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue-icons.min.js"></script>
-
-	<!-- Firebase Source Files-->
-	<script src="https://www.gstatic.com/firebasejs/8.3.0/firebase-app.js"></script>
-	<!-- <script src="https://www.gstatic.com/firebasejs/8.3.0/firebase-analytics.js"></script> -->
-	<script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-database.js"></script>
-	<!-- <script src="https://www.gstatic.com/firebasejs/8.2.6/firebase-auth.js"></script> -->
-	<script>
-		// Initialize Firebase
-		var firebaseConfig = {
-			apiKey: "AIzaSyDhBjd0INJO6MpP_SX3vJJFRQzgrc1yCbc",
-			authDomain: "just-clover-301402.firebaseapp.com",
-			databaseURL:
-				"https://just-clover-301402-default-rtdb.firebaseio.com",
-			projectId: "just-clover-301402",
-			storageBucket: "just-clover-301402.appspot.com",
-			messagingSenderId: "999591178620",
-			appId: "1:999591178620:web:5ed2ca489e1fee2836b4f9",
-			measurementId: "G-4M8XE224JF",
-		}
-		firebase.initializeApp(firebaseConfig);
-			// firebase.analytics();
-	</script>
-
-</head>
-
-<body>
-	<div id='app'>
-		<!-- --------------------NAVBAR------------------------- -->
-		<div>
-			<b-navbar toggleable="lg" type="light" variant="faded">
-				<b-navbar-brand href="index.html">
-					<b-img src="images\app\logo.JPG" height="70px" width="70px"></b-img> Huddle
-				</b-navbar-brand>
-
-				<b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
-
-				<b-collapse id="nav-collapse" is-nav>
-					<b-navbar-nav>
-					</b-navbar-nav>
-
-					<!-- Right aligned nav items -->
-					<b-navbar-nav class="ml-auto">
-						<b-nav-item href="index.html" active>Find a Space</b-nav-item>
-						<b-nav-item href="bookings.html">My Bookings</b-nav-item>
-						<!-- <b-nav-form>
-                        <b-form-input size="sm" class="mr-sm-2" placeholder="Search"></b-form-input>
-                        <b-button size="sm" class="my-2 my-sm-0" type="submit">Search</b-button>
-                      </b-nav-form> -->
-
-
-						<b-nav-item-dropdown right>
-							<!-- Using 'button-content' slot -->
-							<template #button-content>
-								<em>User</em>
-							</template>
-							<b-dropdown-item href="#">Profile</b-dropdown-item>
-							<b-dropdown-item href="#">Sign Out</b-dropdown-item>
-						</b-nav-item-dropdown>
-					</b-navbar-nav>
-				</b-collapse>
-			</b-navbar>
-		</div>
-
-		<!-------------------- SEARCH BAR-------------- -->
-		<div class="container">
-			<b-jumbotron lead="Start searching for spaces with Huddle.">
-				<!-- <b-button variant="primary" href="#">Start</b-button> -->
-				<b-form inline>
-					<label class="sr-only" for="inline-form-input-name">Name</label>
-					<b-form-input
-					  id="inline-form-input-name"
-					  class="mb-2 mr-sm-2 mb-sm-0"
-					  placeholder="e.g. 12 Victoria Rd"
-					></b-form-input>
-									
-					<b-form-select class="mb-2 mr-sm-2 mb-sm-0" v-model="selected" :options="listing_type"></b-form-select>
-					<b-form-datepicker v-model="selectedStartDate" placeholder="Start Date"	class="mb-2 mr-sm-2 mb-sm-0"></b-form-datepicker>
-					<b-form-datepicker v-model="selectedEndDate" class="mb-2 mr-sm-2 mb-sm-0" placeholder="End Date"	></b-form-datepicker>
-					<b-button variant="primary" v-on:click="searchListings">Go</b-button>
-				  </b-form>
-			  </b-jumbotron>
-		  </div>
-
-		  <!-- --------------------Listing and Map Main Body------------ -->
-		<div class="container-fluid">
-			<div class="row">
-				<div class="col" >
-					<listings 
-						v-for="listing in listings" 
-						v-bind:listing="listing"
-						v-bind:images="'./images/listing/' + listing.images[0]" 
-					>
-					</listings>
-				</div>
-				<div class="col">
-					<p>Column 2. Search View: Display Map. <br> Detailed Listings View: Display details</p>
+		<!-- Firebase Source Files-->
+		<script src="https://www.gstatic.com/firebasejs/8.3.0/firebase-app.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/8.3.0/firebase-analytics.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-database.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/8.2.6/firebase-auth.js"></script>
+	</head>
+	<body>
+		<div class="container h-100">
+			<div class="d-flex justify-content-center h-100">
+				<div class="user_card">
+					<div class="d-flex justify-content-center">
+						<div class="brand_logo_container">
+							<img src="images/app/logo.JPG" class="brand_logo" alt="Logo"/>
+						</div>
+					</div>
+					<div class="d-flex justify-content-center form_container">
+						<form>
+							<div id="login_text">Huddle</div>
+							<div class="input-group mb-3">
+								<div class="input-group-append">
+									<span class="input-group-text"><i class="fas fa-user"></i
+									></span>
+								</div>
+								<input type="text" name="" class="form-control input_user" value="" placeholder="username"/>
+							</div>
+							<div class="input-group mb-2">
+								<div class="input-group-append">
+									<span class="input-group-text"><i class="fas fa-key"></i></span>
+								</div>
+								<input type="password" name="" class="form-control input_pass" value="" placeholder="password"/>
+							</div>
+							<div class="d-flex justify-content-center mt-3 login_container">
+								<button	type="button" name="button" class="btn btn-dark">Login</button>
+							</div>
+						</form>
+					</div>
+					<div class="mt-4">
+						<div class="d-flex justify-content-center links">
+							<div id="signInButton" class="g-signin2" data-onsuccess="onSignIn"></div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
-		
-	</div>
+		<script>
+			//Firebase Configuration
+			var firebaseConfig = {
+				apiKey: "AIzaSyDhBjd0INJO6MpP_SX3vJJFRQzgrc1yCbc",
+				authDomain: "just-clover-301402.firebaseapp.com",
+				databaseURL:
+					"https://just-clover-301402-default-rtdb.firebaseio.com",
+				projectId: "just-clover-301402",
+				storageBucket: "just-clover-301402.appspot.com",
+				messagingSenderId: "999591178620",
+				appId: "1:999591178620:web:5ed2ca489e1fee2836b4f9",
+				measurementId: "G-4M8XE224JF",
+			};
 
+			firebase.initializeApp(firebaseConfig);
+			firebase.analytics();
 
-	<script>
-		Vue.component('listings', {
-			props: ['listing', 'images'],
-			template: `
-			<div>
-				<b-card no-body bg-variant="light" class="overflow-hidden mb-2" style="max-width: 540px;">
-					<b-row no-gutters>
-						<b-col md="6">
-							<b-card-img v-bind:src="images" fluid alt="Image" height="200px" class="rounded-0">
-							</b-card-img>
-						</b-col>
-						<b-col md="6">
-							<b-card-body v-bind:title="listing.name">
-							
-								<b-card-text>
-									<b>Workspace Type: </b>{{listing.type}} <br> 
-									<b>Maximum Capacity: </b>{{listing.capacity}} <br> 
-									<b>Area: </b>{{listing.area}} <br>
-									<b>Address: </b>{{listing.address}} #{{listing.unit}} Singapore {{listing.postal}} <br>
-								</b-card-text>
-							</b-card-body>
-						</b-col>
-					</b-row>
-				</b-card>
-			</div>`
-		});
+			function onSignIn(googleUser) {
+				var profile = googleUser.getBasicProfile();
+				console.log("ID: " + profile.getId()); // Do not send to your backend! Use an ID token instead.
+				checkUserExists(googleUser);
+			}
 
-		Vue.component('im', {
-			props: [''],
-			template: `
-			<div>
-				<b-img src="https://picsum.photos/1024/400/?image=41" fluid alt="Responsive image"></b-img>
-			</div>`
-		})
-	</script>
+			function move() {
+				// gsap.to("#head1", { duration: 1, opacity: 0.8, x: "45%" });
+				// gsap.to("#head2", { duration: 2, x: "42%" });
+				// gsap.to("#signInButton", { duration: 2, x: "25%" });
+				// gsap.to("#signOutButton", { duration: 2, x: "46%" });
+			}
 
-	<script>
-
-		var vm = new Vue({
-			el: '#app',
-			data: {
-				btngrpMargin: false,
-				btngrpNoMargin: true,
-				listings: null,
-				type: null,
-				selected: '*',
-				selectedStartDate: "",
-				selectedEndDate: "",
-				listing_type: [
-					{ value: "*", text: 'All Workspace Types' },
-					{ value: "Single", text: 'Single' },
-					{ value: 'Group', text: 'Group' },
-					{ value: 'Corporate Function', text: 'Corporate Function' },
-				]
-			},
-			created: function () {
-				this.listings = "";
-
-				var listings = firebase.database().ref("listing/");
-				allListings = "";
-				listings.on("value", (snapshot) => {
-					allListings = snapshot.val();
-					this.listings = allListings;
-
-					this.loaded = true;
-
-				});
-			},
-			methods: {
-				getAllListings: function () {
-					var listings = firebase.database().ref("listing/");
-					allListings = "";
-					listings.on("value", (snapshot) => {
-						allListings = snapshot.val();
-					});
-					return allListings;
-				},
-				displayListings: function () {
-					var allListings = this.getAllListings();
-					this.listings = allListings;
-				},
-				searchListings: function (){
-					var allListings = this.getAllListings();
-					var foundListing = [];
-					for (listingNum in allListings){
-						var selectedStart = Date.parse(this.selectedStartDate);
-						var listingStart = Date.parse(allListings[listingNum].start);
-						var selectedEnd = Date.parse(this.selectedEndDate);
-						var listingEnd = Date.parse(allListings[listingNum].end);
-						console.log(selectedStart < listingStart && listingEnd > selectedEnd);
-						if (listingStart < selectedStart && listingEnd > selectedEnd){
-							foundListing.push(allListings[listingNum]);
-						}
+			function checkUserExists(googleUser) {
+				var profile = googleUser.getBasicProfile();
+				var userID = profile.getId();
+				var user = firebase.database().ref("users/" + userID);
+				user.once("value").then((snapshot) => {
+					if (snapshot.exists()) {
+						location.replace("index.html");
+						sessionStorage.setItem("userId", userID);
+					} else {
+						location.replace("register.html");
 					}
-					this.listings = foundListing;
-
-				}
-			},
-
-		})
-
-	</script>
-
-	<style lang="scss">
-		/* .btngrp--margin {
-            margin-left: 200px;
-        }
-
-        .btngrp--nomargin {
-            margin-left: 0px;
-        } */
-		.navbar-toggle-color {
-			background-color: grey;
-		}
-	</style>
-
-</body>
-
+				});
+			}
+		</script>
+	</body>
 </html>
