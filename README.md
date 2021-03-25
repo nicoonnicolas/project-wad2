@@ -7,7 +7,7 @@
 
 <br>
 
-### Setting up Sass:
+### Set up Sass:
 1. Copy the location of the dart-sass folder: e.g. C:\wamp64\www\project-wad2\dart-sass
 
 2. Add the folder to your PATH (Credits to: https://katiek2.github.io/path-doc/)
@@ -30,12 +30,25 @@
         1.32.8
         ```
 
+
+## Run
+
 ### Run Sass watcher:
-    * In a terminal/command prompt:
-        ```
-        sass --watch C:\wamp64\www\project-wad2\scss\custom.scss C:\wamp64\www\project-wad2\scss\custom.css
-        ```
+* In a terminal/command prompt:
+    ```
+    sass --watch C:\wamp64\www\project-wad2\scss\custom.scss C:\wamp64\www\project-wad2\scss\custom.css
+    ```
+* It should state
+    ```
+    Sass is watching for changes. Press Ctrl-C to stop.
+    ```
     
-    *This will help you to convert your custom.scss to custom.css
+* This will help you to convert your custom.scss to custom.css when there are changes to the custom.scss file
+    ```
+    Compiled C:\wamp64\www\project-wad2\scss\custom.scss to C:\wamp64\www\project-wad2\scss\custom.css.
+    ```
 
 <br>
+
+### Run WAMP:
+* Run your WAMP server to serve the app
