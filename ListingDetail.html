@@ -46,7 +46,7 @@
     <body>
         <div id='app'>
             <div>
-                <b-navbar toggleable="lg" type="light" variant="faded">
+                <b-navbar toggleable="sm" type="light" variant="faded">
                     <b-navbar-brand href="index.html">
                         <b-img src="images\app\logo.JPG" height="70px" width="70px"></b-img> Huddle
                     </b-navbar-brand>
@@ -373,7 +373,7 @@
                 form_details = "listing_id=" + this.listing_id + "&start_date=" + submittedForm.start_date 
                     + "&end_date=" + submittedForm.end_date + "&is_recurring=" + submittedForm.is_recurring 
                     + "&recurring_days=" + recurring
-                    
+
                 location.href = 'payment.html?' + form_details ;
             },
         },
