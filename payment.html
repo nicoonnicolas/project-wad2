@@ -52,9 +52,15 @@
 		const AppDB = firebase.database();
 
 	</script>
+	<script>
+		var user_id = sessionStorage.getItem('userId')
+	</script>
 
 	<link rel="stylesheet" href="scss/custom.css" />
 </head>
+
+<!-- http://localhost/project-wad2/payment.html?booking_price=5&customer_id=2&listing_id=10&start_date=2021-03-17&end_date=2021-03-20&is_recurring=true  -->
+
 
 <body>
 	<div id='app'>
@@ -103,41 +109,15 @@
 
 					<img class="img-fluid" src="./images/listing/1000/image1.png">
 					<div class="my-4">
-						<h3 class="display-4">{{name}}</h3>
+						<h3>{{name}}</h3>
 						<h4 class="mt-3">{{address}}</h4>
 						<p class="mt-3">Date: {{booking.startDate}} to {{booking.endDate}}</p>
 						<a href="#">Edit Booking</a>
 					</div>
-					<!-- <div class="mt-5 clearfix">
-						<h4 class="float-left">{{ booking.workspaceType }}</h4>
-						<h5 class="float-right">${{ booking.bookingPrice }}/day</h5>
-					</div>
-					<h6 class="mt-3">{{ booking.address}} ##unit number</h6>
-					<div class="mt-4">
-
-						<a href="#">Change Unit</a>
-					</div>
-					<div>
-						<h6 class="mt-4">From {{ booking.startDate }} - {{booking.endDate}}</h6>
-					</div> -->
 				</div>
 				<div class="col-md m-5">
 					<b-jumbotron class="mt-5" header="" lead="">
 						<h2>Order Details</h2>
-						<!-- <div class="clearfix">
-							<h4 class="float-left">{{ booking.workspaceType }}</h4>
-							<h5 class="float-right">${{ booking.bookingPrice }}/day</h5>
-						</div>
-						<div class="mt-1 clearfix">
-							<h6 class="float-left">No. of Days</h6>
-							<h6 class="float-right">x5</h6>
-						</div>
-						<hr>
-						<div class="clearfix">
-							<h4 class="float-left">Total Payment</h4>
-							<h5 class="float-right">{{booking.totalPrice}}</h5>
-						</div> -->
-
 						<b-table borderless thead-class="d-none" :items="table"></b-table>
 						<div class="mt-2" ref='paypal'></div>
 					</b-jumbotron>
@@ -158,66 +138,73 @@
 				paidFor: true,
 				name: '',
 				address: '',
-				area: '',
-				// capacity: '',
 				days: '',
+				price: 0,
 				type: '',
-				price: '',
+				load: false,
 				booking: {
-					bookingPrice: 1,
+					bookingPrice: '1',
 					address: '123 Victoria Road',
-					startDate: "03-23-2021",
-					endDate: "04-29-2021",
-					workspaceType: 'Single',
-					totalPrice: 4,
+					startDate: "29-03-2021",
+					endDate: "29-03-2021",
+					totalPrice: 0,
 					customer_id: null,
-					listing_id: 1000,
-					is_recurring: null,
-					recurring_days: ['Tuesday'],
-					dates: []
+					listing_id: '',
+					is_recurring: false,
+					recurring_days: [],
 				},
-				table: [
-					{ order: 'Space', cost: this.work },
-					{ order: 'Booking Days', cost: this.days },
-					{ order: 'Service Charge', cost: '10%' },
-					{ order: 'Total', cost: this.price },
-				]
+
+			},
+			computed: {
+				table: function () {
+					var days = this.days + ' 	days'
+					var total_price = this.days * this.price
+					this.booking["totalPrice"] = total_price
+					var price_per_day = "SGD " + this.price 
+					var total = "SGD " + total_price
+					var table = [
+						{ order: 'Space', cost: this.type },
+						{ order: 'Price per Day', cost: price_per_day },
+						{ order: 'Booking Days', cost: days },
+						{ order: 'Service Charge', cost: '10%' },
+						{ order: 'Total', cost: total },
+					]
+					return table
+				}
+
 			},
 			created() {
-				let uri = window.location.search.substring(1);
-				if (uri !== '') {
+				let uri = window.location.search
+				let params = new URLSearchParams(uri);
 
-					let params = new URLSearchParams(uri);
-					// console.log(this.booking)
-					this.booking.bookingPrice = params.get("booking_price")
-					this.booking.customer_id = params.get("customer_id")
-					this.booking.listing_id = params.get("listing_id")
-					this.booking.startDate = params.get("start_date")
-					this.booking.endDate = params.get("end_date")
-					this.booking.is_recurring = params.get("is_recurring")
-					this.recurring_days = params.get("recurring_days")
-					// http://localhost/project-wad2/payment.html?booking_price=5&customer_id=2&listing_id=10&start_date=17-03-20&end_date=20-03-20&is_recurring=true
-					// console.log(this.booking)
-				}
+				// this.booking.customer_id = params.get("customer_id")
+				this.booking.listing_id = params.get("listing_id")
+				this.booking.startDate = params.get("start_date")
+				this.booking.endDate = params.get("end_date")
+				this.booking.is_recurring = params.get("is_recurring")
+				this.booking.recurring_days = params.get("recurring_days").split(',')
+				// console.log(this.booking.recurring_days)
+				// this.process()
+
+				this.getListingDetails(this.booking.listing_id)
 				this.processBooking(this.booking.startDate, this.booking.endDate, this.recurring_days)
-				this.displayListingDetails(this.booking.listing_id);
-				// console.log(this.recurring_days[0])
-
-
 			},
 			updated() {
 			},
 			mounted: function () {
+
+				// email: sarahwoon@gmail.com
+            	// pw: 2G?yV/pI
 				window.paypal
 					.Buttons({
 						createOrder: (data, actions) => {
 							return actions.order.create({
 								purchase_units: [
 									{
-										description: 'test',
+										description: 'Space Booking',
 										amount: {
 											currency_code: 'SGD',
-											value: this.test.totalPrice
+											value: this.booking.totalPrice
 										}
 									}
 								]
@@ -238,35 +225,36 @@
 					.render(this.$refs.paypal);
 			},
 			methods: {
-				displayListingDetails: function (id) {
+				process: function(){
+					this.getListingDetails(this.booking.listing_id)
+					if (this.load == true){
+						this.processBooking(this.booking.startDate, this.booking.endDate, this.recurring_days)
+					}
+				},
+				getListingDetails: function (id) {
 					var listing = firebase.database().ref("listing/" + id);
 					listing.on("value", (snapshot) => {
 						if (snapshot.val() != null) {
 							details = snapshot.val();
-
 							this.name = details.name
 							this.address = details.address + " " + details.postal + " #" + details.unit
-							this.area = details.area
-							this.capacity = details.capacity
 							this.type = details.type
-							this.price = details.price
-							// this.loaded = true;
+							this.price = parseFloat(details.price)
+							this.load = true
 						}
-
 					});
 				},
 				processBooking(start_date, end_date, reccuring_arr) {
-					var start = moment(start_date, "MM-DD-YYYY")
-					var end = moment(end_date, "MM-DD-YYYY")
+					var start = moment(start_date, "YYYY-MM-DD")
+					var end = moment(end_date, "YYYY-MM-DD")
 					this.days = end.diff(start, 'days')
-					var weeks= end.diff(start, 'weeks')
-					
+					var weeks = end.diff(start, 'weeks')
+
 					if (this.booking.is_recurring == true) {
 						let firstDay = start_date
-						console.log(this.getNextEvents(firstDay, weeks, 'Tuesday', 1));
+						// console.log(this.getNextEvents(firstDay, weeks, 'Tuesday', 1));
 
 					}
-					this.booking.bookingPrice = this.days * this.price
 				},
 				addBooking() {
 					var bookingRef = AppDB.ref('booking/')
@@ -278,7 +266,7 @@
 						.every(dayOfWeek)
 						.daysOfWeek()
 						.every(weekIndex)
-						
+
 					return events.next(numEvents, "YYYY-MM-DD");
 				}
 			}
