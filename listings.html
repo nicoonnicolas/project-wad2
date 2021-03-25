@@ -21,6 +21,14 @@
 	<!-- <script src="https://www.gstatic.com/firebasejs/8.3.0/firebase-analytics.js"></script> -->
 	<script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-database.js"></script>
 	<!-- <script src="https://www.gstatic.com/firebasejs/8.2.6/firebase-auth.js"></script> -->
+
+	<script defer
+		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDhBjd0INJO6MpP_SX3vJJFRQzgrc1yCbc&callback=initMap">
+	</script>
+
+	<script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css"/>
+
 	<script>
 		// Initialize Firebase
 		var firebaseConfig = {
@@ -99,7 +107,7 @@
 		  </div>
 
 		  <!-- --------------------Listing and Map Main Body------------ -->
-		<div class="container-fluid">
+		<div class="container">
 			<div class="row">
 				<div class="col" >
 					<listings 
@@ -110,7 +118,8 @@
 					</listings>
 				</div>
 				<div class="col">
-					<p>Column 2. Search View: Display Map. <br> Detailed Listings View: Display details</p>
+					<div id="map">
+					</div>
 				</div>
 			</div>
 		</div>
@@ -221,6 +230,27 @@
 
 	</script>
 
+	<script type="text/javascript">
+		
+		var myLocation1 = new L.LatLng(1.448344420992953, 103.78570071438713);
+
+		var map = new L.Map("map", {
+			center: myLocation1,
+			zoom: 20,
+			layers: new L.TileLayer(
+				"https://tile.openstreetmap.org/{z}/{x}/{y}.png"
+			),
+		});
+		var marker1 = new L.Marker(myLocation1);
+
+		// marker1.bindPopup("Hello Location 1");
+
+		map.addLayer(marker1);
+		marker1.bindPopup("Woodlands Station");
+		map.invalidateSize();
+	</script>
+
+
 	<style lang="scss">
 		/* .btngrp--margin {
             margin-left: 200px;
@@ -231,6 +261,10 @@
         } */
 		.navbar-toggle-color {
 			background-color: grey;
+		}
+		#map {
+			height: 80%;
+			width: 100%
 		}
 	</style>
 

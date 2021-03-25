@@ -239,6 +239,7 @@
             min: '',
             loaded: false,
             slide: 0,
+            listing_id: '',
             options: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
             reviewData: {
                 labels: ['Ambience', 'Amenities', 'Comfort', 'Location', 'Price', 'Service'],
@@ -277,10 +278,10 @@
             validDateStart: null,
             validDateEnd: null,
             form: {
-                start_date: "",
-                end_date: "",
-                is_recurring: "",
-                recurring_days: ""
+                start_date: '',
+                end_date: '',
+                is_recurring: '',
+                recurring_days: ''
             }
         },
         created: function() {
@@ -292,6 +293,7 @@
 
             let urlParams = new URLSearchParams(window.location.search)
             let listing = urlParams.get('listing')
+            this.listing_id = listing
             this.displayListingDetails(listing);
 
         },
@@ -357,11 +359,22 @@
             },
             onSubmit(event) {
                 event.preventDefault();
-                this.checkInvalid()
-                if (!this.form.is_recurring) {
-                    this.form.recurring_days = ''
+                this.checkInvalid();
+
+                let submittedForm = this.form;
+
+                let recurring = "";
+                if (!submittedForm.is_recurring) {
+                    submittedForm.recurring_days = "";
+                } else {
+                    recurring = submittedForm.recurring_days.join(",");
                 }
-                console.log(this.form)
+
+                form_details = "listing_id=" + this.listing_id + "&start_date=" + submittedForm.start_date 
+                    + "&end_date=" + submittedForm.end_date + "&is_recurring=" + submittedForm.is_recurring 
+                    + "&recurring_days=" + recurring
+                    
+                location.href = 'payment.html?' + form_details ;
             },
         },
 
