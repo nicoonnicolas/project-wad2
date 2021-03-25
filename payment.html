@@ -67,7 +67,7 @@
 		<!-- --------------------NAVBAR------------------------- -->
 
 		<div>
-			<b-navbar toggleable="lg" type="light" variant="faded">
+			<b-navbar toggleable="sm" type="light" variant="faded">
 				<b-navbar-brand href="index.html">
 					<b-img src="images\app\logo.JPG" height="70px" width="70px"></b-img> Huddle
 				</b-navbar-brand>
@@ -142,16 +142,16 @@
 				price: 0,
 				type: '',
 				load: false,
+				dates: [],
 				booking: {
-					bookingPrice: '1',
-					address: '123 Victoria Road',
-					startDate: "29-03-2021",
-					endDate: "29-03-2021",
+					address: '',
+					startDate: "",
+					endDate: "",
 					totalPrice: 0,
 					customer_id: null,
 					listing_id: '',
 					is_recurring: false,
-					recurring_days: [],
+					recurring_days: null,
 				},
 
 			},
@@ -181,10 +181,8 @@
 				this.booking.listing_id = params.get("listing_id")
 				this.booking.startDate = params.get("start_date")
 				this.booking.endDate = params.get("end_date")
-				this.booking.is_recurring = params.get("is_recurring")
+				this.booking.is_recurring = Boolean(params.get("is_recurring"))
 				this.booking.recurring_days = params.get("recurring_days").split(',')
-				// console.log(this.booking.recurring_days)
-				// this.process()
 
 				this.getListingDetails(this.booking.listing_id)
 				this.processBooking(this.booking.startDate, this.booking.endDate, this.recurring_days)
@@ -225,12 +223,6 @@
 					.render(this.$refs.paypal);
 			},
 			methods: {
-				process: function(){
-					this.getListingDetails(this.booking.listing_id)
-					if (this.load == true){
-						this.processBooking(this.booking.startDate, this.booking.endDate, this.recurring_days)
-					}
-				},
 				getListingDetails: function (id) {
 					var listing = firebase.database().ref("listing/" + id);
 					listing.on("value", (snapshot) => {
@@ -250,10 +242,17 @@
 					this.days = end.diff(start, 'days')
 					var weeks = end.diff(start, 'weeks')
 
-					if (this.booking.is_recurring == true) {
+					if (this.booking.is_recurring) {
+						
+						if ()
+						//get Dates of This Week
 						let firstDay = start_date
-						// console.log(this.getNextEvents(firstDay, weeks, 'Tuesday', 1));
-
+						recurring_days = this.booking.recurring_days
+						for (day in recurring_days){
+							this.dates.push(this.getNextEvents(firstDay, weeks, day, 1))
+						}
+						var x = this.dates.sort((a,b) => a.valueOf() - b.valueOf())
+						console.log(x)
 					}
 				},
 				addBooking() {
@@ -261,14 +260,38 @@
 					bookingRef.push(this.booking)
 				},
 				getNextEvents(startDate, numEvents, dayOfWeek, weekIndex) {
-					var events = moment(startDate)
-						.recur()
+					var events = moment(startDate).recur()
 						.every(dayOfWeek)
 						.daysOfWeek()
 						.every(weekIndex)
 
 					return events.next(numEvents, "YYYY-MM-DD");
-				}
+				},
+				// getDates(start_date, recurring_days){
+				// 	var d = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+				// 	var i = d.indexOf(days)
+					
+				// 	var i = start_date.day()
+				// 	let x = 0
+				// 	while (x > 0){
+
+				// 	}
+				// 	for (days in recurring_days){
+				// 		if (d[i] == recurring_days){
+				// 			console.log('yes')
+				// 			var x = d.indexOf(days)
+
+				// 		}
+
+
+				// 	}
+				// 	start_date = moment(this.booking.startDate)
+				// 	end_date = moment(this.booking.endDate)
+				// 	// start_date.format('dddd MMM DD YYYY')
+				// 	var n = end_date.diff(start_date, 'days')
+
+
+				// }
 			}
 		}
 		)
