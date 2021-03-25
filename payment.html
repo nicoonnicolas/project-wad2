@@ -22,9 +22,15 @@
 
 
 	<!-- Date formatter: refer to https://github.com/datejs/Datejs for documentation -->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/datejs/1.0/date.min.js"
+	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/datejs/1.0/date.min.js"
 		integrity="sha512-/n/dTQBO8lHzqqgAQvy0ukBQ0qLmGzxKhn8xKrz4cn7XJkZzy+fAtzjnOQd5w55h4k1kUC+8oIe6WmrGUYwODA=="
+		crossorigin="anonymous"></script> -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"
+		integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ=="
 		crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment-recur/1.0.7/moment-recur.min.js"></script>
+
+	<script>moment().format();</script>
 
 	<script
 		src="https://www.paypal.com/sdk/js?currency=SGD&client-id=ARqV8Dq2UHOZV1yd0pSTUq2O0mt-zXjTO4iUafSZoC52Cv2fm8_jEvuev9c5o_MRPl1CMFckaj1Z5ipe"></script>
@@ -47,6 +53,7 @@
 
 	</script>
 
+	<link rel="stylesheet" href="scss/custom.css" />
 </head>
 
 <body>
@@ -89,30 +96,37 @@
 		</div>
 
 
-		<!-- --------------------Listing and Map Main Body------------ -->
-		<div class="container">
+		<div class="container-fluid">
 			<div class="row">
 				<div class="col-md m-5">
 					<!-- <b-table stacked :items="items" striped='false'></b-table> -->
-					<h2>Order Details</h2>
-					<div class="mt-5 clearfix">
-						<h4 class="float-left">{{ test.workspaceType }}</h4>
-						<h5 class="float-right">${{ test.bookingPrice }}/day</h5>
+
+					<img class="img-fluid" src="./images/listing/1000/image1.png">
+					<div class="my-4">
+						<h3 class="display-4">{{name}}</h3>
+						<h4 class="mt-3">{{address}}</h4>
+						<p class="mt-3">Date: {{booking.startDate}} to {{booking.endDate}}</p>
+						<a href="#">Edit Booking</a>
 					</div>
-					<h6 class="mt-3">{{ test.address}} ##unit number</h6>
+					<!-- <div class="mt-5 clearfix">
+						<h4 class="float-left">{{ booking.workspaceType }}</h4>
+						<h5 class="float-right">${{ booking.bookingPrice }}/day</h5>
+					</div>
+					<h6 class="mt-3">{{ booking.address}} ##unit number</h6>
 					<div class="mt-4">
 
 						<a href="#">Change Unit</a>
 					</div>
 					<div>
-						<h6 class="mt-4">From {{ test.startDate }} - {{test.endDate}}</h6>
-					</div>
+						<h6 class="mt-4">From {{ booking.startDate }} - {{booking.endDate}}</h6>
+					</div> -->
 				</div>
 				<div class="col-md m-5">
 					<b-jumbotron class="mt-5" header="" lead="">
-						<div class="clearfix">
-							<h4 class="float-left">{{ test.workspaceType }}</h4>
-							<h5 class="float-right">${{ test.bookingPrice }}/day</h5>
+						<h2>Order Details</h2>
+						<!-- <div class="clearfix">
+							<h4 class="float-left">{{ booking.workspaceType }}</h4>
+							<h5 class="float-right">${{ booking.bookingPrice }}/day</h5>
 						</div>
 						<div class="mt-1 clearfix">
 							<h6 class="float-left">No. of Days</h6>
@@ -121,10 +135,13 @@
 						<hr>
 						<div class="clearfix">
 							<h4 class="float-left">Total Payment</h4>
-							<h5 class="float-right">{{test.totalPrice}}</h5>
-						</div>
+							<h5 class="float-right">{{booking.totalPrice}}</h5>
+						</div> -->
+
+						<b-table borderless thead-class="d-none" :items="table"></b-table>
 						<div class="mt-2" ref='paypal'></div>
 					</b-jumbotron>
+
 				</div>
 			</div>
 		</div>
@@ -139,32 +156,58 @@
 
 			data: {
 				paidFor: true,
-				test: {
+				name: '',
+				address: '',
+				area: '',
+				// capacity: '',
+				days: '',
+				type: '',
+				price: '',
+				booking: {
 					bookingPrice: 1,
 					address: '123 Victoria Road',
-					startDate: Date.today().toString("MMMM dS"),
-					endDate: Date.today().addDays(5).toString("MMMM dS yyyy"),
+					startDate: "03-23-2021",
+					endDate: "04-29-2021",
 					workspaceType: 'Single',
 					totalPrice: 4,
-
-
-
+					customer_id: null,
+					listing_id: 1000,
+					is_recurring: null,
+					recurring_days: ['Tuesday'],
+					dates: []
 				},
-				// {
-				// 	bookingPrice: 100,
-				// 	customerID: 123,
-				// 	listingNum: 321,
-				// 	startDate: new Date(),
-				// 	endDate: new Date(),
-				// 	isReccuring: false,
-				// 	recurringDays: [],
+				table: [
+					{ order: 'Space', cost: this.work },
+					{ order: 'Booking Days', cost: this.days },
+					{ order: 'Service Charge', cost: '10%' },
+					{ order: 'Total', cost: this.price },
+				]
+			},
+			created() {
+				let uri = window.location.search.substring(1);
+				if (uri !== '') {
 
-				// },
-				booking: null,
-				listings: null
+					let params = new URLSearchParams(uri);
+					// console.log(this.booking)
+					this.booking.bookingPrice = params.get("booking_price")
+					this.booking.customer_id = params.get("customer_id")
+					this.booking.listing_id = params.get("listing_id")
+					this.booking.startDate = params.get("start_date")
+					this.booking.endDate = params.get("end_date")
+					this.booking.is_recurring = params.get("is_recurring")
+					this.recurring_days = params.get("recurring_days")
+					// http://localhost/project-wad2/payment.html?booking_price=5&customer_id=2&listing_id=10&start_date=17-03-20&end_date=20-03-20&is_recurring=true
+					// console.log(this.booking)
+				}
+				this.processBooking(this.booking.startDate, this.booking.endDate, this.recurring_days)
+				this.displayListingDetails(this.booking.listing_id);
+				// console.log(this.recurring_days[0])
+
+
+			},
+			updated() {
 			},
 			mounted: function () {
-
 				window.paypal
 					.Buttons({
 						createOrder: (data, actions) => {
@@ -176,51 +219,70 @@
 											currency_code: 'SGD',
 											value: this.test.totalPrice
 										}
-
 									}
 								]
-
 							});
 						},
 						onApprove: async (data, actions) => {
-
 							// email: sarahwoon@gmail.com
-            				// pw: 2G?yV/pI
+							// pw: 2G?yV/pI
 							this.addBooking()
-							window.location.replace("http://localhost/project-wad2/paid.html");			
+							window.location.replace("http://localhost/project-wad2/paid.html");
 							// const order = await actions.order.capture();
 							// console.log(order);
 						},
 						onError: err => {
 							console.log(err);
 						}
-
-
 					})
 					.render(this.$refs.paypal);
 			},
 			methods: {
-				addBooking: function () {
-					var bookingRef = AppDB.ref('booking/')
-					bookingRef.push({
-						bookingId: 2,
-						bookingPrice: 1,
-						customerID: 2,
-						listingNum: 42,
-						startDate: "2021-03-12",
-						endDate: "2021-03-32",
-						isReccuring: false,
-						recurringDays: []
-					})
+				displayListingDetails: function (id) {
+					var listing = firebase.database().ref("listing/" + id);
+					listing.on("value", (snapshot) => {
+						if (snapshot.val() != null) {
+							details = snapshot.val();
 
-					
+							this.name = details.name
+							this.address = details.address + " " + details.postal + " #" + details.unit
+							this.area = details.area
+							this.capacity = details.capacity
+							this.type = details.type
+							this.price = details.price
+							// this.loaded = true;
+						}
+
+					});
 				},
+				processBooking(start_date, end_date, reccuring_arr) {
+					var start = moment(start_date, "MM-DD-YYYY")
+					var end = moment(end_date, "MM-DD-YYYY")
+					this.days = end.diff(start, 'days')
+					var weeks= end.diff(start, 'weeks')
+					
+					if (this.booking.is_recurring == true) {
+						let firstDay = start_date
+						console.log(this.getNextEvents(firstDay, weeks, 'Tuesday', 1));
+
+					}
+					this.booking.bookingPrice = this.days * this.price
+				},
+				addBooking() {
+					var bookingRef = AppDB.ref('booking/')
+					bookingRef.push(this.booking)
+				},
+				getNextEvents(startDate, numEvents, dayOfWeek, weekIndex) {
+					var events = moment(startDate)
+						.recur()
+						.every(dayOfWeek)
+						.daysOfWeek()
+						.every(weekIndex)
+						
+					return events.next(numEvents, "YYYY-MM-DD");
+				}
 			}
 		}
-
-
-
-
 		)
 
 	</script>
