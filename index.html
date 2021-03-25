@@ -108,11 +108,6 @@
 						v-bind:images="'./images/listing/' + listing.images[0]" 
 					>
 					</listings>
-					<searchedListing v-if="filterTriggered"
-						v-for="idx in filteredListing"
-						v-bind:listing="filteredListing[idx]" 
-						v-bind:listImage="'./images/' + filteredListing[idx] + '/' + listing.images[0]">
-					</searchedListing>
 				</div>
 				<div class="col">
 					<p>Column 2. Search View: Display Map. <br> Detailed Listings View: Display details</p>
@@ -124,34 +119,6 @@
 
 
 	<script>
-		// note: template must have a single root element!
-
-		Vue.component('searchedListing', {
-			props: ['listing', 'listImage'],
-			template: `
-			<div>
-				<b-card no-body bg-variant="light" class="overflow-hidden mb-2" style="max-width: 540px;">
-					<b-row no-gutters>
-						<b-col md="6">
-							<b-card-img v-bind:src="listImage" fluid alt="Image" height="200px" class="rounded-0">
-							</b-card-img>
-						</b-col>
-						<b-col md="6">
-							<b-card-body v-bind:title="">
-							{{listing.name}}
-								<b-card-text>
-									<b>Workspace Type: </b>{{listing.type}} <br> 
-									<b>Maximum Capacity: </b>{{listing.capacity}} <br> 
-									<b>Area: </b>{{listing.area}} <br>
-									<b>Address: </b>{{listing.address}} #{{listing.unit}} Singapore {{listing.postal}} <br>
-								</b-card-text>
-							</b-card-body>
-						</b-col>
-					</b-row>
-				</b-card>
-			</div>`
-		});
-
 		Vue.component('listings', {
 			props: ['listing', 'images'],
 			template: `
@@ -188,19 +155,14 @@
 	</script>
 
 	<script>
-		// import ErrorHandler from "./ErrorHandler.vue";
 
 		var vm = new Vue({
 			el: '#app',
-			// components: { ErrorHandler },
-			// name: "NameOfComponent",
 			data: {
 				btngrpMargin: false,
 				btngrpNoMargin: true,
 				listings: null,
-				filteredListing: null,
 				type: null,
-				filterTriggered: false,
 				selected: '*',
 				selectedStartDate: "",
 				selectedEndDate: "",
@@ -217,7 +179,6 @@
 				var listings = firebase.database().ref("listing/");
 				allListings = "";
 				listings.on("value", (snapshot) => {
-					// console.log(snapshot);
 					allListings = snapshot.val();
 					this.listings = allListings;
 
@@ -225,24 +186,11 @@
 
 				});
 			},
-			// computed: {
-
-			// },
 			methods: {
-				changeMargin: function () {
-					// if (this.btngrpNoMargin) {
-					//     this.btngrpNoMargin = false;
-					//     this.btngrpMargin = true;
-					// } else {
-					//     this.btngrpNoMargin = true;
-					//     this.btngrpMargin = false;
-					// }
-				},
 				getAllListings: function () {
 					var listings = firebase.database().ref("listing/");
 					allListings = "";
 					listings.on("value", (snapshot) => {
-						// console.log(snapshot.val());
 						allListings = snapshot.val();
 					});
 					return allListings;
@@ -250,7 +198,6 @@
 				displayListings: function () {
 					var allListings = this.getAllListings();
 					this.listings = allListings;
-					// console.log(this.listings)
 				},
 				searchListings: function (){
 					var allListings = this.getAllListings();
@@ -265,12 +212,7 @@
 							foundListing.push(allListings[listingNum]);
 						}
 					}
-					this.filteredListing = foundListing;
-					console.log(this.filteredListing);
-					for (listing in this.filteredListing){
-						console.log(listing);
-					}
-					this.filterTriggered = true;
+					this.listings = foundListing;
 
 				}
 			},
