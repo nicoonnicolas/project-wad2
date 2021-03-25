@@ -166,7 +166,7 @@
 				var user = firebase.database().ref("users/" + userID);
 				user.once("value").then((snapshot) => {
 					if (snapshot.exists()) {
-						location.replace("index.html");
+						location.replace("listings.html");
 						sessionStorage.setItem("userId", userID);
 					} else {
 						location.replace("register.html");
