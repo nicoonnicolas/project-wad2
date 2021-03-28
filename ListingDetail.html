@@ -25,6 +25,7 @@
 
 
         <script>
+            ImageMap('img[usemap]')
             // Initialize Firebase
             var firebaseConfig = {
 				apiKey: "AIzaSyDhBjd0INJO6MpP_SX3vJJFRQzgrc1yCbc",
@@ -114,30 +115,9 @@
                             header-bg-variant="dark"
                             header-text-variant="white">
                                 <b-form-group id="input-group-3"> Preferred Space: {{form.area}} </b-form-group>
-                                <img :src="srcimg" usemap="#image-map">
-                                <map name="image-map">
-                                    <area alt="conf" title="conf" coords="12,12,108,179" shape="rect" @click="selectRegion('conf')">
-                                    <area alt="office1" title="office1" coords="114,14,190,68" shape="rect" @click="selectRegion('office1')">
-                                    <area alt="office2" title="office2" coords="195,14,274,68" shape="rect" @click="selectRegion('office2')">
-                                    <area alt="office3" title="office3" coords="278,14,352,69" shape="rect" @click="selectRegion('office3')">
-                                    <area alt="pod1" title="pod1" coords="156,129,200,159" shape="rect" @click="selectRegion('pod1')">
-                                    <area alt="pod2" title="pod2" coords="203,128,245,159" shape="rect" @click="selectRegion('pod2')">
-                                    <area alt="pod3" title="pod3" coords="157,164,200,195" shape="rect" @click="selectRegion('pod3')">
-                                    <area alt="pod4" title="pod4" coords="204,163,245,195" shape="rect" @click="selectRegion('pod4')">
-                                    <area alt="pod5" title="pod5" coords="265,130,308,159" shape="rect" @click="selectRegion('pod5')">
-                                    <area alt="pod6" title="pod6" coords="312,130,353,159" shape="rect" @click="selectRegion('pod6')">
-                                    <area alt="pod7" title="pod7" coords="265,164,308,194" shape="rect" @click="selectRegion('pod7')">
-                                    <area alt="pod8" title="pod8" coords="311,164,353,195" shape="rect" @click="selectRegion('pod8')">
-                                    <area alt="pod9" title="pod9" coords="373,130,416,160" shape="rect" @click="selectRegion('pod9')">
-                                    <area alt="pod10" title="pod10" coords="420,131,460,159" shape="rect" @click="selectRegion('pod10')">
-                                    <area alt="pod11" title="pod11" coords="374,164,415,194" shape="rect" @click="selectRegion('pod11')">
-                                    <area alt="pod12" title="pod12" coords="419,164,461,194" shape="rect" @click="selectRegion('pod12')">
-                                    <area alt="pod13" title="pod13" coords="266,222,308,252" shape="rect" @click="selectRegion('pod13')">
-                                    <area alt="pod14" title="pod14" coords="311,221,353,252" shape="rect" @click="selectRegion('pod14')">
-                                    <area alt="pod15" title="pod15" coords="266,257,308,287" shape="rect" @click="selectRegion('pod15')">
-                                    <area alt="pod16" title="pod16" coords="312,255,353,287" shape="rect" @click="selectRegion('pod16')">
-                                </map>
-                                <small>If no space is chosen, you will be randomly assigned.</small>
+                                <floorplan v-bind:srcimg="srcimg" @clicked="onClickChild"></floorplan>
+
+                                <small>If no space is chosen, you will be assigned to one upon arrival.</small>
                                 
                                 <b-form-group id="input-group-1" label="Start Date:" label-for="datepicker">
                                     <b-form-datepicker
@@ -198,8 +178,6 @@
     
     <script src="navbar.js"></script>
     <script>
-        ImageMap('img[usemap]')
-
         Vue.component('radar', {
             extends: VueChartJs.Radar,
             props: ['data'],
@@ -229,6 +207,59 @@
                         :img-src="'./images/listing/'+image"
                         ></b-carousel-slide>`
         })
+
+        Vue.component('floorplan', {
+            props: ['srcimg'],
+            data: function (){
+                return {
+                    area: "None Chosen"
+                }
+            },
+            mounted: function () {
+                ImageMap('img[usemap]')
+            },
+            template: `
+            <div>
+                <img :src="srcimg" usemap="#image-map">
+                <map name="image-map">
+                    <area alt="conf" title="conf" coords="12,12,108,179" shape="rect" @click="selectRegion('conf')">
+                    <area alt="office1" title="office1" coords="114,14,190,68" shape="rect" @click="selectRegion('office1')">
+                    <area alt="office2" title="office2" coords="195,14,274,68" shape="rect" @click="selectRegion('office2')">
+                    <area alt="office3" title="office3" coords="278,14,352,69" shape="rect" @click="selectRegion('office3')">
+                    <area alt="pod1" title="pod1" coords="156,129,200,159" shape="rect" @click="selectRegion('pod1')">
+                    <area alt="pod2" title="pod2" coords="203,128,245,159" shape="rect" @click="selectRegion('pod2')">
+                    <area alt="pod3" title="pod3" coords="157,164,200,195" shape="rect" @click="selectRegion('pod3')">
+                    <area alt="pod4" title="pod4" coords="204,163,245,195" shape="rect" @click="selectRegion('pod4')">
+                    <area alt="pod5" title="pod5" coords="265,130,308,159" shape="rect" @click="selectRegion('pod5')">
+                    <area alt="pod6" title="pod6" coords="312,130,353,159" shape="rect" @click="selectRegion('pod6')">
+                    <area alt="pod7" title="pod7" coords="265,164,308,194" shape="rect" @click="selectRegion('pod7')">
+                    <area alt="pod8" title="pod8" coords="311,164,353,195" shape="rect" @click="selectRegion('pod8')">
+                    <area alt="pod9" title="pod9" coords="373,130,416,160" shape="rect" @click="selectRegion('pod9')">
+                    <area alt="pod10" title="pod10" coords="420,131,460,159" shape="rect" @click="selectRegion('pod10')">
+                    <area alt="pod11" title="pod11" coords="374,164,415,194" shape="rect" @click="selectRegion('pod11')">
+                    <area alt="pod12" title="pod12" coords="419,164,461,194" shape="rect" @click="selectRegion('pod12')">
+                    <area alt="pod13" title="pod13" coords="266,222,308,252" shape="rect" @click="selectRegion('pod13')">
+                    <area alt="pod14" title="pod14" coords="311,221,353,252" shape="rect" @click="selectRegion('pod14')">
+                    <area alt="pod15" title="pod15" coords="266,257,308,287" shape="rect" @click="selectRegion('pod15')">
+                    <area alt="pod16" title="pod16" coords="312,255,353,287" shape="rect" @click="selectRegion('pod16')">
+                </map>
+            </div>
+            `,
+            methods: {
+                selectRegion(space) {
+                this.srcimg = "images/listings/1001-" + space + ".png"
+                if (space == "conf") {
+                    this.area = "Conference Room"
+                } else if (space.indexOf("office") != -1) {
+                    this.area = "Office " + space.substring(6)
+                } else {
+                    this.area = "Pod " + space.substring(3)
+                }
+                this.$emit('clicked', this.area)
+                },
+            }
+        }
+        )
 
     </script>
     <script>
@@ -305,15 +336,8 @@
             }
         },
         methods: {
-            selectRegion(space) {
-                this.srcimg = "images/listings/1001-" + space + ".png"
-                if (space == "conf") {
-                    this.form.area = "Conference Room"
-                } else if (space.indexOf("office") != -1) {
-                    this.form.area = "Office " + space.substring(6)
-                } else {
-                    this.form.area = "Pod " + space.substring(3)
-                }
+            onClickChild (value) {
+                this.form.area = value 
             },
             displayListingDetails: function(id) {
                 var listing = firebase.database().ref("listing/"+id);
