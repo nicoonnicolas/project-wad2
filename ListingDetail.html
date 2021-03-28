@@ -198,6 +198,8 @@
     
     <script src="navbar.js"></script>
     <script>
+        ImageMap('img[usemap]')
+
         Vue.component('radar', {
             extends: VueChartJs.Radar,
             props: ['data'],
@@ -294,7 +296,6 @@
             let urlParams = new URLSearchParams(window.location.search)
             let listing = urlParams.get('listing')
             this.listing_id = listing
-            ImageMap('img[usemap]')
             this.displayListingDetails(listing);
 
         },
@@ -398,6 +399,11 @@
             width: 70%;
             height: auto;
             margin: auto;
+        }
+        img {
+            display: block;
+            max-width: 100%;
+            height: auto;
         }
 
     </style>
