@@ -171,7 +171,27 @@
 						location.replace("listings.html");
 						sessionStorage.setItem("userId", userID);
 					} else {
-						location.replace("register.html");
+						registerUser(googleUser);
+					}
+				});
+			}
+
+			function registerUser(googleUser) {
+				var profile = googleUser.getBasicProfile();
+				var userID = profile.getId();
+				var userEmail = profile.getEmail();
+				var userFullName = profile.getName();
+				firebase.database().ref('users/' + userID).set({
+					email: userEmail,
+					name: userFullName,
+					role: "customer"
+				}, function (error) {
+					if (error) {
+						alert("Unable to Login using Google!");
+					} else {
+						alert("Welcome to Huddles, " + userFullName);
+						sessionStorage.setItem("userId", userID);
+						location.replace("listings.html");
 					}
 				});
 			}
