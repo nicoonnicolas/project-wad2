@@ -48,7 +48,7 @@
         <div id='app'>
             <!-- --------------------NAVBAR------------------------- -->
             <b-navbar toggleable="lg" type="light" variant="faded">
-                <b-navbar-brand href="index.html">
+                <b-navbar-brand href="listings.html">
                     <b-img src="images\app\logo.JPG" height="70px" width="70px"></b-img> Huddle
                 </b-navbar-brand>
     
@@ -60,7 +60,7 @@
     
                     <!-- Right aligned nav items -->
                     <b-navbar-nav class="ml-auto">
-                        <b-nav-item href="index.html" active>Find a Space</b-nav-item>
+                        <b-nav-item href="listings.html" active>Find a Space</b-nav-item>
                         <b-nav-item href="bookings.html">My Bookings</b-nav-item>
                         <!-- <b-nav-form>
                         <b-form-input size="sm" class="mr-sm-2" placeholder="Search"></b-form-input>
@@ -141,8 +141,10 @@
         <!-- ---------------------------My Bookings--------------------------- -->
         <div id="bookings">
 
-            <h3 style="text-align: center; margin-bottom: 20px;" style="opacity: 0">My Bookings</h3>
-            
+            <div style="opacity: 0" id="moveTitle">
+            <h3 style="text-align: center; margin-bottom: 30px;" >My Bookings</h3>
+            </div>
+
             <div v-if="bookings !== null">
 
                 <!-- <b-card
@@ -182,8 +184,8 @@
                 </b-card>
             </div>
 
-            <div v-else>
-                <h5 style="text-align: center;" id="move2" style="opacity: 0;">You don't have any bookings yet!</h5>
+            <div v-else style="opacity: 0" id="move2">
+                <h5 style="text-align: center;">You don't have any bookings yet!</h5>
             </div>
 
         </div>
@@ -293,7 +295,12 @@
                         }
                     },
 
+                    // animateTitle() {
+                    //     
+                    // },
+
                     animate() {
+                        gsap.fromTo("#moveTitle", {opacity: 0}, {opacity: 1, duration: 0.5});
                         gsap.fromTo("#move", {opacity: 0, x: -300}, {opacity: 1, x: 0, duration: 1});
                         gsap.fromTo("#move2", {opacity: 0}, {opacity: 1, duration: 1});
                     }
