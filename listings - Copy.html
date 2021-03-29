@@ -115,6 +115,7 @@
 						v-for="listing in listings" 
 						v-bind:listing="listing"
 						v-bind:images="'./images/listing/' + listing.images[0]" 
+						v-bind:url="'listingdetails.html?listing=' + listing.number"
 					>
 					</listings>
 				</div>
@@ -166,7 +167,7 @@
 		// })
 
 		Vue.component('listings', {
-			props: ['listing', 'images'],
+			props: ['listing', 'images', 'url'],
 			template: `
 			<div>
 				<b-card no-body bg-variant="light" class="overflow-hidden mb-2" style="max-width: 540px;">
@@ -177,13 +178,14 @@
 						</b-col>
 						<b-col md="6">
 							<b-card-body v-bind:title="listing.name">
-							
+								
 								<b-card-text>
 									<b>Workspace Type: </b>{{listing.type}} <br> 
 									<b>Maximum Capacity: </b>{{listing.capacity}} <br> 
 									<b>Area: </b>{{listing.area}} <br>
 									<b>Address: </b>{{listing.address}} #{{listing.unit}} Singapore {{listing.postal}} <br>
 								</b-card-text>
+								<a v-bind:href="url" class="btn btn-primary stretched-link">Explore</a>
 							</b-card-body>
 						</b-col>
 					</b-row>
