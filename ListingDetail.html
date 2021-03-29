@@ -114,11 +114,12 @@
                             header="Make a booking"
                             header-bg-variant="dark"
                             header-text-variant="white">
-                                <b-form-group id="input-group-3"> Preferred Space: {{form.area}} </b-form-group>
-                                <floorplan v-bind:srcimg="srcimg" @clicked="onClickChild"></floorplan>
-
+                                Preferred Space: {{form.area}} <br>
+                                <small>Please select a space on the map to book it.</small> <br>
                                 <small>If no space is chosen, you will be assigned to one upon arrival.</small>
-                                
+
+                                <floorplan v-bind:srcimg="srcimg"  @update-space="onClickChild"></floorplan>
+
                                 <b-form-group id="input-group-1" label="Start Date:" label-for="datepicker">
                                     <b-form-datepicker
                                         dropdown
@@ -216,11 +217,11 @@
                 }
             },
             mounted: function () {
-                ImageMap('img[usemap]')
+                ImageMap('img[usemap]', 100)
             },
             template: `
             <div>
-                <img :src="srcimg" usemap="#image-map">
+                <img :src="srcimg" usemap="#image-map" @click="selectRegion(null)">
                 <map name="image-map">
                     <area alt="conf" title="conf" coords="12,12,108,179" shape="rect" @click="selectRegion('conf')">
                     <area alt="office1" title="office1" coords="114,14,190,68" shape="rect" @click="selectRegion('office1')">
@@ -247,15 +248,23 @@
             `,
             methods: {
                 selectRegion(space) {
-                this.srcimg = "images/listings/1001-" + space + ".png"
-                if (space == "conf") {
-                    this.area = "Conference Room"
-                } else if (space.indexOf("office") != -1) {
-                    this.area = "Office " + space.substring(6)
-                } else {
-                    this.area = "Pod " + space.substring(3)
-                }
-                this.$emit('clicked', this.area)
+                    if (space == null) {
+                        this.srcimg = "images/listings/1001.png"
+                        this.area = "None Chosen"
+
+                    } else {
+                        this.srcimg = "images/listings/1001-" + space + ".png"
+                        if (space == "conf") {
+                            this.area = "Conference Room"
+                        } else if (space.indexOf("office") != -1) {
+                            this.area = "Office " + space.substring(6)
+                        } else {
+                            this.area = "Pod " + space.substring(3)
+                        }
+                    }
+
+                    this.$emit('update-space', this.area, this.srcimg)
+
                 },
             }
         }
@@ -336,8 +345,11 @@
             }
         },
         methods: {
-            onClickChild (value) {
-                this.form.area = value 
+            onClickChild: function(space, imageurl) {
+                this.form.area = space 
+                this.srcimg = imageurl 
+
+
             },
             displayListingDetails: function(id) {
                 var listing = firebase.database().ref("listing/"+id);
