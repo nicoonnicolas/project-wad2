@@ -21,15 +21,11 @@
     font-style: normal;
 
   }
-$primary-color: rgb(216, 144, 144);
+  
 $my-font: poppinsregular, sans-serif;
 
 body{
     font-family: $my-font;
-}
-
-.btn-primary {
-    background-color: $primary-color;
 }
 
 .img-responsive {
