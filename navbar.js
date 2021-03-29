@@ -2,7 +2,7 @@ Vue.component('huddlenavbar', {
     template: `
         <div>
             <b-navbar toggleable="sm" type="light" variant="faded">
-                <b-navbar-brand href="index.html">
+                <b-navbar-brand href="listings.html">
                     <b-img src="images\\app\\logo.JPG" height="70px" width="70px" class="d-inline-block"></b-img>Huddle
                 </b-navbar-brand>
 
