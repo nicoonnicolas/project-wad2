@@ -48,7 +48,7 @@
         <div id='app'>
             <!-- --------------------NAVBAR------------------------- -->
             <b-navbar toggleable="lg" type="light" variant="faded">
-                <b-navbar-brand href="listings.html">
+                <b-navbar-brand href="listings.html" v-on:click="linkClicked()">
                     <b-img src="images\app\logo.JPG" height="70px" width="70px"></b-img> Huddle
                 </b-navbar-brand>
     
@@ -60,7 +60,7 @@
     
                     <!-- Right aligned nav items -->
                     <b-navbar-nav class="ml-auto">
-                        <b-nav-item href="listings.html" active>Find a Space</b-nav-item>
+                        <b-nav-item href="listings.html" v-on:click="linkClicked()" active>Find a Space</b-nav-item>
                         <b-nav-item href="bookings.html">My Bookings</b-nav-item>
                         <!-- <b-nav-form>
                         <b-form-input size="sm" class="mr-sm-2" placeholder="Search"></b-form-input>
@@ -300,10 +300,27 @@
                     // },
 
                     animate() {
-                        gsap.fromTo("#moveTitle", {opacity: 0}, {opacity: 1, duration: 0.5});
-                        gsap.fromTo("#move", {opacity: 0, x: -300}, {opacity: 1, x: 0, duration: 1});
+                        gsap.fromTo("#moveTitle", {opacity: 0}, {opacity: 1, duration: 0.7});
+                        gsap.fromTo("#move", {opacity: 0, x: -300}, {opacity: 1, x: 0, duration: 1, stagger: 0.4});
                         gsap.fromTo("#move2", {opacity: 0}, {opacity: 1, duration: 1});
+                    },
+
+                    // toListings() {
+                    //     setTimeout(function(){ window.location.href='listings.html';}, 1500);
+                    //     gsap.fromTo("#moveTitle", {opacity: 1}, {opacity: 0, duration: 0.5});
+                    //     gsap.fromTo("#move", {opacity:1 , x: 0}, {opacity: 0, x: 300, duration: 1, stagger: 0.5});
+                    //     gsap.fromTo("#move2", {opacity: 1}, {opacity: 0, duration: 0.5});
+                    // },
+
+                    // Finding a way to animate the elements when leaving the page
+                    linkClicked() {
+                        TweenLite.to($("#box"), 4, {css:{alpha:0, rotation:360, left:200}, onComplete: goToNextPage});
+                    },
+
+                    goToNextPage(){
+                    window.location = "http://localhost/project-wad2/listings.html";
                     }
+
 
                     // checkListingNum(listNum) {
                     //     var allListings = this.allListings;
