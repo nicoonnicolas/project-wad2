@@ -50,7 +50,7 @@
         <div id='app'>
             <huddlenavbar></huddlenavbar>
     
-            <div class=container>
+            <b-container>
                 <b-carousel
                 id="carousel-1"
                 v-model="slide"
@@ -67,12 +67,16 @@
 
 
                 </b-carousel>
-
+                
                 <b-row>
-                    <h2 class="mx-auto">{{name}}</h2>
+                    <b-col class="text-center">
+                        <h2 class="mx-auto">{{name}}</h2>
+                    </b-col>
                 </b-row>
                 <b-row>
-                    <h6 class="mx-auto">{{address}} <a :href="'https://www.google.com/maps/search/?api=1&query='+encoded">(View in maps)</a></h6>
+                    <b-col class="text-center">
+                        <h6>{{address}} <a :href="'https://www.google.com/maps/search/?api=1&query='+encoded">(View in maps)</a></h6>
+                    </b-col>
                 </b-row>
 
                 <b-row>
@@ -173,7 +177,7 @@
 
                     <b-col>
                 </b-row>
-            </div>
+            </b-container>
         </div>
     
     
