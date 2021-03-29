@@ -67,7 +67,7 @@
 
 
                 </b-carousel>
-                
+
                 <b-row>
                     <b-col class="text-center">
                         <h2 class="mx-auto">{{name}}</h2>
@@ -221,7 +221,7 @@
                 }
             },
             mounted: function () {
-                ImageMap('img[usemap]', 100)
+                ImageMap('img[usemap]', 100);
             },
             template: `
             <div>
@@ -253,21 +253,21 @@
             methods: {
                 selectRegion(space) {
                     if (space == null) {
-                        this.srcimg = "images/listings/1001.png"
-                        this.area = "None Chosen"
+                        this.srcimg = "images/listings/1001.png";
+                        this.area = "None Chosen";
 
                     } else {
-                        this.srcimg = "images/listings/1001-" + space + ".png"
+                        this.srcimg = "images/listings/1001-" + space + ".png";
                         if (space == "conf") {
-                            this.area = "Conference Room"
+                            this.area = "Conference Room";
                         } else if (space.indexOf("office") != -1) {
-                            this.area = "Office " + space.substring(6)
+                            this.area = "Office " + space.substring(6);
                         } else {
-                            this.area = "Pod " + space.substring(3)
+                            this.area = "Pod " + space.substring(3);
                         }
                     }
 
-                    this.$emit('update-space', this.area, this.srcimg)
+                    this.$emit('update-space', this.area, this.srcimg);
 
                 },
             }
@@ -337,9 +337,9 @@
             minDate.setDate(minDate.getDate() + 1);
             this.min = minDate;
 
-            let urlParams = new URLSearchParams(window.location.search)
-            let listing = urlParams.get('listing')
-            this.listing_id = listing
+            let urlParams = new URLSearchParams(window.location.search);
+            let listing = urlParams.get('listing');
+            this.listing_id = listing;
             this.displayListingDetails(listing);
 
         },
@@ -350,8 +350,8 @@
         },
         methods: {
             onClickChild: function(space, imageurl) {
-                this.form.area = space 
-                this.srcimg = imageurl 
+                this.form.area = space;
+                this.srcimg = imageurl;
 
 
             },
@@ -361,19 +361,19 @@
                     if (snapshot.val() != null) {
                         details = snapshot.val();
 
-                        this.name = details.name
-                        this.images = details.images
-                        this.address = details.address + " " + details.postal + " #" + details.unit
-                        this.encoded = encodeURIComponent(details.address + details.postal)
-                        this.area = details.area
-                        this.capacity = details.capacity
-                        this.type = details.type
+                        this.name = details.name;
+                        this.images = details.images;
+                        this.address = details.address + " " + details.postal + " #" + details.unit;
+                        this.encoded = encodeURIComponent(details.address + details.postal);
+                        this.area = details.area;
+                        this.capacity = details.capacity;
+                        this.type = details.type;
                         
-                        this.price = details.price
-                        let reviews = details.reviews
+                        this.price = details.price;
+                        let reviews = details.reviews;
                         this.reviewData.datasets[0].data = [details.reviews.ambience, details.reviews.amenities, 
                                                             details.reviews.comfort, details.reviews.location,
-                                                            details.reviews.price, details.reviews.service]
+                                                            details.reviews.price, details.reviews.service];
 
 
                         this.loaded = true;
@@ -424,9 +424,9 @@
 
                 form_details = "listing_id=" + this.listing_id + "&start_date=" + submittedForm.start_date 
                     + "&end_date=" + submittedForm.end_date + "&is_recurring=" + submittedForm.is_recurring 
-                    + "&recurring_days=" + recurring
+                    + "&recurring_days=" + recurring + "&space=" + submittedForm.area;
 
-                location.href = 'payment.html?' + form_details ;
+                location.href = 'payment.html?' + form_details;
             },
         },
 

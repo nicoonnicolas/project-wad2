@@ -22,9 +22,9 @@
 	<script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-database.js"></script>
 	<!-- <script src="https://www.gstatic.com/firebasejs/8.2.6/firebase-auth.js"></script> -->
 
-	<script defer
+	<!-- <script defer
 		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDhBjd0INJO6MpP_SX3vJJFRQzgrc1yCbc&callback=initMap">
-	</script>
+	</script> -->
 
 	<script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
 	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css"/>
@@ -119,6 +119,10 @@
 				</div>
 				<div class="col">
 					<div id="map">
+						<script>
+							console.log(vm.data.listings);
+						</script>
+						<mapping></mapping>
 					</div>
 				</div>
 			</div>
@@ -128,6 +132,26 @@
 
 
 	<script>
+		Vue.component("mapping", {
+			template: `
+			var map = new L.Map("map", {
+				zoom: 15,
+				layers: new L.TileLayer(
+					"https://tile.openstreetmap.org/{z}/{x}/{y}.png"
+				),
+			});
+			console.log(this.listings);
+			for (listing in this.listings){
+				var lat = listing.lat;
+				var long = listing.long;
+				var coordinatesMarker = new L.Marker(lat, long);
+				var popupName = listing.name;
+				coordinatesMarker.bindPopup(popupName);
+				map.addLayer(coordinatesMarker);
+			}
+			`
+		})
+
 		Vue.component('listings', {
 			props: ['listing', 'images'],
 			template: `
@@ -164,7 +188,6 @@
 	</script>
 
 	<script>
-
 		var vm = new Vue({
 			el: '#app',
 			data: {
@@ -190,9 +213,7 @@
 				listings.on("value", (snapshot) => {
 					allListings = snapshot.val();
 					this.listings = allListings;
-
 					this.loaded = true;
-
 				});
 			},
 			methods: {
@@ -216,38 +237,61 @@
 						var listingStart = Date.parse(allListings[listingNum].start);
 						var selectedEnd = Date.parse(this.selectedEndDate);
 						var listingEnd = Date.parse(allListings[listingNum].end);
-						console.log(selectedStart < listingStart && listingEnd > selectedEnd);
+						// console.log(selectedStart < listingStart && listingEnd > selectedEnd);
 						if (listingStart < selectedStart && listingEnd > selectedEnd){
 							foundListing.push(allListings[listingNum]);
 						}
 					}
 					this.listings = foundListing;
-
-				}
+				},
+				// displayMap: function (){
+				// 	var mapCenter = new L.LatLng(1.448344420992953, 103.78570071438713);
+				// 	var map = new L.Map("map", {
+				// 		center: mapCenter,
+				// 		zoom: 16,
+				// 		layers: new L.TileLayer(
+				// 			"https://tile.openstreetmap.org/{z}/{x}/{y}.png"
+				// 		),
+				// 	});
+					
+				// 	var coordinatesMarker = new L.Marker(mapCenter);
+				// 	var popupName = "Testing Center";
+				// 	coordinatesMarker.bindPopup(popupName);
+				// 	map.addLayer(coordinatesMarker);
+				// 	map.invalidateSize();
+				// }
 			},
-
 		})
 
 	</script>
 
 	<script type="text/javascript">
-		
-		var myLocation1 = new L.LatLng(1.448344420992953, 103.78570071438713);
-
+		var mapCenter = new L.LatLng(1.4363507101204407, 103.7859041820477);
+		var allListings = vm.data.listings;
+		console.log(allListings);
 		var map = new L.Map("map", {
-			center: myLocation1,
-			zoom: 20,
+			center: mapCenter,
+			zoom: 16,
 			layers: new L.TileLayer(
 				"https://tile.openstreetmap.org/{z}/{x}/{y}.png"
 			),
 		});
-		var marker1 = new L.Marker(myLocation1);
-
-		// marker1.bindPopup("Hello Location 1");
-
-		map.addLayer(marker1);
-		marker1.bindPopup("Woodlands Station");
-		map.invalidateSize();
+		var coordinatesMarker = new L.Marker(mapCenter);
+		var popupName = "Testing Center";
+		coordinatesMarker.bindPopup(popupName);
+		map.addLayer(coordinatesMarker);
+		// console.log(this.listings);
+		// for (listing in this.listings){
+		// 	var lat = listing.lat;
+		// 	var long = listing.long;
+		// 	console.log(lat + " " + long);
+		// 	var listingCoordinates = new L.LatLng(lat, long);
+		// 	var coordinatesMarker = new L.Marker(listingCoordinates);
+		// 	var popupName = listing.name;
+		// 	coordinatesMarker.bindPopup(popupName);
+		// 	map.addLayer(coordinatesMarker);
+		// }
+		map.invalidateSize(); 
 	</script>
 
 
@@ -263,7 +307,7 @@
 			background-color: grey;
 		}
 		#map {
-			height: 80%;
+			height: 400px;
 			width: 100%
 		}
 	</style>
