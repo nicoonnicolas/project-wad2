@@ -38,10 +38,6 @@
 	    </script>
 
         <style>
-            img {
-                height:100px;
-                width: auto;
-            }
             #row {
                 margin-bottom: 20px;
             }
@@ -144,26 +140,52 @@
 
         <!-- My Bookings -->
         <div id="bookings">
-            <b-container v-if="bookings !== null">
-                <b-row v-for="booking in finalBookings" id="row">
-                    <b-col sm="1"></b-col>
-                    <b-col sm="2">
-                        <img :src=" 'images/listing/' + booking['image'] ">
-                    </b-col>
-                    <b-col>
-                        <!-- launch getListing here to get listing details -->
-                        Name: {{booking["name"]}}<br>
-                        Address: {{booking["address"]}}<br>
-                        Unit: {{booking["unit"]}}<br>
+
+            <h3 style="margin-left: 20px;">My Bookings</h3>
+            
+            <div v-if="bookings !== null">
+                <!-- <b-card
+                    v-for="booking in finalBookings"
+                    :title="booking['name']"
+                    :img-src=" 'images/listing/' + booking['image'] "
+                    img-alt="Image"
+                    img-top
+                    style="max-height: auto; max-width: 20rem; margin: 20px;"
+                >
+
+                    <b-card-text>
+                        {{booking["address"]}}<br>
+                        #{{booking["unit"]}}<br><br>    
                         Date: {{booking["startDate"]}} to {{booking["endDate"]}} <br>
                         Price: ${{booking["totalPrice"]}}
+                    </b-card-text>
 
-                    </b-col>
-                </b-row>
-            </b-container>
+                </b-card> -->
+
+                <b-card no-body class="overflow-hidden" style="max-height: 15rem; margin: 20px;" v-for="booking in finalBookings">
+                    <b-row no-gutters>
+                        <b-col>
+                            <b-card-img :src=" 'images/listing/' + booking['image'] " class="rounded-0"></b-card-img>
+                        </b-col>
+                        <b-col>
+                            <b-card-body :title="booking['name']">
+                                <b-card-text>
+                                    {{booking["address"]}}<br>
+                                    #{{booking["unit"]}}<br><br>    
+                                    Date: {{booking["startDate"]}} to {{booking["endDate"]}} <br>
+                                    Price: ${{booking["totalPrice"]}}
+                                </b-card-text>
+                            </b-card-body>
+                        </b-col>
+                    </b-row>
+                </b-card>
+            </div>
+            
+
             <div v-else>
                 <h5 style="text-align: center;">You don't have any bookings yet!</h5>
             </div>
+
         </div>
 
         <script>
