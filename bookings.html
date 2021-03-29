@@ -148,7 +148,7 @@
                 <b-row v-for="booking in finalBookings" id="row">
                     <b-col sm="1"></b-col>
                     <b-col sm="2">
-                        <img src="\{\{booking['image']\}\}">
+                        <img :src=" 'images/listing/' + booking['image'] ">
                     </b-col>
                     <b-col>
                         <!-- launch getListing here to get listing details -->
