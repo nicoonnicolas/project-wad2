@@ -121,19 +121,14 @@
 				</div>
 				<div class="col">
 					<div id="map">
-						<l-map
-						zoom="13"
-						:center="mapcenter"
-						>
-						<l-tile-layer
-						:attribution="'x'"
-						:url="'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'"
-					  	/>
-					  <l-marker :lat-lng="withPopup">
-
-
-					  </l-marker>
-					</l-map>
+						<l-map zoom="13" :center="mapcenter">
+							<l-tile-layer :attribution="'x'" :url="'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'"/>
+							<l-marker
+								v-for="marker in markers" 
+								v-bind:lat-lng="marker" 
+							>
+							</l-marker>
+						</l-map>
 					</div>
 				</div>
 			</div>
@@ -178,12 +173,12 @@
 						</b-col>
 						<b-col md="6">
 							<b-card-body v-bind:title="listing.name">
-								
 								<b-card-text>
 									<b>Workspace Type: </b>{{listing.type}} <br> 
 									<b>Maximum Capacity: </b>{{listing.capacity}} <br> 
 									<b>Area: </b>{{listing.area}} <br>
 									<b>Address: </b>{{listing.address}} #{{listing.unit}} Singapore {{listing.postal}} <br>
+									<!-- <b>Lat: </b>{{listing.lat}} {{listing.long}} <br> -->
 								</b-card-text>
 								<a v-bind:href="url" class="btn btn-primary stretched-link">Explore</a>
 							</b-card-body>
@@ -227,6 +222,7 @@
 				],
 				mapcenter: "",
 				withPopup: "",
+				markers: [],
 			},
 			created: function () {
 				this.mapcenter = L.latLng(1.3521, 103.8198);
@@ -238,6 +234,10 @@
 				listings.on("value", (snapshot) => {
 					allListings = snapshot.val();
 					this.listings = allListings;
+					for (listings in allListings){
+						latLong = L.latLng(listings.lat, listings.long);
+						this.markers.add(latLong);
+					}
 					this.loaded = true;
 				});
 			},
@@ -253,6 +253,10 @@
 				displayListings: function () {
 					var allListings = this.getAllListings();
 					this.listings = allListings;
+					for (listing in this.listings){
+						var tempArray = L.latLng(listing.lat, listing.long);
+						this.markers.push(tempArray);
+					}
 				},
 				searchListings: function (){
 					var allListings = this.getAllListings();
@@ -268,9 +272,15 @@
 						}
 					}
 					this.listings = foundListing;
+					var tempLatLong = [];
+					this.markers = [];
+					for (listing in this.listings){
+						var tempArray = L.latLng(listing.lat, listing.long);
+						this.markers.push(tempArray);
+					}
 				},
 				// displayMap: function (){
-				// 	var mapCenter = new L.LatLng(1.448344420992953, 103.78570071438713);
+				// 	var mapCenter = new L.latLng(1.448344420992953, 103.78570071438713);
 				// 	var map = new L.Map("map", {
 				// 		center: mapCenter,
 				// 		zoom: 16,
@@ -291,7 +301,7 @@
 	</script>
 
 	<!-- <script type="text/javascript">
-		var mapCenter = new L.LatLng(1.4363507101204407, 103.7859041820477);
+		var mapCenter = new L.latLng(1.4363507101204407, 103.7859041820477);
 		var allListings = vm.data.listings;
 		console.log(allListings);
 		var map = new L.Map("map", {
