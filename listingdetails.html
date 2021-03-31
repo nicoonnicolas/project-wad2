@@ -64,22 +64,25 @@
 
                 <carou-slide v-for="image in images" v-bind:image="image" ></carou-slide>
 
-
                 </b-carousel>
 
-                <b-row>
+                <br>
+
+                <b-row id="name">
                     <b-col class="text-center">
                         <h2 class="mx-auto">{{name}}</h2>
                     </b-col>
                 </b-row>
-                <b-row>
+                <b-row id="address">
                     <b-col class="text-center">
                         <h6>{{address}} <a :href="'https://www.google.com/maps/search/?api=1&query='+encoded">(View in maps)</a></h6>
                     </b-col>
                 </b-row>
 
-                <b-row>
-                    <b-col sm="12" md="6" lg="6">
+                <br>
+
+                <b-row id="content">
+                    <b-col sm="12" md="6" lg="6" id="col1">
                         <div>
                             <b-table-simple hover small caption-top responsive>
                               <b-thead head-variant="dark">
@@ -111,17 +114,19 @@
                         <radar v-if="loaded" v-bind:data="reviewData"></radar>
                     </b-col>
 
-                    <b-col sm="12" md="6" lg="6">
+                    <b-col sm="12" md="6" lg="6" id="col2">
                         <b-form @reset="onReset" @submit="onSubmit">
                             <b-card         
                             header="Make a booking"
                             header-bg-variant="dark"
                             header-text-variant="white">
-                                Preferred Space: {{form.area}} <br>
+                                <b>Preferred Space: {{form.area}}</b> <br>
                                 <small>Please select a space on the map to book it.</small> <br>
                                 <small>If no space is chosen, you will be assigned to one upon arrival.</small>
 
                                 <floorplan v-bind:srcimg="srcimg"  @update-space="onClickChild"></floorplan>
+
+                                <br>
 
                                 <b-form-group id="input-group-1" label="Start Date:" label-for="datepicker">
                                     <b-form-datepicker
@@ -173,7 +178,8 @@
                                 </b-col>
                             </b-form-row>
                           </b-form>
-
+                          <br>
+                          <br>
                     <b-col>
                 </b-row>
             </b-container>
@@ -181,6 +187,7 @@
     
     
     <script src="navbar.js"></script>
+
     <script>
         Vue.component('radar', {
             extends: VueChartJs.Radar,
@@ -347,6 +354,9 @@
                 return loaded;
             }
         },
+        mounted: function() {
+            this.animate();
+        },
         methods: {
             onClickChild: function(space, imageurl) {
                 this.form.area = space;
@@ -427,6 +437,13 @@
 
                 location.href = 'payment.html?' + form_details;
             },
+            animate() {
+                gsap.fromTo("#carousel-1", {opacity: 0, x: -300}, {opacity: 1, x: 0, duration: 1}).delay(1);
+                gsap.fromTo("#name", {opacity: 0, x: -300}, {opacity: 1, x: 0, duration: 1}).delay(1.5);
+                gsap.fromTo("#address", {opacity: 0, x: -300}, {opacity: 1, x: 0, duration: 1}).delay(2);
+                gsap.fromTo("#col2", {opacity: 0, x: -300}, {opacity: 1, x: 0, duration: 1}).delay(2.5);
+                gsap.fromTo("#col1", {opacity: 0, x: -300}, {opacity: 1, x: 0, duration: 1}).delay(3);
+            }
         },
 
     })
@@ -435,7 +452,7 @@
 
     <style lang="scss">
         #carousel-1 {
-            width: 70%;
+            width: 60%;
             height: auto;
             margin: auto;
         }
@@ -443,6 +460,10 @@
             display: block;
             max-width: 100%;
             height: auto;
+        }
+        #content {
+            padding-left: 30px;
+            padding-right: 30px;
         }
 
     </style>
