@@ -88,8 +88,8 @@
 					</listings>
 				</div>
 				<div class="col">
-					<div id="map">
-						<l-map zoom="13" :center="mapcenter">
+					<div v-if="loaded" id="map">
+						<l-map zoom="11" :center="mapcenter" ref="mymap">
 							<l-tile-layer :attribution="'x'" :url="'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'"/>
 							<l-marker
 								v-for="marker in markers" 
@@ -192,6 +192,7 @@
 				mapcenter: "",
 				withPopup: "",
 				markers: [],
+				loaded: false
 			},
 			created: function () {
 				this.mapcenter = L.latLng(1.3521, 103.8198);
@@ -200,18 +201,20 @@
 
 				var listings = firebase.database().ref("listing/");
 				allListings = "";
-				var tempLatLongList = [];
 				listings.on("value", (snapshot) => {
 					allListings = snapshot.val();
 					this.listings = allListings;
-					this.loaded = true;
-				});
 
-				for (listings in allListings){
-					var latLong = L.latLng(listings.lat, listings.long);
-					tempLatLongList.add(latLong);
-				}
-				this.markers = tempLatLongList;
+					var tempLatLongList = [];
+
+					Object.keys(allListings).forEach(function(key) {
+						let listing = allListings[key]
+						let latLong = L.latLng(listing.lat, listing.long);
+						tempLatLongList.push(latLong);
+					});
+					this.markers = tempLatLongList;
+					this.loaded = true
+				});
 			},
 			methods: {
 				getAllListings: function () {
@@ -354,7 +357,7 @@
 			background-color: grey;
 		}
 		#map {
-			height: 400px;
+			height: 500px;
 			width: 100%
 		}
 	</style>
