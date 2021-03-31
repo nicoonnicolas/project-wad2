@@ -75,7 +75,7 @@
                 </b-row>
                 <b-row id="address">
                     <b-col class="text-center">
-                        <h6>{{address}} <a :href="'https://www.google.com/maps/search/?api=1&query='+encoded">(View in maps)</a></h6>
+                        <h6>{{address}} <a :href="'https://www.google.com/maps/dir/?api=1&destination='+encoded">(View in maps)</a></h6>
                     </b-col>
                 </b-row>
 
@@ -373,7 +373,7 @@
                         this.name = details.name;
                         this.images = details.images;
                         this.address = details.address + " " + details.postal + " #" + details.unit;
-                        this.encoded = encodeURIComponent(details.address + details.postal);
+                        this.encoded = encodeURIComponent(details.address + " " + details.postal);
                         this.area = details.area;
                         this.capacity = details.capacity;
                         this.type = details.type;
