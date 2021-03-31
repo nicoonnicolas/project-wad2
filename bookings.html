@@ -37,8 +37,18 @@
                 // firebase.analytics();
 	    </script>
 
-        <style>
+        <style lang="scss">
             #row {
+                margin-bottom: 20px;
+            }
+            #title {
+                text-align: center; margin-bottom: 30px;
+            }
+            #move {
+                max-height: 20rem;
+                height: auto;
+                width: 60%;
+                margin: auto;
                 margin-bottom: 20px;
             }
         </style>
@@ -140,32 +150,15 @@
 
         <!-- ---------------------------My Bookings--------------------------- -->
         <div id="bookings">
+            <huddlenavbar></huddlenavbar>
 
             <div style="opacity: 0" id="moveTitle">
-            <h3 style="text-align: center; margin-bottom: 30px;" >My Bookings</h3>
+            <h2 id="title">My Bookings</h2>
             </div>
 
             <div v-if="bookings !== null">
 
-                <!-- <b-card
-                    v-for="booking in finalBookings"
-                    :title="booking['name']"
-                    :img-src=" 'images/listing/' + booking['image'] "
-                    img-alt="Image"
-                    img-top
-                    style="max-height: auto; max-width: 20rem; margin: 20px;"
-                >
-
-                    <b-card-text>
-                        {{booking["address"]}}<br>
-                        #{{booking["unit"]}}<br><br>    
-                        Date: {{booking["startDate"]}} to {{booking["endDate"]}} <br>
-                        Price: ${{booking["totalPrice"]}}
-                    </b-card-text>
-
-                </b-card> -->
-
-                <b-card no-body class="overflow-hidden" style="max-height: 20rem; height: auto; width: 60%; margin: auto; margin-bottom: 20px;" v-for="booking in finalBookings" id="move">
+                <b-card no-body class="overflow-hidden" v-for="booking in finalBookings" id="move">
                     <b-row no-gutters>
                         <b-col>
                             <b-card-img :src=" 'images/listing/' + booking['image'] " class="rounded-0"></b-card-img>
@@ -301,7 +294,7 @@
 
                     animate() {
                         gsap.fromTo("#moveTitle", {opacity: 0}, {opacity: 1, duration: 0.7});
-                        gsap.fromTo("#move", {opacity: 0, x: -300}, {opacity: 1, x: 0, duration: 1, stagger: 0.4});
+                        gsap.fromTo("#move", {opacity: 0, x: -300}, {opacity: 1, x: 0, duration: 1, stagger: 0.5}).delay(0.5);
                         gsap.fromTo("#move2", {opacity: 0}, {opacity: 1, duration: 1});
                     },
 
