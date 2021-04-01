@@ -242,7 +242,7 @@
                         if(confirm("Would you like to cancel your booking?")) {
                             let ref = firebase.database().ref("booking/" + bookingID);
                             ref.remove();
-                            window.location.reload(false); 
+                            window.location.reload(false);
                         }
                     },
 
