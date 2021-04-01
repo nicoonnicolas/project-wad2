@@ -44,13 +44,24 @@
             #title {
                 text-align: center; margin-bottom: 30px;
             }
+            #moveTitle {
+                opacity: 0;
+            }
             #move {
-                max-height: 20rem;
+                /* max-height: 20rem; */
                 height: auto;
                 width: 60%;
                 margin: auto;
                 margin-bottom: 20px;
             }
+            #cancel {
+                float: right;
+                background-color: rgb(220, 53, 69);
+                border: none;
+            }
+            /* #noBookings {
+                opacity: 0;
+            } */
         </style>
     </head>
 
@@ -59,17 +70,17 @@
             <huddlenavbar></huddlenavbar>
 
             <!-- ---------------------------My Bookings--------------------------- -->
-            <div style="opacity: 0" id="moveTitle">
+            <div id="moveTitle">
                 <h2 id="title">My Bookings</h2>
             </div>
 
             <div v-if="bookings !== null">
                 <b-card no-body class="overflow-hidden" v-for="booking in finalBookings" id="move">
                     <b-row no-gutters>
-                        <b-col>
+                        <b-col lg>
                             <b-card-img :src=" 'images/listing/' + booking['image'] " class="rounded-0"></b-card-img>
                         </b-col>
-                        <b-col sm>
+                        <b-col md>
                             <b-card-body :title="booking['name']">
                                 <b-card-text>
                                     {{booking["address"]}}<br>
@@ -77,19 +88,25 @@
                                     Date: {{booking["startDate"]}} to {{booking["endDate"]}} <br>
                                     Price: ${{booking["totalPrice"]}}
                                 </b-card-text>
+                                <b-button id="cancel" v-on:click="cancel(booking['bookingID'])">
+                                    Cancel Booking
+                                </b-button>
+                                <br>
                             </b-card-body>
                         </b-col>
                     </b-row>
                 </b-card>
             </div>
 
-            <div v-else style="opacity: 0" id="move2">
-                <h5 style="text-align: center;">You don't have any bookings yet!</h5>
+            <div v-else>
+                <h5 style="text-align: center;" id="noBookText">You don't have any bookings yet!</h5>
             </div>
 
         </div>
         
         <script src="navbar.js"></script>
+        <script src="navbar.js"></script>
+
         <script>
             var vm = new Vue({
                 el: '#app',
@@ -114,23 +131,26 @@
                 },
                 methods: {
                     userData: function() {
+                        
+                        var userID = sessionStorage.getItem("userId");
+
                         // Filters '/booking' object based on user ID, which can be found in /users. I think you will need to link up with Nicholas on how to get User ID! For now I just harded coded the User ID in .equalTo(), this is the only part you need to change in future
-                        var bookings = firebase.database().ref("booking").orderByChild("user").equalTo("107797752277618949799").on("value", (snapshot) => {
+                        var bookings = firebase.database().ref("booking").orderByChild("user").equalTo(userID).on("value", (snapshot) => {
 
                             // store snapshot.val() in your own variable
 
                             var foundBooking = [];
                             
                             for (j in snapshot.val()) {
-                                var bookingName = j;
-                                var obj = snapshot.val()[bookingName];
+                                var bookingID = j;
+                                var obj = snapshot.val()[bookingID];
 
                                 var startDate = obj.startDate;
                                 var endDate = obj.endDate;
                                 var totalPrice = obj.totalPrice;
                                 var listing_id = obj.listing_id;
 
-                                foundBooking.push({listing_id, startDate, endDate, totalPrice});
+                                foundBooking.push({bookingID, listing_id, startDate, endDate, totalPrice});
                             }
 
                             if(foundBooking.length > 0) {
@@ -146,6 +166,7 @@
                                             if (b.listing_id === i.listing_id) {
                                                 
                                                 // b
+                                                var bookingID = b.bookingID;
                                                 var startDate = b.startDate;
                                                 var endDate = b.endDate;
                                                 var totalPrice = b.totalPrice;
@@ -158,7 +179,7 @@
                                                 var capacity = i.capacity;
                                                 var image = i.image;
                                                 
-                                                finalBookings.push({name, address, unit, postal, capacity, image, startDate, endDate, totalPrice});
+                                                finalBookings.push({bookingID, name, address, unit, postal, capacity, image, startDate, endDate, totalPrice});
                                             }
                                         }
                                     }
@@ -208,7 +229,14 @@
                     animate() {
                         gsap.fromTo("#moveTitle", {opacity: 0}, {opacity: 1, duration: 0.7});
                         gsap.fromTo("#move", {opacity: 0, x: -300}, {opacity: 1, x: 0, duration: 1, stagger: 0.5}).delay(0.5);
-                        gsap.fromTo("#move2", {opacity: 0}, {opacity: 1, duration: 1});
+                    },
+                    cancel(bookingID) {
+                        var div = document.createElement("div");
+                        if(confirm("Would you like to cancel your booking?")) {
+                            let ref = firebase.database().ref("booking/" + bookingID);
+                            ref.remove();
+                            console.log("success!");
+                        }
                     },
 
                     // toListings() {
@@ -219,15 +247,8 @@
                     // },
 
                     // Finding a way to animate the elements when leaving the page
-                    linkClicked() {
-                        TweenLite.to($("#box"), 4, {css:{alpha:0, rotation:360, left:200}, onComplete: goToNextPage});
-                    },
-
-                    goToNextPage(){
-                    window.location = "http://localhost/project-wad2/listings.html";
-                    }
-                },
-    
+                  
+                }
             })
         </script>
     </body>
