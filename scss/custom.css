@@ -13248,10 +13248,70 @@ body {
   font-family: poppinsregular, sans-serif;
 }
 
-.img-responsive {
-  max-width: 70%;
+.header__carousel {
+  background: #ababab;
+  text-shadow: 1px 1px 2px #333;
+  max-width: 1000px;
+  position: relative;
+  margin: auto;
+}
+.header__carousel__image {
+  display: block;
+  max-width: 100%;
   max-height: auto;
   background-color: #fff;
+}
+.header__subheader {
+  font-style: italic;
+}
+.header__subheader__link {
+  font-style: normal;
+}
+
+.listing {
+  padding-left: 30px;
+  padding-right: 30px;
+}
+.listing__details {
+  margin-bottom: 20px;
+}
+.listing__details__table {
+  overflow-x: hidden;
+}
+.listing__details__table__title {
+  padding: 20px 15px !important;
+  text-transform: uppercase;
+  border: 0 !important;
+  text-align: center;
+  background-color: #a2d4dd;
+}
+.listing__details__cell {
+  border-right: 4px solid #a2d4dd;
+  border-left: 4px solid #a2d4dd;
+  text-align: center;
+}
+.listing__details__cell__header {
+  text-transform: uppercase !important;
+}
+.listing__details__cell--close {
+  border-bottom: 3px solid #a2d4dd !important;
+}
+.listing__form__subheader {
+  padding: 3px;
+  border-bottom: 3px solid #a2d4dd;
+}
+.listing__form__desc {
+  margin: 3px;
+}
+.listing__form__floorplan {
+  max-width: 448;
+  position: relative;
+  margin: auto;
+}
+.listing__form__floorplan__image {
+  display: block;
+  max-width: 100%;
+  max-height: auto;
 }
 
 /*# sourceMappingURL=custom.css.map */
