@@ -59,9 +59,10 @@
                 background-color: rgb(220, 53, 69);
                 border: none;
             }
-            /* #noBookings {
+            #noBookText {
+                text-align: center;
                 opacity: 0;
-            } */
+            }
         </style>
     </head>
 
@@ -99,12 +100,11 @@
             </div>
 
             <div v-else>
-                <h5 style="text-align: center;" id="noBookText">You don't have any bookings yet!</h5>
+                <h5 id="noBookText">You don't have any bookings yet!</h5>
             </div>
 
         </div>
-        
-        <script src="navbar.js"></script>
+
         <script src="navbar.js"></script>
 
         <script>
@@ -190,6 +190,10 @@
                                     })
                                 })
                                 
+                            } else {
+                                this.$nextTick(() => {
+                                    this.animate2();
+                                })
                             }
                             
                         })
@@ -230,12 +234,15 @@
                         gsap.fromTo("#moveTitle", {opacity: 0}, {opacity: 1, duration: 0.7});
                         gsap.fromTo("#move", {opacity: 0, x: -300}, {opacity: 1, x: 0, duration: 1, stagger: 0.5}).delay(0.5);
                     },
+                    animate2() {
+                        gsap.fromTo("#noBookText", {opacity: 0}, {opacity: 1, duration: 0.7});
+                    },
                     cancel(bookingID) {
                         var div = document.createElement("div");
                         if(confirm("Would you like to cancel your booking?")) {
                             let ref = firebase.database().ref("booking/" + bookingID);
                             ref.remove();
-                            console.log("success!");
+                            window.location.reload(false); 
                         }
                     },
 
