@@ -81,13 +81,28 @@
 		<div class="container">
 			<div class="row">
 				<div class="col" >
-					<listings data-aos="zoom-in"
+					<!-- <listings data-aos="zoom-in"
 						v-for="listing in listings" 
 						v-bind:listing="listing"
 						v-bind:images="'./images/listing/' + listing.images[0]" 
 						v-bind:url="'listingdetails.html?listing=' + listing.number"
 					>
-					</listings>
+					</listings> -->
+					<div class="overflow-auto">
+						<b-pagination
+						  v-model="currentPage"
+						  :total-rows="rows"
+						  :per-page="perPage"
+						  aria-controls="my-table"
+						></b-pagination>
+						<listings 
+							v-for="listing in listingsPage" 
+							v-bind:listing="listing"
+							v-bind:images="'./images/listing/' + listing.images[0]" 
+							v-bind:url="'listingdetails.html?listing=' + listing.number"
+						>
+						</listings>
+					</div>
 				</div>
 				<div class="col">
 					<div v-if="loaded" id="map">
@@ -171,6 +186,8 @@
 			el: '#app',
 			components: { LMap, LTileLayer, LMarker },
 			data: {
+				perPage: 3,
+        		currentPage: 1,
 				btngrpMargin: false,
 				btngrpNoMargin: true,
 				listings: null,
@@ -192,6 +209,17 @@
 				url:'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
 				attribution:'&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
 				marker: L.latLng(1.3501, 103.8108),
+			},
+			computed: {
+				rows() {
+					return Object.keys(this.listings).length
+				},
+				listingsPage() {
+					// return this.listings
+					// return this.listings.slice((this.currentPage-1)*this.perPage,(this.currentPage-1)*this.perPage+this.perPage)
+					return Object.entries(this.listings).slice((this.currentPage-1)*this.perPage, (this.currentPage-1)*this.perPage+this.perPage).map(entry => entry[1])
+				}
+				
 			},
 			created: function () {
 				AOS.init();
