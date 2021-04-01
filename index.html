@@ -87,17 +87,14 @@
 		</style>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.0/gsap.min.js"></script>
 		<meta name="google-signin-client_id" content="999591178620-sgthqg1ea8e8uo0qiuhstkra6ms3783a.apps.googleusercontent.com"/>
-		<script type="text/javascript" src="vue.js"></script>
 		<script	src="https://apis.google.com/js/platform.js" async defer></script>
 
 		<!-- Firebase Source Files-->
 		<script src="https://www.gstatic.com/firebasejs/8.3.0/firebase-app.js"></script>
-		<script src="https://www.gstatic.com/firebasejs/8.3.0/firebase-analytics.js"></script>
 		<script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-database.js"></script>
-		<script src="https://www.gstatic.com/firebasejs/8.2.6/firebase-auth.js"></script>
 	</head>
 	<body>
-		<b-container class="h-100">
+		<div class="container h-100">
 			<div class="d-flex justify-content-center h-100">
 				<div class="user_card animate__animated animate__fadeIn">
 					<div class="d-flex justify-content-center">
@@ -133,7 +130,7 @@
 					</div>
 				</div>
 			</div>
-		</b-container>
+		</div>
 		<script>
 			//Firebase Configuration
 			var firebaseConfig = {
@@ -155,13 +152,6 @@
 				var profile = googleUser.getBasicProfile();
 				console.log("ID: " + profile.getId()); // Do not send to your backend! Use an ID token instead.
 				checkUserExists(googleUser);
-			}
-
-			function move() {
-				// gsap.to("#head1", { duration: 1, opacity: 0.8, x: "45%" });
-				// gsap.to("#head2", { duration: 2, x: "42%" });
-				// gsap.to("#signInButton", { duration: 2, x: "25%" });
-				// gsap.to("#signOutButton", { duration: 2, x: "46%" });
 			}
 
 			function checkUserExists(googleUser) {
