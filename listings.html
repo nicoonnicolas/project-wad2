@@ -109,7 +109,7 @@
 						<l-map :zoom="zoom" :center="center">
                             <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
                             <l-marker 
-							v-for="marker in markers" 
+							v-for="marker in markersPage" 
 							v-bind:lat-lng="marker" ></l-marker>
                           </l-map>
 					</div>
@@ -217,6 +217,9 @@
 					// return this.listings
 					// return this.listings.slice((this.currentPage-1)*this.perPage,(this.currentPage-1)*this.perPage+this.perPage)
 					return Object.entries(this.listings).slice((this.currentPage-1)*this.perPage, (this.currentPage-1)*this.perPage+this.perPage).map(entry => entry[1])
+				},
+				markersPage() {
+					return Object.entries(this.markers).slice((this.currentPage-1)*this.perPage, (this.currentPage-1)*this.perPage+this.perPage).map(entry => entry[1])
 				}
 				
 			},
