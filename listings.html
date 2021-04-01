@@ -89,13 +89,10 @@
 				</div>
 				<div class="col">
 					<div v-if="loaded" id="map">
-						<l-map zoom="11" :center="mapcenter" ref="mymap">
-							<l-tile-layer :attribution="'x'" :url="'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'"/>
-							<l-marker
-								v-for="marker in markers" 
-								v-bind:lat-lng="marker" 
-							>
-							</l-marker>
+						<l-map :zoom="zoom" :center="mapcenter" >
+							<l-tile-layer :url="mapUrl" :attribution="attribution"/>
+							<l-marker v-for="marker in markers" v-bind:lat-lng="displayMarker(marker)"></l-marker>
+							<!-- <l-marker v-bind:lat-lng="[1.3521, 103.8198]"></l-marker> -->
 						</l-map>
 					</div>
 				</div>
@@ -146,7 +143,7 @@
 									<b>Maximum Capacity: </b>{{listing.capacity}} <br> 
 									<b>Area: </b>{{listing.area}} <br>
 									<b>Address: </b>{{listing.address}} #{{listing.unit}} Singapore {{listing.postal}} <br>
-									<!-- <b>Lat: </b>{{listing.lat}} {{listing.long}} <br> -->
+									<!-- <b>Lat: </b>{{listing.lat}} {{listing.long}} <br>
 								</b-card-text>
 								<a v-bind:href="url" class="btn btn-primary stretched-link">Explore</a>
 							</b-card-body>
@@ -166,37 +163,47 @@
 	</script>
 
 	<script>
+		Vue.component("l-map", window.Vue2Leaflet.LMap);
+		Vue.component("l-tile-layer", window.Vue2Leaflet.LTileLayer);
+		Vue.component("l-marker", window.Vue2Leaflet.LMarker);
+
 		var vm = new Vue({
 			el: '#app',
-			components: {
-				"l-map": window.Vue2Leaflet.LMap,
-				"l-tile-layer": window.Vue2Leaflet.LTileLayer,
-				"l-marker": window.Vue2Leaflet.LMarker,
-				"l-popup": window.Vue2Leaflet.LPopup
-			},
-			data: {
-				btngrpMargin: false,
-				btngrpNoMargin: true,
-				listings: null,
-				type: null,
-				address: "",
-				selected: '*',
-				selectedStartDate: "",
-				selectedEndDate: "",
-				listing_type: [
-					{ value: "*", text: 'All Workspace Types' },
-					{ value: "single", text: 'Single' },
-					{ value: 'group', text: 'Group' },
-					{ value: 'corporate', text: 'Corporate Function' },
-				],
-				mapcenter: "",
-				withPopup: "",
-				markers: [],
-				loaded: false
+			// components: {
+			// 	"l-map": window.Vue2Leaflet.LMap,
+			// 	"l-tile-layer": window.Vue2Leaflet.LTileLayer,
+			// 	"l-marker": window.Vue2Leaflet.LMarker,
+			// 	"l-popup": window.Vue2Leaflet.LPopup
+			// },
+			data() {
+				return {
+					zoom: 11,
+					mapUrl: "http://{s}.tile.osm.org/{z}/{x}/{y}.png",
+					attribution:"&copy; <a href='http://osm.org/copyright'>OpenStreetMap</a> contributors",
+					btngrpMargin: false,
+					btngrpNoMargin: true,
+					listings: null,
+					type: null,
+					address: "",
+					selected: '*',
+					selectedStartDate: "",
+					selectedEndDate: "",
+					listing_type: [
+						{ value: "*", text: 'All Workspace Types' },
+						{ value: "single", text: 'Single' },
+						{ value: 'group', text: 'Group' },
+						{ value: 'corporate', text: 'Corporate Function' },
+					],
+					mapcenter: "",
+					// withPopup: "",
+					markers: [],
+					loaded: false,
+				}
 			},
 			created: function () {
-				this.mapcenter = L.latLng(1.3521, 103.8198);
-				this.withPopup = L.latLng(1.3501, 103.8108);
+				this.mapcenter = [1.3521, 103.8198];
+				// console.log(this.mapcenter);
+				// this.withPopup = L.latLng(1.3501, 103.8108);
 				this.listings = "";
 
 				var listings = firebase.database().ref("listing/");
@@ -204,16 +211,16 @@
 				listings.on("value", (snapshot) => {
 					allListings = snapshot.val();
 					this.listings = allListings;
-
 					var tempLatLongList = [];
 
 					Object.keys(allListings).forEach(function(key) {
-						let listing = allListings[key]
+						let listing = allListings[key];
 						let latLong = L.latLng(listing.lat, listing.long);
 						tempLatLongList.push(latLong);
 					});
 					this.markers = tempLatLongList;
-					this.loaded = true
+					this.loaded = true;
+					// console.log(this.markers);
 				});
 			},
 			methods: {
@@ -246,7 +253,7 @@
 							var listingStart = Date.parse(allListings[listingNum].start);
 							var listingEnd = Date.parse(allListings[listingNum].end);
 							var listingType = allListings[listingNum].type;
-							console.log(selectedStart < listingStart && listingEnd > selectedEnd);
+							// console.log(selectedStart < listingStart && listingEnd > selectedEnd);
 							if (listingStart < selectedStart && listingEnd > selectedEnd && listingType == selectedType){
 								foundListing.push(allListings[listingNum]);
 							}
@@ -280,7 +287,7 @@
 					}
 
 					this.listings = foundListing;
-					console.log(foundListing);
+					// console.log(foundListing);
 					var tempLatLong = [];
 					this.markers = [];
 					for (listing in this.listings){
@@ -293,6 +300,10 @@
 					this.selected = '*';
 					this.selectedStartDate = "";
 					this.selectedEndDate = "";
+				},
+				displayMarker: function(marker){
+					console.log(marker);
+					return marker;
 				}
 				// displayMap: function (){
 				// 	var mapCenter = new L.latLng(1.448344420992953, 103.78570071438713);
