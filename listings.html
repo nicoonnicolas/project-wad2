@@ -95,7 +95,7 @@
 						  :per-page="perPage"
 						  aria-controls="my-table"
 						></b-pagination>
-						<listings 
+						<listings data-aos="zoom-in"
 							v-for="listing in listingsPage" 
 							v-bind:listing="listing"
 							v-bind:images="'./images/listing/' + listing.images[0]" 
@@ -266,47 +266,77 @@
 					var selectedAddress = this.address;
 					var selectedStart = Date.parse(this.selectedStartDate);
 					var selectedEnd = Date.parse(this.selectedEndDate);
-					// console.log(selectedType != "*" && selectedStart != "" && selectedEnd != "");
-					if (selectedType != "*" && selectedStart != "" && selectedEnd != ""){
-						for (listingNum in allListings){
-							var listingStart = Date.parse(allListings[listingNum].start);
-							var listingEnd = Date.parse(allListings[listingNum].end);
-							var listingType = allListings[listingNum].type;
-							// console.log(selectedStart < listingStart && listingEnd > selectedEnd);
-							if (listingStart < selectedStart && listingEnd > selectedEnd && listingType == selectedType){
-								foundListing.push(allListings[listingNum]);
-							}
-						}
-					} 
-					if (selectedType == "*" && selectedStart != "" && selectedEnd != ""){
-						for (listingNum in allListings){
-							var listingStart = Date.parse(allListings[listingNum].start);
-							var listingEnd = Date.parse(allListings[listingNum].end);
-							// console.log(selectedStart < listingStart && listingEnd > selectedEnd);
-							if (listingStart < selectedStart && listingEnd > selectedEnd){
-								foundListing.push(allListings[listingNum]);
-							}
-						}
-					} 
-					if (selectedType != "" && (selectedStart != "" || selectedEnd != "")){
-						for (listingNum in allListings){
-							if (allListings[listingNum].type == selectedType){
-								foundListing.push(allListings[listingNum]);
-							}
-						}
-					} else {
-						for (listingNum in allListings){
-							var listingStart = Date.parse(allListings[listingNum].start);
-							var listingEnd = Date.parse(allListings[listingNum].end);
-							// console.log(selectedStart < listingStart && listingEnd > selectedEnd);
-							if (listingStart < selectedStart && listingEnd > selectedEnd){
-								foundListing.push(allListings[listingNum]);
-							}
+					var filteredListings = [];
+					for (listing in allListings){
+						var listingAddress = listing.address;
+						var listingName = listing.name;
+						if (listingAddress.indexOf(selectedAddress) != -1 || listingName.indexOf(selectedAddress)){
+							filteredListings.push(listing);
 						}
 					}
 
+					/* TODO: Nicolas to continue here */
+					if (selectedStart != "" && selectedEnd != ""){
+						for (listing in filteredListings){
+							var listingStart = listing.start;
+							var listingEnd = listing.end;
+							if (listingStart < selectedStart && listingEnd > selectedEnd ){
+								if (selectedType != "*" && selectedType == listingType) {
+									foundListing.push(filteredListings[listing]);
+								} else {
+									foundListing.push(filteredListings[listing]);
+								}
+							}
+						}
+					} else {
+						for (listing in filteredListings){
+							if (selectedType != "*" && selectedType == listingType) {
+								foundListing.push(filteredListings[listing]);
+							} else {
+								foundListing.push(filteredListings[listing]);
+							}
+						}
+					}
+					// console.log(selectedType != "*" && selectedStart != "" && selectedEnd != "");
+					// if (selectedType != "*" && selectedStart != "" && selectedEnd != ""){
+					// 	for (listingNum in allListings){
+					// 		var listingStart = Date.parse(allListings[listingNum].start);
+					// 		var listingEnd = Date.parse(allListings[listingNum].end);
+					// 		var listingType = allListings[listingNum].type;
+					// 		// console.log(selectedStart < listingStart && listingEnd > selectedEnd);
+					// 		if (listingStart < selectedStart && listingEnd > selectedEnd && listingType == selectedType){
+					// 			foundListing.push(allListings[listingNum]);
+					// 		}
+					// 	}
+					// } 
+					// if (selectedType == "*" && selectedStart != "" && selectedEnd != ""){
+					// 	for (listingNum in allListings){
+					// 		var listingStart = Date.parse(allListings[listingNum].start);
+					// 		var listingEnd = Date.parse(allListings[listingNum].end);
+					// 		// console.log(selectedStart < listingStart && listingEnd > selectedEnd);
+					// 		if (listingStart < selectedStart && listingEnd > selectedEnd){
+					// 			foundListing.push(allListings[listingNum]);
+					// 		}
+					// 	}
+					// } 
+					// if (selectedType != "" && (selectedStart != "" || selectedEnd != "")){
+					// 	for (listingNum in allListings){
+					// 		if (allListings[listingNum].type == selectedType){
+					// 			foundListing.push(allListings[listingNum]);
+					// 		}
+					// 	}
+					// } else {
+					// 	for (listingNum in allListings){
+					// 		var listingStart = Date.parse(allListings[listingNum].start);
+					// 		var listingEnd = Date.parse(allListings[listingNum].end);
+					// 		// console.log(selectedStart < listingStart && listingEnd > selectedEnd);
+					// 		if (listingStart < selectedStart && listingEnd > selectedEnd){
+					// 			foundListing.push(allListings[listingNum]);
+					// 		}
+					// 	}
+					// }
+
 					this.listings = foundListing;
-					// console.log(foundListing);
 					var tempLatLong = [];
 					this.markers = [];
 					for (listing in this.listings){
