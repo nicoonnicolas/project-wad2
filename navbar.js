@@ -16,7 +16,7 @@ Vue.component('huddlenavbar', {
                     <b-navbar-nav class="ml-auto">
                         <b-nav-item href="listings.html" active>Find a Space</b-nav-item>
                         <b-nav-item href="bookings.html">My Bookings</b-nav-item>
-                        <b-nav-item href="#" v-on:click="signOut()">Sign Out</b-nav-item>
+                        <b-nav-item href="logout.html" v-on:click="signOut()">Sign Out</b-nav-item>
 
                     </b-navbar-nav>
                 </b-collapse>
