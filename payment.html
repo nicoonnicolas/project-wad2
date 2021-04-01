@@ -5,7 +5,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<script type="text/javascript" src="vue.js"></script>
 
-	<link type="text/css" rel="stylesheet" href="bootstrap-vue-dev/custom.css" />
+	<link type="text/css" rel="stylesheet" href="scss/custom.css" />
 
 	<!-- Load Vue followed by BootstrapVue -->
 	<script src="https://unpkg.com/vue@latest/dist/vue.min.js"></script>
@@ -100,7 +100,7 @@
 				</b-col>
 				<b-col md align-self="center" class="m-5">
 					<b-jumbotron class="mt-5">
-						<h2>Order Details</h2>
+						<h4>Order Details</h4>
 						<b-table borderless thead-class="d-none" :items="table"></b-table>
 						<div class="mt-2" ref='paypal'></div>
 					</b-jumbotron>
@@ -160,8 +160,9 @@
 				let uri = window.location.search
 				let params = new URLSearchParams(uri);
 
-				this.booking.user = params.get("user")
-				// user = user_id
+				// this.booking.user = params.get("user")
+				this.booking.user = user_id
+				// console.log(user)
 				this.booking.listing_id = params.get("listing_id")
 				this.booking.startDate = params.get("start_date")
 				this.booking.endDate = params.get("end_date")
