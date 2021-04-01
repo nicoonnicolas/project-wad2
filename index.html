@@ -5,12 +5,12 @@
 
 		<!--Styling for Login-->
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous"/>
-		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous"/>
-		<link type="text/css" rel="stylesheet" href="bootstrap-vue-dev/custom.css" />
+		<!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous"/> -->
+		<link type="text/css" rel="stylesheet" href="scss/index.css" />
 		<link href="scss/hover-min.css" rel="stylesheet">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 
-		<style>
+		<!-- <style>
 			body,
 			html {
 				margin: 0;
@@ -84,7 +84,7 @@
 				margin-bottom: 20px;
 
 			}
-		</style>
+		</style> -->
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.0/gsap.min.js"></script>
 		<meta name="google-signin-client_id" content="999591178620-sgthqg1ea8e8uo0qiuhstkra6ms3783a.apps.googleusercontent.com"/>
 		<script	src="https://apis.google.com/js/platform.js" async defer></script>
@@ -94,20 +94,20 @@
 		<script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-database.js"></script>
 	</head>
 	<body>
-		<div class="container h-100">
-			<div class="d-flex justify-content-center h-100">
-				<div class="user_card animate__animated animate__zoomIn">
-					<div class="d-flex justify-content-center">
-						<div class="brand_logo_container">
-							<img src="images/app/logo.JPG" class="brand_logo hvr-wobble-top" alt="Logo"/>
+		<div class="c">
+			<div class="c__container">
+				<div class="c__card animate__animated animate__zoomIn">
+					<div class="c__container">
+						<div class="c__logo">
+							<img src="images/app/logo.JPG" class="c__logo__image hvr-wobble-top" alt="Logo"/>
 						</div>
 					</div>
-					<div class="d-flex justify-content-center form_container">
+					<!-- <div class="c__container">
 						<form>
 							<div id="login_text">Huddle</div>
-							<div class="input-group mb-3">
+							<div class="c__login__input mb-3">
 								<div class="input-group-append">
-									<span class="input-group-text"><i class="fas fa-user"></i
+									<span class="c__login__input"><i class="fas fa-user"></i
 									></span>
 								</div>
 								<input type="text" name="" class="form-control input_user" value="" placeholder="username"/>
@@ -118,13 +118,13 @@
 								</div>
 								<input type="password" name="" class="form-control input_pass" value="" placeholder="password"/>
 							</div>
-							<div class="d-flex justify-content-center mt-3 login_container">
+							<div class="c__container mt-3 login_container">
 								<button	type="button" name="button" class="btn btn-dark">Login</button>
 							</div>
 						</form>
-					</div>
-					<div class="mt-4">
-						<div class="d-flex justify-content-center links">
+					</div> -->
+					<div class="c__login">
+						<div class="c__container links">
 							<div id="signInButton" class="g-signin2" data-onsuccess="onSignIn"></div>
 						</div>
 					</div>
@@ -148,7 +148,19 @@
 			firebase.initializeApp(firebaseConfig);
 			firebase.analytics();
 
+			function renderButton(){
+				gapi.signin2.render('signInButton', {
+					'scope': 'profile email',
+					'width': 240,
+					'height': 50,	
+					'longtitle': true,
+					'theme': 'dark',
+					'onsuccess': onSignIn,
+					// 'onfailure': onFailure
+				});
+			}
 			function onSignIn(googleUser) {
+				
 				var profile = googleUser.getBasicProfile();
 				console.log("ID: " + profile.getId()); // Do not send to your backend! Use an ID token instead.
 				checkUserExists(googleUser);
@@ -188,5 +200,7 @@
 				});
 			}
 		</script>
+		  <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
+
 	</body>
 </html>

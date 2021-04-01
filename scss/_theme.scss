@@ -1,0 +1,30 @@
+// Contains default font, theme colours. Add elements you want to be applied across all pages
+
+@import 'bootstrap.min';
+@import 'bootstrap-vue.min';
+
+@font-face {
+		font-family: 'poppinsregular';
+		src: url('http://localhost/project-wad2/scss/fonts/poppins-regular-webfont.woff2') format('woff2'),
+			url('http://localhost/project-wad2/scss/fonts/poppins-regular-webfont.woff') format('woff');
+		font-weight: normal;
+		font-style: normal;
+  
+  }
+  
+  @font-face {
+		font-family: 'poppinslight';
+		src: url('http://localhost/project-wad2/scss/fonts/poppins-light-webfont.woff2') format('woff2'),
+			url('http://localhost/project-wad2/scss/fonts/poppins-light-webfont.woff') format('woff');
+		font-weight: normal;
+		font-style: normal;
+
+  }
+  
+$my-font: poppinsregular, sans-serif;
+$primary-colour: #a2d4dd;
+
+body{
+	font-family: $my-font;
+}
+

@@ -1,0 +1,131 @@
+@import "bootstrap.min";
+@import "theme";
+
+$background_image: url("../images/app/bg.svg");
+body {
+	background: $background_image;
+}
+
+@mixin container($uid: container, $small: 640px, $medium: 768px, $large: 1024px, $xlarge: 1280px) {
+	$container: (
+	  '': 100%,
+	  '-sm': $small,
+	  '-md': $medium,
+	  '-lg': $large,
+	  '-xl': $xlarge,
+	);
+	@each $prop, $value in $container {
+	  .#{$uid}#{$prop} {
+		max-width: $value;
+	  }
+	}
+  }
+
+// DRY (Don't Repeat Your CSS!) functions to implement flexbox
+@function getJustify($arg) {
+	$justify: (
+		"sa": space-around,
+		"sb": space-between,
+		"se": space-evenly,
+		"c": center,
+		"fs": flex-start,
+		"fe": flex-end,
+	);
+
+	@each $key, $value in $justify {
+		@if ($key == $arg) {
+			@return $value;
+		}
+	}
+}
+
+//Get the value for align-items
+@function checkAlign($arg) {
+	$align: (
+		"b": baseline,
+		"s": stretch,
+		"c": center,
+		"fs": flex-start,
+		"fe": flex-end,
+	);
+
+	@each $key, $value in $align {
+		@if ($key == $arg) {
+			@return $value;
+		}
+	}
+}
+
+@mixin d-flex() {
+	display: flex;
+	@content;
+}
+
+//center login
+@mixin centerer {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+body {
+	background: $background_image;
+}
+
+.c {
+	// @extend .container;
+	@include container;
+	@include centerer;
+
+	&__container {
+		@include d-flex {
+			justify-content: getJustify(c);
+			align-items: checkAlign(c);
+		}
+
+		&__form {
+			margin-top: 60px;
+		}
+	}
+	&__card {
+		@include d-flex {
+			justify-content: getJustify(c);
+		}
+		height: 400px;
+		width: 350px;
+		margin-top: auto;
+		margin-bottom: auto;
+		background: lightblue;
+		position: relative;
+		flex-direction: column;
+		padding: 10px;
+		box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19) !important;
+		-webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+		-moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19) !important;
+		border-radius: 5px;
+	}
+	&__logo {
+		position: absolute;
+		height: 170px;
+		width: 170px;
+		top: -75px;
+		border-radius: 50%;
+		background: #60a3bc;
+		padding: 10px;
+		text-align: center;
+
+		&__image {
+			height: 150px;
+			width: 150px;
+			border-radius: 50%;
+			border: 2px solid white;
+		}
+	}
+
+	&__login{
+		margin-top: 4px;
+
+
+	}
+}
