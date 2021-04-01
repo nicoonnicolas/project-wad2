@@ -17,6 +17,8 @@
 	<!-- Load the following for BootstrapVueIcons support -->
 	<script src="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue-icons.min.js"></script>
 	<link href="scss/hover-min.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
 
 
 </head>
@@ -28,10 +30,12 @@
 			<huddlenavbar></huddlenavbar>
 		</div>
 		<div class="text-center my-auto">
-			<h1 class="display-3">Thank You!</h1>
+			<h1 class="display-3 animate__animated animate__tada">Thank You!</h1>
 			<p class="lead"><strong>Please check your <a class="text-muted" href="bookings.html">bookings</a></strong> to view your booking details.</p>
 			<hr>
-			<a href="./listings.html">Return to homepage</a>
+			<div class="animate__animated animate__pulse animate__slower animate__infinite">
+				<a href="./listings.html">Return to homepage</a>
+			</div>
 		  </div>		
 		
 	</div>
