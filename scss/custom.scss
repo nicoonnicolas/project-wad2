@@ -2,11 +2,11 @@
 @import 'bootstrap-vue.min';
 
 @font-face {
-    font-family: 'poppinsregular';
-    src: url('http://localhost/project-wad2/scss/fonts/poppins-regular-webfont.woff2') format('woff2'),
-         url('http://localhost/project-wad2/scss/fonts/poppins-regular-webfont.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
+		font-family: 'poppinsregular';
+		src: url('http://localhost/project-wad2/scss/fonts/poppins-regular-webfont.woff2') format('woff2'),
+			url('http://localhost/project-wad2/scss/fonts/poppins-regular-webfont.woff') format('woff');
+		font-weight: normal;
+		font-style: normal;
   
   }
   
@@ -14,22 +14,106 @@
   
   
   @font-face {
-    font-family: 'poppinslight';
-    src: url('http://localhost/project-wad2/scss/fonts/poppins-light-webfont.woff2') format('woff2'),
-         url('http://localhost/project-wad2/scss/fonts/poppins-light-webfont.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
+		font-family: 'poppinslight';
+		src: url('http://localhost/project-wad2/scss/fonts/poppins-light-webfont.woff2') format('woff2'),
+			url('http://localhost/project-wad2/scss/fonts/poppins-light-webfont.woff') format('woff');
+		font-weight: normal;
+		font-style: normal;
 
   }
   
 $my-font: poppinsregular, sans-serif;
 
+
 body{
-    font-family: $my-font;
+	font-family: $my-font;
 }
 
-.img-responsive {
-    max-width: 70%;
-    max-height: auto; 
-    background-color: #fff;
-  }
+
+  .header{
+		&__carousel{
+			background: #ababab;
+			text-shadow: 1px 1px 2px #333;
+			max-width: 1000px; 
+			position: relative; 
+			margin: auto;
+	
+		&__image{
+			display: block;
+			max-width: 100%;
+			max-height: auto; 
+			background-color: #fff;
+	   }
+   }
+   
+   &__subheader{
+		 font-style: italic;
+   
+		 &__link{
+		   font-style: normal;
+		 }
+   }
+
+ }
+
+  .listing {
+
+		padding-left: 30px;
+		padding-right: 30px;
+
+	&__details{
+		
+		margin-bottom: 20px;
+
+		&__table{
+			overflow-x: hidden;
+
+			&__title{
+				padding: 20px 15px !important; 
+				text-transform: uppercase;
+				border: 0 !important;
+				text-align: center;
+				background-color: #a2d4dd;
+			}
+		}
+		
+		&__cell{
+			border-right: 4px solid #a2d4dd;
+			border-left: 4px solid #a2d4dd;
+			text-align: center;
+
+			&__header{
+				text-transform: uppercase !important;
+			}
+
+			&--close{
+				border-bottom: 3px solid #a2d4dd !important;
+			}
+		}
+
+	}
+
+	&__form{
+		&__subheader{
+			padding: 3px;
+			border-bottom: 3px solid #a2d4dd;
+		}
+
+		&__desc{
+			margin: 3px;
+		}
+		&__floorplan{
+			max-width: 448; 
+			position: relative; 
+			margin: auto;
+
+			&__image{
+				display: block;
+				max-width: 100%;
+				max-height: auto; 
+
+			}
+		}
+	}
+
+}

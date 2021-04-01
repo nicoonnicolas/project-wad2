@@ -6,15 +6,15 @@
 
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.0/gsap.min.js"></script>
 
-        <link type="text/css" rel="stylesheet" href="scss/custom.css" />
-
+        
         <!-- Load Vue followed by BootstrapVue -->
         <script src="https://unpkg.com/vue@latest/dist/vue.min.js"></script>
         <script src="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.js"></script>
-
+        
         <!-- Load the following for BootstrapVueIcons support -->
         <script src="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue-icons.min.js"></script>
-
+        
+        <link type="text/css" rel="stylesheet" href="scss/custom.css" />
         <!-- Firebase Source Files-->
         <script src="https://www.gstatic.com/firebasejs/8.3.0/firebase-app.js"></script>
         <!-- <script src="https://www.gstatic.com/firebasejs/8.3.0/firebase-analytics.js"></script> -->
@@ -49,17 +49,14 @@
         <div id='app'>
             <huddlenavbar></huddlenavbar>
     
-            <b-container>
+            <b-container class="header"> 
                 <b-carousel
+                class="header__carousel"
                 id="carousel-1"
                 v-model="slide"
                 :interval="4000"
                 controls
                 indicators
-                background="#ababab"
-                img-width="1024"
-                img-height="480"
-                style="text-shadow: 1px 1px 2px #333;"
                 >
 
                 <carou-slide v-for="image in images" v-bind:image="image" ></carou-slide>
@@ -75,56 +72,60 @@
                 </b-row>
                 <b-row id="address">
                     <b-col class="text-center">
-                        <h6>{{address}} <a :href="'https://www.google.com/maps/dir/?api=1&destination='+encoded">(View in maps)</a></h6>
+                        <h6 class="header__subheader">{{address}} <a class="header__subheader__link" :href="'https://www.google.com/maps/dir/?api=1&destination='+encoded">(View in maps)</a></h6>
                     </b-col>
                 </b-row>
 
                 <br>
 
-                <b-row id="content">
-                    <b-col sm="12" md="6" lg="6" id="col1">
+                <b-row id="content" class="listing">
+                    <b-col class="listing__details" sm="12" md="6" lg="6" id="col1">
                         <div>
-                            <b-table-simple hover small caption-top responsive>
-                              <b-thead head-variant="dark">
+                            <b-table-simple class="listing__details__table" hover small caption-top responsive>
+                              <b-thead>
                                 <b-tr>
-                                  <b-th colspan='2'>Listing Details</b-th>
+                                  <b-th class="listing__details__table__title" colspan='2'>Listing Details</b-th>
                                 </b-tr>
                               </b-thead>
                               <b-tbody>
-                                <b-tr>
-                                  <b-th>Area</b-th>
+                                <b-tr class="listing__details__cell">
+                                  <b-th class="listing__details__cell__header">Area</b-th>
                                   <b-td>{{area}}</b-td>
                                 </b-tr>
-                                <b-tr>
-                                  <b-th>Type</b-th>
+                                <b-tr class="listing__details__cell">
+                                  <b-th class="listing__details__cell__header">Type</b-th>
                                   <b-td>{{type}}</b-td>
                                 </b-tr>
-                                <b-tr>
-                                  <b-th>Capacity</b-th>
+                                <b-tr class="listing__details__cell">
+                                  <b-th class="listing__details__cell__header">Capacity</b-th>
                                   <b-td>{{capacity}}</b-td>
                                 </b-tr>
-                                <b-tr>
-                                    <b-th>Price per day</b-th>
-                                    <b-td>{{price}}</b-td>
+                                <b-tr class="listing__details__cell listing__details__cell--close">
+                                    <b-th class="listing__details__cell__header">Price per day</b-th>
+                                    <b-td>${{price}}</b-td>
                                 </b-tr>
                               </b-tbody>
                             </b-table-simple>
                         </div>
-
-                        <radar v-if="loaded" v-bind:data="reviewData"></radar>
+                        <radar class="listing__details__chart" v-if="loaded" v-bind:data="reviewData"></radar>
+                        <div></div>
                     </b-col>
 
                     <b-col sm="12" md="6" lg="6" id="col2">
-                        <b-form @reset="onReset" @submit="onSubmit">
-                            <b-card         
+                        <b-form class="listing__form" @reset="onReset" @submit="onSubmit">
+                            <b-card header-class="listing__details__table__title"       
                             header="Make a booking"
                             header-bg-variant="dark"
                             header-text-variant="white">
-                                <b>Preferred Space: {{form.area}}</b> <br>
-                                <small>Please select a space on the map to book it.</small> <br>
-                                <small>If no space is chosen, you will be assigned to one upon arrival.</small>
+                                <b class="listing__form__subheader">Preferred Space: {{form.area}}</b> <br>
 
-                                <floorplan v-bind:srcimg="srcimg"  @update-space="onClickChild"></floorplan>
+                                <div class="listing__form__desc">
+                                    <small>Please select a space on the map to book it.</small> <br>
+                                    <small>If no space is chosen, you will be assigned to one upon arrival.</small>
+
+                                </div>
+
+                                <floorplan  v-bind:srcimg="srcimg"  @update-space="onClickChild"></floorplan>
 
                                 <br>
 
@@ -154,6 +155,7 @@
                                 </b-form-group>
                                 <b-form-group>
                                     <b-form-checkbox
+
                                         id="checkbox-1"
                                         v-model="form.is_recurring"
                                         name="checkbox-1"
@@ -214,7 +216,7 @@
 
         Vue.component('carou-slide', {
             props: ['image'],
-            template: `<b-carousel-slide
+            template: `<b-carousel-slide 
                         :img-src="'./images/listing/'+image"
                         ></b-carousel-slide>`
         })
@@ -230,8 +232,8 @@
                 ImageMap('img[usemap]', 100);
             },
             template: `
-            <div>
-                <img :src="srcimg" usemap="#image-map" @click="selectRegion(null)">
+            <div class="listing__form__floorplan">
+                <img class="listing__form__floorplan__image" :src="srcimg" usemap="#image-map" @click="selectRegion(null)">
                 <map name="image-map">
                     <area alt="conf" title="conf" coords="12,12,108,179" shape="rect" @click="selectRegion('conf')">
                     <area alt="office1" title="office1" coords="114,14,190,68" shape="rect" @click="selectRegion('office1')">
@@ -298,21 +300,21 @@
                         label: "Listing Review",
                         data: [70, 79, 80, 60, 70, 65],
                         backgroundColor: "rgba(127,199,255,0.2)",
-                        borderColor: "rgba(127,199,255,1)",
+                        cellColor: "rgba(127,199,255,1)",
                         pointBackgroundColor: "rgba(127,199,255,1)",
-                        pointBorderColor: "#fff",
+                        pointcellColor: "#fff",
                         pointHoverBackgroundColor: "#fff",
-                        pointHoverBorderColor: "rgba(127,199,255,1)"
+                        pointHovercellColor: "rgba(127,199,255,1)"
                     },
                     {
                         label: "Average Reviews",
                         data: [40, 60, 70, 50, 40, 50],
                         backgroundColor: "rgba(255,99,132,0.2)",
-                        borderColor: "rgba(255,99,132,1)",
+                        cellColor: "rgba(255,99,132,1)",
                         pointBackgroundColor: "rgba(255,99,132,1)",
-                        pointBorderColor: "#fff",
+                        pointcellColor: "#fff",
                         pointHoverBackgroundColor: "#fff",
-                        pointHoverBorderColor: "rgba(255,99,132,1)"
+                        pointHovercellColor: "rgba(255,99,132,1)"
                         
                     }
                 ]
@@ -450,23 +452,6 @@
 
     </script>
 
-    <style lang="scss">
-        #carousel-1 {
-            width: 60%;
-            height: auto;
-            margin: auto;
-        }
-        img {
-            display: block;
-            max-width: 100%;
-            height: auto;
-        }
-        #content {
-            padding-left: 30px;
-            padding-right: 30px;
-        }
-
-    </style>
 
     </body>
 </html>
