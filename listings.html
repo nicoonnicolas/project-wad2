@@ -257,7 +257,7 @@
 					for (listing in this.listings) {
 						console.log(listing)
 						var tempArray = L.latLng(this.listings[listing].lat, this.listings[listing].long);
-						this.markers.push({ position: tempArray, name: listing.name });
+						this.markers.push({ position: tempArray, name: this.listings[listing].name });
 					}
 				},
 				searchDate: function (listingsArray, selectedStart, selectedEnd) {
@@ -334,8 +334,6 @@
 						var tempArray = L.latLng(this.listings[idx].lat, this.listings[idx].long);
 						this.markers.push({ position: tempArray, name: this.listings[idx].name });
 					}
-
-
 				},
 
 				clearFilter: function () {
