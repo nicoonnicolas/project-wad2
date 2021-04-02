@@ -167,14 +167,15 @@
                                     <b-form-checkbox
 
                                         id="checkbox-1"
-                                        v-model="form.is_recurring"
+                                        v-model="checked"
                                         name="checkbox-1"
                                     >
                                         Recurring Booking
                                     </b-form-checkbox>
                                 </b-form-group>
-                                <div v-if="form.is_recurring">
+                                <div v-if="checked">
                                     <b-form-group>
+                                        <small>Hold+Drag or Ctrl+click to select multiple</small>
                                         <b-form-select v-model="form.recurring_days" :options="options" multiple></b-form-select>
                                     </b-form-group>
                                 </div>
@@ -342,10 +343,10 @@
             form: {
                 start_date: '',
                 end_date: '',
-                is_recurring: '',
                 recurring_days: '',
                 area: "None Chosen"
             },
+            checked: false,
             srcimg: "images/listings/1001.png"
         },
         created: function() {
@@ -444,14 +445,14 @@
                 let submittedForm = this.form;
 
                 let recurring = "";
-                if (!submittedForm.is_recurring) {
+                if (!this.checked) {
                     submittedForm.recurring_days = "";
                 } else {
                     recurring = submittedForm.recurring_days.join(",");
                 }
 
                 form_details = "listing_id=" + this.listing_id + "&start_date=" + submittedForm.start_date 
-                    + "&end_date=" + submittedForm.end_date + "&is_recurring=" + submittedForm.is_recurring 
+                    + "&end_date=" + submittedForm.end_date + "&is_recurring=" + this.checked 
                     + "&recurring_days=" + recurring + "&space=" + submittedForm.area;
 
                 location.href = 'payment.html?' + form_details;
