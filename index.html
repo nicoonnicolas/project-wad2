@@ -31,7 +31,8 @@
 					</div>
 					<div class="c__login">
 						<div class="c__container links">
-							<fb:login-button scope="public_profile,email" onlogin="checkLoginState();"></fb:login-button>
+							<div class="fb-login-button" onlogin="checkLoginState()" data-width="" data-size="large" data-button-type="continue_with" data-layout="default" data-auto-logout-link="false" data-use-continue-as="true"></div>
+							<!-- <fb:login-button scope="public_profile,email" onlogin="checkLoginState();"></fb:login-button> -->
 						</div>
 					</div>
 					<br>
@@ -88,6 +89,7 @@
 					if (snapshot.exists()) {
 						location.replace("listings.html");
 						sessionStorage.setItem("userId", userID);
+						sessionStorage.setItem("loginType", "google");
 					} else {
 						registerUser(googleUser);
 					}
@@ -173,13 +175,17 @@
 					} else {
 						alert("Welcome to Huddles, " + name);
 						sessionStorage.setItem("userId", userID);
+						sessionStorage.setItem("loginType", "facebook");
 						location.replace("listings.html");
 					}
 				});
 			}
 		</script>
 		<script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
-		<script crossorigin="anonymous" src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v10.0&appId=170765158203845&autoLogAppEvents=1" nonce="CcD2SZWp" async defer ></script>
+		<!-- <script crossorigin="anonymous" src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v10.0&appId=170765158203845&autoLogAppEvents=1" nonce="CcD2SZWp" async defer ></script> -->
+
+		<div id="fb-root"></div>
+		<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v10.0&appId=170765158203845" nonce="C0VTwW2e"></script>
 	</body>
 </html>
 
