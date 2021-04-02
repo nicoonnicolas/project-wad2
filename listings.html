@@ -120,14 +120,24 @@
 					</div>
 				</b-col>
 				<b-col lg>
-					<div class="listingresults">
-						<b-pagination align="center" v-model="currentPage" :total-rows="rows" :per-page="perPage"
-							aria-controls="my-table"></b-pagination>
-						<listings data-aos="zoom-in" v-for="listing in listingsPage" v-bind:listing="listing"
-							v-bind:images="'./images/listing/' + listing.images[0]"
-							v-bind:url="'listingdetails.html?listing=' + listing.number">
-						</listings>
-					</div>
+					<b-container class="listingresults">
+						<b-row>
+							<b-col>
+								<div class="listingresults__pagination">
+									
+									<b-pagination align="center" v-model="currentPage" :total-rows="rows" :per-page="perPage"
+									aria-controls="my-table"></b-pagination>
+								</div>
+								
+									
+									<listings data-aos="zoom-in" v-for="listing in listingsPage" v-bind:listing="listing"
+									v-bind:images="'./images/listing/' + listing.images[0]"
+									v-bind:url="'listingdetails.html?listing=' + listing.number">
+								</listings>
+						
+						</b-col>
+					</b-row>
+					</b-container>
 				</b-col>
 			</b-row>
 		</b-container>
