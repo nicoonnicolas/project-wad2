@@ -147,7 +147,7 @@ $col-spacing: 5px;
 	}
 
 	&__card {
-		margin-bottom: 3px;
+		margin-bottom: 3px !important;
 
 		&__overlay {
 			position: absolute;
@@ -190,3 +190,47 @@ $col-spacing: 5px;
 .map{
 	max-height: 600px;
 }
+
+// bookings.html
+
+#row {
+	margin-bottom: 20px;
+}
+#title {
+	text-align: center; margin-bottom: 30px;
+}
+#moveTitle {
+	opacity: 0;
+}
+#move {
+	/* max-height: 20rem; */
+	height: auto;
+	width: 60%;
+	margin: auto;
+	margin-bottom: 20px;
+}
+#cancel {
+	float: right;
+	background-color: rgb(220, 53, 69);
+	border: none;
+}
+#noBookText {
+	text-align: center;
+	opacity: 0;
+}
+
+.bookings{
+	overflow: hidden;
+	// max-width: 562px;
+
+	&__cancel{
+		justify-content: center;
+		padding-bottom: 50px;
+	}
+}
+
+@media only screen and (min-width: 992px) {
+	.bookings{
+		min-width: 962px;
+	}
+  } 

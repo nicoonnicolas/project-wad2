@@ -6,15 +6,15 @@
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.0/gsap.min.js"></script>
 
-        <link type="text/css" rel="stylesheet" href="scss/custom.css" />
-
+        
         <!-- Load Vue followed by BootstrapVue -->
         <script src="https://unpkg.com/vue@latest/dist/vue.min.js"></script>
         <script src="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.js"></script>
-
+        
         <!-- Load the following for BootstrapVueIcons support -->
         <script src="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue-icons.min.js"></script>
-
+        
+        <link type="text/css" rel="stylesheet" href="scss/custom.css" />
         <!-- Firebase Source Files-->
         <script src="https://www.gstatic.com/firebasejs/8.3.0/firebase-app.js"></script>
         <!-- <script src="https://www.gstatic.com/firebasejs/8.3.0/firebase-analytics.js"></script> -->
@@ -38,33 +38,9 @@
                 // firebase.analytics();
 	    </script>
 
-        <style lang="scss">
-            #row {
-                margin-bottom: 20px;
-            }
-            #title {
-                text-align: center; margin-bottom: 30px;
-            }
-            #moveTitle {
-                opacity: 0;
-            }
-            #move {
-                /* max-height: 20rem; */
-                height: auto;
-                width: 60%;
-                margin: auto;
-                margin-bottom: 20px;
-            }
-            #cancel {
-                float: right;
-                background-color: rgb(220, 53, 69);
-                border: none;
-            }
-            #noBookText {
-                text-align: center;
-                opacity: 0;
-            }
-        </style>
+
+        <title>Huddle</title>
+
     </head>
 
     <body>
@@ -77,12 +53,12 @@
             </div>
 
             <div v-if="bookings !== null">
-                <b-card no-body class="overflow-hidden" v-for="booking in finalBookings" id="move">
+                <b-card no-body class="bookings" v-for="booking in finalBookings" id="move">
                     <b-row no-gutters>
-                        <b-col lg>
-                            <b-card-img :src=" 'images/listing/' + booking['image'] " class="rounded-0"></b-card-img>
+                        <b-col lg="6">
+                            <b-card-img fluid :src=" 'images/listing/' + booking['image']"></b-card-img>
                         </b-col>
-                        <b-col md>
+                        <b-col lg="6">
                             <b-card-body :title="booking['name']">
                                 <b-card-text>
                                     {{booking["address"]}}<br>
@@ -90,14 +66,17 @@
                                     Date: {{booking["startDate"]}} to {{booking["endDate"]}} <br>
                                     Price: ${{booking["totalPrice"]}}
                                 </b-card-text>
-                                <b-button id="cancel" v-on:click="cancel(booking['bookingID'])">
-                                    Cancel Booking
-                                </b-button>
-                                <br>
+                                <div class="bookings__cancel">
+
+                                    <b-button id="cancel" v-on:click="cancel(booking['bookingID'])">
+                                        Cancel Booking
+                                    </b-button>
+                                </div>
                             </b-card-body>
                         </b-col>
                     </b-row>
                 </b-card>
+                
             </div>
 
             <div v-else>
