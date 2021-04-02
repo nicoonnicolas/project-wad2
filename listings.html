@@ -46,7 +46,6 @@
 			measurementId: "G-4M8XE224JF",
 		}
 		firebase.initializeApp(firebaseConfig);
-			// firebase.analytics();
 	</script>
 
 </head>
@@ -58,7 +57,6 @@
 		<!-------------------- SEARCH BAR-------------- -->
 		<div class="container">
 			<b-jumbotron lead="Start searching for spaces with Huddle.">
-				<!-- <b-button variant="primary" href="#">Start</b-button> -->
 				<b-form inline>
 					<label class="sr-only" for="inline-form-input-name">Name</label>
 					<b-form-input
@@ -81,13 +79,6 @@
 		<div class="container">
 			<div class="row">
 				<div class="col" >
-					<!-- <listings data-aos="zoom-in"
-						v-for="listing in listings" 
-						v-bind:listing="listing"
-						v-bind:images="'./images/listing/' + listing.images[0]" 
-						v-bind:url="'listingdetails.html?listing=' + listing.number"
-					>
-					</listings> -->
 					<div class="overflow-auto">
 						<b-pagination
 						  v-model="currentPage"
@@ -107,11 +98,12 @@
 				<div class="col">
 					<div v-if="loaded" id="map">
 						<l-map :zoom="zoom" :center="center">
-                            <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
-                            <l-marker 
-							v-for="marker in markersPage" 
-							v-bind:lat-lng="marker" ></l-marker>
-                          </l-map>
+                            <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>		
+							<l-marker v-for="marker in markersPage" :lat-lng="marker.position" >
+								<l-popup :content="marker.name">
+								</l-popup>
+							</l-marker>
+                        </l-map>
 					</div>
 				</div>
 			</div>
@@ -121,29 +113,6 @@
 
 	<script src="navbar.js"></script>
 	<script>
-		// Vue.component('l-map', window.Vue2Leaflet.LMap);
-		// Vue.component('l-tile-layer', window.Vue2Leaflet.LTileLayer);
-
-		// Vue.component("mapping", {
-		// 	template: `
-		// 	var map = new L.Map("map", {
-		// 		zoom: 15,
-		// 		layers: new L.TileLayer(
-		// 			"https://tile.openstreetmap.org/{z}/{x}/{y}.png"
-		// 		),
-		// 	});
-		// 	console.log(this.listings);
-		// 	for (listing in this.listings){
-		// 		var lat = listing.lat;
-		// 		var long = listing.long;
-		// 		var coordinatesMarker = new L.Marker(lat, long);
-		// 		var popupName = listing.name;
-		// 		coordinatesMarker.bindPopup(popupName);
-		// 		map.addLayer(coordinatesMarker);
-		// 	}
-		// 	`
-		// })
-
 		Vue.component('listings', {
 			props: ['listing', 'images', 'url'],
 			template: `
@@ -180,10 +149,10 @@
 	</script>
 
 	<script>
-		var { LMap, LTileLayer, LMarker } = Vue2Leaflet;
+		var { LMap, LTileLayer, LMarker, LPopup } = Vue2Leaflet;
 		var vm = new Vue({
 			el: '#app',
-			components: { LMap, LTileLayer, LMarker },
+			components: { LMap, LTileLayer, LMarker, LPopup },
 			data: {
 				perPage: 3,
         		currentPage: 1,
@@ -214,8 +183,6 @@
 					return Object.keys(this.listings).length
 				},
 				listingsPage() {
-					// return this.listings
-					// return this.listings.slice((this.currentPage-1)*this.perPage,(this.currentPage-1)*this.perPage+this.perPage)
 					return Object.entries(this.listings).slice((this.currentPage-1)*this.perPage, (this.currentPage-1)*this.perPage+this.perPage).map(entry => entry[1])
 				},
 				markersPage() {
@@ -237,11 +204,10 @@
 					Object.keys(allListings).forEach(function(key) {
 						let listing = allListings[key];
 						let latLong = L.latLng(listing.lat, listing.long);
-						tempLatLongList.push(latLong);
+						tempLatLongList.push({position: latLong, name: listing.name});
 					});
 					this.markers = tempLatLongList;
 					this.loaded = true;
-					// console.log(this.markers);
 				});
 			},
 			methods: {
@@ -257,29 +223,20 @@
 					var allListings = this.getAllListings();
 					this.listings = allListings;
 					console.log(this.listings);
-					// var tempLatLongList = [];
-					// Object.keys(this.listings).forEach(function(key) {
-					// 	let listing = this.listings[key];
-					// 	let latLong = L.latLng(listing.lat, listing.long);
-					// 	tempLatLongList.push(latLong);
-					// });
-					// this.markers = tempLatLongList;
 
 					this.markers = [];
 					for (listing in this.listings){
+						console.log(listing)
 						var tempArray = L.latLng(this.listings[listing].lat, this.listings[listing].long);
-						this.markers.push(tempArray);
+						this.markers.push({position: tempArray, name: listing.name});
 					}
 				},
 				searchDate: function (listingsArray, selectedStart, selectedEnd){
 					var filteredListings = [];
-					// console.log(listingsArray);
 					if (selectedStart == "" || selectedEnd == ""){
-						// console.log(listingsArray);
 						return listingsArray;
 					} else {
 						for (listing in listingsArray){
-							// console.log(listing);
 							var listingStart = Date.parse(this.listings[listing].start);
 							var listingEnd = Date.parse(this.listings[listing].end);
 							if (listingStart < selectedStart && listingEnd > selectedEnd ){
@@ -288,15 +245,12 @@
 								filteredListings.push(this.listings[listing]);
 							}
 						}
-						// console.log(filteredListings);
 						return filteredListings;
 					}
 				},
 				searchAddress: function (listingArray, selectedAddress){
 					var filteredListings = [];
-					// console.log(selectedAddress);
 					for (listing in listingArray){
-						// console.log(this.listings[listing]);
 						var listingNum = listingArray[listing].number;
 						var listingAddress = this.listings[listingNum].address;
 						var listingName = this.listings[listingNum].name;
@@ -305,8 +259,6 @@
 							filteredListings.push(this.listings[listingNum]);
 						}
 					}
-					// console.log("searchAddress: ");
-					// console.log(filteredListings);
 					return filteredListings;
 				},
 				searchType: function (listingArray, selectedType){
@@ -319,8 +271,6 @@
 						var listingNum = listingArray[listing].number;
 						console.log(listingNum);
 						var listingType = this.listings[listingNum].type;
-						// console.log(listingType);
-						// console.log(selectedType);
 						if (listingType.toLowerCase() == selectedType.toLowerCase()){
 							filteredListings.push(this.listings[listingNum]);
 						}
@@ -328,7 +278,6 @@
 					return filteredListings;
 				},
 				searchListings: function (){
-					// var allListings = this.listings;
 					this.displayListings();
 					this.listings = this.getAllListings();
 					
@@ -344,9 +293,6 @@
 						selectedEnd = Date.parse(this.selectedEndDate);
 					}
 
-					// console.log(selectedStart);
-					// console.log(selectedEnd);
-
 					var filteredDate = this.searchDate(this.listings, selectedStart, selectedEnd);
 					var filteredAddress = this.searchAddress(filteredDate, selectedAddress);
 					var filteredType = this.searchType(filteredAddress, selectedType);
@@ -355,18 +301,9 @@
 					this.markers = [];
 					
 					console.log(this.listings);
-
-					// var tempLatLongList = [];
-					// Object.keys(this.listings).forEach(function(key) {
-					// 	let listing = this.listings[key];
-					// 	let latLong = L.latLng(listing.lat, listing.long);
-					// 	tempLatLongList.push(latLong);
-					// });
-					// this.markers = tempLatLongList;
-
-					for (listing in this.listings){
-						var tempArray = L.latLng(listing.lat, listing.long);
-						this.markers.push(tempArray);
+					for (idx in this.listings){
+						var tempArray = L.latLng(this.listings[idx].lat, this.listings[idx].long);
+						this.markers.push({position: tempArray, name: this.listings[idx].name});
 					}
 
 					
@@ -377,70 +314,14 @@
 					this.selected = '*';
 					this.selectedStartDate = "";
 					this.selectedEndDate = "";
-				},
-				displayMarker: function(marker){
-					// console.log(marker);
-					return marker;
 				}
-				// displayMap: function (){
-				// 	var mapCenter = new L.latLng(1.448344420992953, 103.78570071438713);
-				// 	var map = new L.Map("map", {
-				// 		center: mapCenter,
-				// 		zoom: 16,
-				// 		layers: new L.TileLayer(
-				// 			"https://tile.openstreetmap.org/{z}/{x}/{y}.png"
-				// 		),
-				// 	});
-					
-				// 	var coordinatesMarker = new L.Marker(mapCenter);
-				// 	var popupName = "Testing Center";
-				// 	coordinatesMarker.bindPopup(popupName);
-				// 	map.addLayer(coordinatesMarker);
-				// 	map.invalidateSize();
-				// }
 			},
 		})
 
 	</script>
 
-	<!-- <script type="text/javascript">
-		var mapCenter = new L.latLng(1.4363507101204407, 103.7859041820477);
-		var allListings = vm.data.listings;
-		console.log(allListings);
-		var map = new L.Map("map", {
-			center: mapCenter,
-			zoom: 16,
-			layers: new L.TileLayer(
-				"https://tile.openstreetmap.org/{z}/{x}/{y}.png"
-			),
-		});
-		var coordinatesMarker = new L.Marker(mapCenter);
-		var popupName = "Testing Center";
-		coordinatesMarker.bindPopup(popupName);
-		map.addLayer(coordinatesMarker);
-		// console.log(this.listings);
-		// for (listing in this.listings){
-		// 	var lat = listing.lat;
-		// 	var long = listing.long;
-		// 	console.log(lat + " " + long);
-		// 	var listingCoordinates = new L.LatLng(lat, long);
-		// 	var coordinatesMarker = new L.Marker(listingCoordinates);
-		// 	var popupName = listing.name;
-		// 	coordinatesMarker.bindPopup(popupName);
-		// 	map.addLayer(coordinatesMarker);
-		// }
-		map.invalidateSize(); 
-	</script> -->
-
 
 	<style lang="scss">
-		/* .btngrp--margin {
-            margin-left: 200px;
-        }
-
-        .btngrp--nomargin {
-            margin-left: 0px;
-        } */
 		.navbar-toggle-color {
 			background-color: grey;
 		}
