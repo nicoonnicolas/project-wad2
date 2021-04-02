@@ -404,13 +404,18 @@
             checkInvalid() {
                 if (this.form.start_date == "") {
                     this.validDateStart = false;
+                    return false;
                 }
                 if (this.form.end_date == "") {
                     this.validDateEnd = false;
+                    return false;
                 }
                 if (this.form.start_date > this.form.end_date) {
                     this.validDateEnd = false;
+                    return false;
                 }
+
+                return true;
             },
             onReset(event) {
                 event.preventDefault();
@@ -423,7 +428,9 @@
             },
             onSubmit(event) {
                 event.preventDefault();
-                this.checkInvalid();
+                if (!this.checkInvalid()) {
+                    return
+                }
 
                 let submittedForm = this.form;
 
