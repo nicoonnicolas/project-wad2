@@ -5,28 +5,28 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<script type="text/javascript" src="vue.js"></script>
 
-	<link type="text/css" rel="stylesheet" href="scss/custom.css" />
-
+	
 	<!-- Load Vue followed by BootstrapVue -->
 	<script src="https://unpkg.com/vue@latest/dist/vue.min.js"></script>
 	<script src="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.js"></script>
-
+	
 	<!-- Load the following for BootstrapVueIcons support -->
 	<script src="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue-icons.min.js"></script>
-
+	
 	<!-- Firebase Source Files-->
 	<script src="https://www.gstatic.com/firebasejs/8.3.0/firebase-app.js"></script>
 	<script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-database.js"></script>
-
+	
 	<!-- DateTime Formatting using Moment JS -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"
-		integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ=="
-		crossorigin="anonymous"></script>
+	integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ=="
+	crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment-recur/1.0.7/moment-recur.min.js"></script>
 	<link href="scss/hover-min.css" rel="stylesheet">
-
+	
 	<script>moment().format();</script>
-
+	
+	<link type="text/css" rel="stylesheet" href="scss/custom.css" />
 	<!-- PayPal API -->
 	<script
 		src="https://www.paypal.com/sdk/js?currency=SGD&client-id=ARqV8Dq2UHOZV1yd0pSTUq2O0mt-zXjTO4iUafSZoC52Cv2fm8_jEvuev9c5o_MRPl1CMFckaj1Z5ipe"></script>
@@ -67,36 +67,48 @@
 		</div>
 
 
-		<b-container fluid>
+		<b-container class="bg" fluid>
 			<b-row>
-				<b-col md class="m-5">
-					<img class="img-fluid" :src="image">
-					<div class="my-4">
-						<h3>{{name}}</h3>
-						<h5 class="mt-3">{{address}}</h5>
+				<b-col md class="checkout__booking">
+					<img class="checkout__booking checkout__booking__image" :src="image">
+					<div class="card">		
+						<div class="card__block mb-30">
+							<b-row>
+								<b-col class="card__block__col">
+									<div class="card__block__col__title">
+										<h4>{{name}}</h4>
+										<h5 >{{address}}</h5>
+									</div>
+									<template v-if="show">
+										<b-card-group class="card__block__col__date--list" deck>
+											<b-card header="Your Booked Dates">
+												<b-list-group>
+													<b-list-group-item v-for="date in booking.dates"> 
+														<div>{{date}}</div>
+													</b-list-group-item>
+												</b-list-group>
+											</b-card>
+										</b-card-group>
+									</template>
+									<div class="card__block__col__date" v-else>
+										<p>{{booking.startDate}} to {{booking.endDate}}</p>
+									</div>
+								</b-col>
+								
+							</b-row>
 					</div>
-					<template v-if="show">
-					<b-card-group deck>
-						<b-card header="Your Booked Dates">
-								<b-list-group>
-									<b-list-group-item v-for="date in booking.dates"> 
-										<div>{{date}}</div>
-									</b-list-group-item>
-								</b-list-group>
-							</b-card>
-						</b-card-group>
-					</template>
-					<div v-else>
-						<p>Booking Period: {{booking.startDate}} to {{booking.endDate}}</p>
 					</div>
 				</b-col>
-				<b-col md align-self="center" class="m-5">
-					<b-jumbotron class="mt-5">
-						<h4>Order Details</h4>
-						<b-table borderless thead-class="d-none" :items="table"></b-table>
-						<div class="mt-2" ref='paypal'></div>
-					</b-jumbotron>
+				<b-col md align-self="center" class="checkout__price">
+					<div class="checkout__price__wrapper">
 
+						<div class="mt-5">
+							<h4 class="checkout__price__header">Order Details</h4>
+							<b-table borderless thead-class="d-none" :items="table"></b-table>
+							<div class="mt-2" ref='paypal'></div>
+						</div>
+						
+					</div>
 				</b-col>
 			</b-row>
 		</b-container>
@@ -147,7 +159,8 @@
 				image: function () {
 					url = 'images/listing/' + this.booking.listing_id + "/image1.png"
 					return url
-				}
+				},
+
 			},
 			created() {
 				let uri = window.location.search

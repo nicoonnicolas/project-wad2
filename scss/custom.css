@@ -26679,5 +26679,62 @@ body {
     min-width: 962px;
   }
 }
+.bg {
+  background-image: url("../images/app/bg.svg");
+  height: 100%;
+}
+
+.checkout__booking {
+  margin: 5px;
+}
+.checkout__booking__image {
+  width: 100% !important;
+  height: auto !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  position: relative;
+}
+.checkout__booking__time {
+  padding: 10px 56px 0;
+}
+.checkout__header {
+  align-items: center;
+  justify-content: center;
+}
+.checkout__price__header {
+  padding: 5px;
+  width: 30%;
+  text-transform: uppercase;
+  border-bottom: 3px solid #a2d4dd;
+}
+.checkout__price__wrapper {
+  align-content: center;
+  padding: 40px;
+  background-color: whitesmoke;
+}
+
+.card {
+  position: relative;
+  bottom: 20px;
+}
+.card__block {
+  padding: 60px;
+}
+.card__block__col {
+  padding: 40px;
+  border: 2px solid #484e50;
+  border-radius: 10px;
+}
+.card__block__col__title {
+  margin-bottom: 60px;
+  text-transform: uppercase;
+}
+.card__block__col__date {
+  padding: 20px;
+  border-left: 5px solid lightblue;
+}
+.card__block__col__date--list {
+  padding: 20px;
+}
 
 /*# sourceMappingURL=custom.css.map */
