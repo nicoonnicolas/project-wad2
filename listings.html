@@ -256,13 +256,20 @@
 				displayListings: function () {
 					var allListings = this.getAllListings();
 					this.listings = allListings;
-					var tempLatLongList = [];
-					Object.keys(allListings).forEach(function(key) {
-						let listing = allListings[key];
-						let latLong = L.latLng(listing.lat, listing.long);
-						tempLatLongList.push(latLong);
-					});
-					this.markers = tempLatLongList;
+					console.log(this.listings);
+					// var tempLatLongList = [];
+					// Object.keys(this.listings).forEach(function(key) {
+					// 	let listing = this.listings[key];
+					// 	let latLong = L.latLng(listing.lat, listing.long);
+					// 	tempLatLongList.push(latLong);
+					// });
+					// this.markers = tempLatLongList;
+
+					this.markers = [];
+					for (listing in this.listings){
+						var tempArray = L.latLng(this.listings[listing].lat, this.listings[listing].long);
+						this.markers.push(tempArray);
+					}
 				},
 				searchDate: function (listingsArray, selectedStart, selectedEnd){
 					var filteredListings = [];
@@ -290,11 +297,12 @@
 					// console.log(selectedAddress);
 					for (listing in listingArray){
 						// console.log(this.listings[listing]);
-						var listingAddress = this.listings[listing].address;
-						var listingName = this.listings[listing].name;
+						var listingNum = listingArray[listing].number;
+						var listingAddress = this.listings[listingNum].address;
+						var listingName = this.listings[listingNum].name;
 						if (listingAddress.toLowerCase().indexOf(selectedAddress.toLowerCase()) != -1 || 
 						listingName.toLowerCase().indexOf(selectedAddress.toLowerCase()) != -1){
-							filteredListings.push(this.listings[listing]);
+							filteredListings.push(this.listings[listingNum]);
 						}
 					}
 					// console.log("searchAddress: ");
@@ -308,14 +316,16 @@
 						return listingArray;
 					}
 					for (listing in listingArray){
-						console.log(listing);
-						console.log(this.listings[listing]);
-						var listingType = this.listings[listing].type;
-						if (listingType == selectedType){
-							filteredListing.push(this.listings[listing]);
+						var listingNum = listingArray[listing].number;
+						console.log(listingNum);
+						var listingType = this.listings[listingNum].type;
+						// console.log(listingType);
+						// console.log(selectedType);
+						if (listingType.toLowerCase() == selectedType.toLowerCase()){
+							filteredListings.push(this.listings[listingNum]);
 						}
 					}
-					return listingArray;
+					return filteredListings;
 				},
 				searchListings: function (){
 					// var allListings = this.listings;
