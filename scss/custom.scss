@@ -1,119 +1,192 @@
-@import 'bootstrap.min';
-@import 'bootstrap-vue.min';
+@import "bootstrap.min";
+@import "bootstrap-vue.min";
 
-@font-face {
-		font-family: 'poppinsregular';
-		src: url('http://localhost/project-wad2/scss/fonts/poppins-regular-webfont.woff2') format('woff2'),
-			url('http://localhost/project-wad2/scss/fonts/poppins-regular-webfont.woff') format('woff');
-		font-weight: normal;
-		font-style: normal;
-  
-  }
-  
-  
-  
-  
-  @font-face {
-		font-family: 'poppinslight';
-		src: url('http://localhost/project-wad2/scss/fonts/poppins-light-webfont.woff2') format('woff2'),
-			url('http://localhost/project-wad2/scss/fonts/poppins-light-webfont.woff') format('woff');
-		font-weight: normal;
-		font-style: normal;
+@import "theme";
 
-  }
-  
-$my-font: poppinsregular, sans-serif;
+//ListingDetails.html
 
+.header {
+	&__carousel {
+		background: #ababab;
+		text-shadow: 1px 1px 2px #333;
+		max-width: 1000px;
+		position: relative;
+		margin: auto;
 
-body{
-	font-family: $my-font;
-}
-
-
-  .header{
-		&__carousel{
-			background: #ababab;
-			text-shadow: 1px 1px 2px #333;
-			max-width: 1000px; 
-			position: relative; 
-			margin: auto;
-	
-		&__image{
+		&__image {
 			display: block;
 			max-width: 100%;
-			max-height: auto; 
+			max-height: auto;
 			background-color: #fff;
-	   }
-   }
-   
-   &__subheader{
-		 font-style: italic;
-   
-		 &__link{
-		   font-style: normal;
-		 }
-   }
+		}
+	}
 
- }
+	&__subheader {
+		font-style: italic;
 
-  .listing {
+		&__link {
+			font-style: normal;
+		}
+	}
+}
 
-		padding-left: 30px;
-		padding-right: 30px;
+.listing {
+	padding-left: 30px;
+	padding-right: 30px;
 
-	&__details{
-		
+	&__details {
 		margin-bottom: 20px;
 
-		&__table{
+		&__table {
 			overflow-x: hidden;
 
-			&__title{
-				padding: 20px 15px !important; 
+			&__title {
+				padding: 20px 15px !important;
 				text-transform: uppercase;
 				border: 0 !important;
 				text-align: center;
-				background-color: #a2d4dd;
+				background-color: $primary-colour;
 			}
 		}
-		
-		&__cell{
-			border-right: 4px solid #a2d4dd;
-			border-left: 4px solid #a2d4dd;
+
+		&__cell {
+			$border-width: 4px;
+			border-right: $border-width solid $primary-colour;
+			border-left: $border-width solid $primary-colour;
 			text-align: center;
 
-			&__header{
+			&__header {
 				text-transform: uppercase !important;
 			}
 
-			&--close{
-				border-bottom: 3px solid #a2d4dd !important;
+			&--close {
+				border-bottom: 3px solid $primary-colour !important;
 			}
 		}
-
 	}
 
-	&__form{
-		&__subheader{
+	&__form {
+		&__subheader {
 			padding: 3px;
-			border-bottom: 3px solid #a2d4dd;
+			border-bottom: 3px solid $primary-colour;
 		}
 
-		&__desc{
+		&__desc {
 			margin: 3px;
 		}
-		&__floorplan{
-			max-width: 448; 
-			position: relative; 
+		&__floorplan {
+			max-width: 448;
+			position: relative;
 			margin: auto;
 
-			&__image{
+			&__image {
 				display: block;
 				max-width: 100%;
-				max-height: auto; 
-
+				max-height: auto;
 			}
 		}
 	}
+}
 
+// listings.html
+
+.search {
+	border: none;
+	background: #eee;
+	padding: 4px;
+	margin: 3px;
+
+	&__address {
+		display: flex;
+		justify-content: center;
+		padding-left: 5px;
+		padding-right: 5px;
+
+		&__input {
+			width: 100%;
+			margin-bottom: auto;
+			margin-top: 20px;
+			height: 50px;
+			background-color: #fff;
+			padding: 10px;
+			border-radius: 5px;
+		}
+	}
+
+	&__inputs{
+		padding: 3px;
+		display: flex;
+		align-items: center;
+
+
+	}
+
+	&__submit{
+		margin-top: 4px;
+		padding: 4px;
+		margin-bottom: 5px;
+	}
+	&__button {
+		font-weight: bold;
+		letter-spacing: 2px;
+		padding: 13px 17px;
+		border: none;
+		border-radius: 2px;
+		transition: color .2s linear;
+
+		
+	}
+}
+
+$col-spacing: 5px;
+.listingresults {
+	overflow: auto;
+
+	&__pagination {
+		text-align: center !important;
+	}
+
+	&__card {
+		margin-bottom: 3px;
+
+		&__overlay {
+			position: absolute;
+			bottom: 0;
+			background: rgba(255, 255, 255, 0); /* Black see-through */
+			color: #f1f1f1;
+			width: 100%;
+			transition: 0.5s ease;
+			opacity: 0;
+			color: white;
+			// font-size: 20px;
+			padding: 15px;
+			text-align: right;
+
+			&__link {
+				$button-colour: #394da7;
+				color: $button-colour;
+				transition: 0.25s;
+				border: 2px solid;
+				line-height: 1;
+				padding: 10px;
+				text-decoration: none;
+
+				&:hover,
+				&:focus {
+					text-decoration: inherit;
+					color: #fff;
+					background: adjust-hue($button-colour, 45deg);
+					border-color: adjust-hue($button-colour, 45deg);
+				}
+			}
+		}
+	}
+}
+
+.listingresults__card:hover .listingresults__card__overlay {
+	opacity: 1;
+}
+
+.map{
+	max-height: 600px;
 }

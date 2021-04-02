@@ -7,15 +7,15 @@
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.0/gsap.min.js"></script>
 
-	<link type="text/css" rel="stylesheet" href="scss/custom.css" />
-
 	<!-- Load Vue followed by BootstrapVue -->
 	<script src="https://unpkg.com/vue@latest/dist/vue.min.js"></script>
 	<script src="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.js"></script>
 
+
 	<!-- Load the following for BootstrapVueIcons support -->
 	<script src="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue-icons.min.js"></script>
 
+	<link type="text/css" rel="stylesheet" href="scss/custom.css" />
 	<!-- Firebase Source Files-->
 	<script src="https://www.gstatic.com/firebasejs/8.3.0/firebase-app.js"></script>
 	<!-- <script src="https://www.gstatic.com/firebasejs/8.3.0/firebase-analytics.js"></script> -->
@@ -31,7 +31,6 @@
 	<link rel="stylesheet" href="//unpkg.com/leaflet/dist/leaflet.css" />
 	<script src="//unpkg.com/leaflet/dist/leaflet.js"></script>
 	<script src="//unpkg.com/vue2-leaflet"></script>
-
 	<script>
 		// Initialize Firebase
 		var firebaseConfig = {
@@ -53,89 +52,110 @@
 <body>
 	<div id='app'>
 		<huddlenavbar></huddlenavbar>
-
 		<!-------------------- SEARCH BAR-------------- -->
-		<div class="container">
-			<b-jumbotron lead="Start searching for spaces with Huddle.">
-				<b-form inline>
-					<label class="sr-only" for="inline-form-input-name">Name</label>
-					<b-form-input
-					  id="inline-form-input-name"
-					  class="mb-2 mr-sm-2 mb-sm-0"
-					  placeholder="e.g. 12 Victoria Rd"
-					  v-model="address"
-					></b-form-input>
-									
-					<b-form-select class="mb-2 mr-sm-2 mb-sm-0" v-model="selected" :options="listing_type"></b-form-select>
-					<b-form-datepicker v-model="selectedStartDate" placeholder="Choose a Start Date"	class="mb-2 mr-sm-2 mb-sm-0"></b-form-datepicker>
-					<b-form-datepicker v-model="selectedEndDate" class="mb-2 mr-sm-2 mb-sm-0" placeholder="Choose an End Date"	></b-form-datepicker>
-					<b-button pill class="mr-1" variant="success" v-on:click="searchListings">Go</b-button>
-					<b-button pill class="mr-1" variant="danger" v-on:click="clearFilter">Clear</b-button>
-				  </b-form>
-			  </b-jumbotron>
-		  </div>
+		<b-container class="mb-5">
+			<b-container class="mt-4">
+				<div>
+					<div class="search p-4 mt-3">
+						<h3 class="heading mt-5 text-center">Start Searching with Huddle</h3>
+						<div class="search__address">
+							<b-form-input class="search__address__input" placeholder="e.g. 12 Victoria Rd"
+								v-model="address"></b-form-input>
+						</div>
+						<b-row class="mt-4 g-1 px-4 mb-5">
+							<b-col lg="4">
+								<div class="search__inputs">
+									<b-form-select v-model="selected" :options="listing_type">
+									</b-form-select>
 
-		  <!-- --------------------Listing and Map Main Body------------ -->
-		<div class="container">
-			<div class="row">
-				<div class="col" >
-					<div class="overflow-auto">
-						<b-pagination
-						  v-model="currentPage"
-						  :total-rows="rows"
-						  :per-page="perPage"
-						  aria-controls="my-table"
-						></b-pagination>
-						<listings data-aos="zoom-in"
-							v-for="listing in listingsPage" 
-							v-bind:listing="listing"
-							v-bind:images="'./images/listing/' + listing.images[0]" 
-							v-bind:url="'listingdetails.html?listing=' + listing.number"
-						>
-						</listings>
+								</div>
+							</b-col>
+							<b-col lg="4">
+								<div class="search__inputs">
+									<b-form-datepicker v-model="selectedStartDate" placeholder="Choose a Start Date">
+									</b-form-datepicker>
+								</div>
+							</b-col>
+
+							<b-col lg="4">
+								<div class="search__inputs">
+									<b-form-datepicker v-model="selectedEndDate" placeholder="Choose an End Date">
+									</b-form-datepicker>
+								</div>
+							</b-col>
+						</b-row>
+						<b-row class="search__submit">
+							<b-col sm="6" class="mb-2">
+								<div>
+									<input type='button' class="search__button btn-primary" v-on:click="searchListings"
+										value="Go">
+								</div>
+
+							</b-col>
+							<b-col sm="6">
+								<div>
+									<input type='button' class="search__button btn-warning" v-on:click="clearFilter"
+										value="Clear">
+								</div>
+							</b-col>
+						</b-row>
 					</div>
 				</div>
-				<div class="col-lg">
+			</b-container>
+		</b-container>
+
+		<!-- --------------------Listing and Map Main Body------------ -->
+		<b-container class="mb-5">
+			<b-row>
+				<b-col lg>
 					<div v-if="loaded" id="map">
 						<l-map :zoom="zoom" :center="center">
-                            <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>		
-							<l-marker v-for="marker in markersPage" :lat-lng="marker.position" >
+							<l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
+							<l-marker v-for="marker in markersPage" :lat-lng="marker.position">
 								<l-popup :content="marker.name">
 								</l-popup>
 							</l-marker>
-                        </l-map>
+						</l-map>
 					</div>
-				</div>
-			</div>
-		</div>
-		
+				</b-col>
+				<b-col lg>
+					<div class="listingresults">
+						<b-pagination align="center" v-model="currentPage" :total-rows="rows" :per-page="perPage"
+							aria-controls="my-table"></b-pagination>
+						<listings data-aos="zoom-in" v-for="listing in listingsPage" v-bind:listing="listing"
+							v-bind:images="'./images/listing/' + listing.images[0]"
+							v-bind:url="'listingdetails.html?listing=' + listing.number">
+						</listings>
+					</div>
+				</b-col>
+			</b-row>
+		</b-container>
+
+
 	</div>
 
 	<script src="navbar.js"></script>
 	<script>
+
+
+
 		Vue.component('listings', {
 			props: ['listing', 'images', 'url'],
 			template: `
+			
 			<div>
-				<b-card no-body bg-variant="light" class="overflow-hidden mb-2" style="max-width: 540px;">
-					<b-row no-gutters>
-						<b-col md="6">
-							<b-card-img v-bind:src="images" fluid alt="Image" height="200px" class="rounded-0">
-							</b-card-img>
-						</b-col>
-						<b-col md="6">
-							<b-card-body v-bind:title="listing.name">
-								<b-card-text>
-									<b>Workspace Type: </b>{{listing.type}} <br> 
-									<b>Maximum Capacity: </b>{{listing.capacity}} <br> 
-									<b>Area: </b>{{listing.area}} <br>
-									<b>Address: </b>{{listing.address}} #{{listing.unit}} Singapore {{listing.postal}} <br>
-								</b-card-text>
-								<a v-bind:href="url" class="btn btn-primary stretched-link">Explore</a>
-							</b-card-body>
-						</b-col>
-					</b-row>
-				</b-card>
+				<b-card no-body class="listingresults__card mb-3"  >
+					<b-card-img :src="images" top class="rounded-0"></b-card-img>
+					<div class="listingresults__card__overlay"><a class="listingresults__card__overlay__link" v-bind:href="url">Explore</a></div>
+					<b-card-body>
+						<b-card-title>{{listing.address}} #{{listing.unit}} Singapore {{listing.postal}}</b-card-title>
+						<b-card-text>
+										<b>Workspace: </b>{{listing.type}} <br> 
+										<b>Capacity: </b>{{listing.capacity}} <br> 
+										<b>Area: </b>{{listing.area}} <br>
+									</b-card-text>
+						</b-card-body>
+     			 </b-card>
 			</div>`
 		});
 
@@ -155,7 +175,7 @@
 			components: { LMap, LTileLayer, LMarker, LPopup },
 			data: {
 				perPage: 3,
-        		currentPage: 1,
+				currentPage: 1,
 				btngrpMargin: false,
 				btngrpNoMargin: true,
 				listings: null,
@@ -166,16 +186,16 @@
 				selectedEndDate: "",
 				listing_type: [
 					{ value: "*", text: 'All Workspace Types' },
-					{ value: "single", text: 'Single' },
-					{ value: 'group', text: 'Group' },
-					{ value: 'corporate', text: 'Corporate Function' },
+					{ value: "Single", text: 'Single' },
+					{ value: 'Group', text: 'Group' },
+					{ value: 'Corporate', text: 'Corporate Function' },
 				],
 				markers: [],
 				loaded: false,
 				zoom: 11,
 				center: L.latLng(1.3521, 103.8198),
-				url:'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
-				attribution:'&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+				url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
+				attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
 				marker: L.latLng(1.3501, 103.8108),
 			},
 			computed: {
@@ -183,12 +203,12 @@
 					return Object.keys(this.listings).length
 				},
 				listingsPage() {
-					return Object.entries(this.listings).slice((this.currentPage-1)*this.perPage, (this.currentPage-1)*this.perPage+this.perPage).map(entry => entry[1])
+					return Object.entries(this.listings).slice((this.currentPage - 1) * this.perPage, (this.currentPage - 1) * this.perPage + this.perPage).map(entry => entry[1])
 				},
 				markersPage() {
-					return Object.entries(this.markers).slice((this.currentPage-1)*this.perPage, (this.currentPage-1)*this.perPage+this.perPage).map(entry => entry[1])
+					return Object.entries(this.markers).slice((this.currentPage - 1) * this.perPage, (this.currentPage - 1) * this.perPage + this.perPage).map(entry => entry[1])
 				}
-				
+
 			},
 			created: function () {
 				AOS.init();
@@ -201,10 +221,10 @@
 					this.listings = allListings;
 					var tempLatLongList = [];
 
-					Object.keys(allListings).forEach(function(key) {
+					Object.keys(allListings).forEach(function (key) {
 						let listing = allListings[key];
 						let latLong = L.latLng(listing.lat, listing.long);
-						tempLatLongList.push({position: latLong, name: listing.name});
+						tempLatLongList.push({ position: latLong, name: listing.name });
 					});
 					this.markers = tempLatLongList;
 					this.loaded = true;
@@ -225,21 +245,21 @@
 					console.log(this.listings);
 
 					this.markers = [];
-					for (listing in this.listings){
+					for (listing in this.listings) {
 						console.log(listing)
 						var tempArray = L.latLng(this.listings[listing].lat, this.listings[listing].long);
-						this.markers.push({position: tempArray, name: listing.name});
+						this.markers.push({ position: tempArray, name: listing.name });
 					}
 				},
-				searchDate: function (listingsArray, selectedStart, selectedEnd){
+				searchDate: function (listingsArray, selectedStart, selectedEnd) {
 					var filteredListings = [];
-					if (selectedStart == "" || selectedEnd == ""){
+					if (selectedStart == "" || selectedEnd == "") {
 						return listingsArray;
 					} else {
-						for (listing in listingsArray){
+						for (listing in listingsArray) {
 							var listingStart = Date.parse(this.listings[listing].start);
 							var listingEnd = Date.parse(this.listings[listing].end);
-							if (listingStart < selectedStart && listingEnd > selectedEnd ){
+							if (listingStart < selectedStart && listingEnd > selectedEnd) {
 								filteredListings.push(this.listings[listing]);
 							} else {
 								filteredListings.push(this.listings[listing]);
@@ -248,45 +268,45 @@
 						return filteredListings;
 					}
 				},
-				searchAddress: function (listingArray, selectedAddress){
+				searchAddress: function (listingArray, selectedAddress) {
 					var filteredListings = [];
-					for (listing in listingArray){
+					for (listing in listingArray) {
 						var listingNum = listingArray[listing].number;
 						var listingAddress = this.listings[listingNum].address;
 						var listingName = this.listings[listingNum].name;
-						if (listingAddress.toLowerCase().indexOf(selectedAddress.toLowerCase()) != -1 || 
-						listingName.toLowerCase().indexOf(selectedAddress.toLowerCase()) != -1){
+						if (listingAddress.toLowerCase().indexOf(selectedAddress.toLowerCase()) != -1 ||
+							listingName.toLowerCase().indexOf(selectedAddress.toLowerCase()) != -1) {
 							filteredListings.push(this.listings[listingNum]);
 						}
 					}
 					return filteredListings;
 				},
-				searchType: function (listingArray, selectedType){
+				searchType: function (listingArray, selectedType) {
 					var filteredListings = [];
 					console.log(listingArray);
-					if (selectedType == "*"){
+					if (selectedType == "*") {
 						return listingArray;
 					}
-					for (listing in listingArray){
+					for (listing in listingArray) {
 						var listingNum = listingArray[listing].number;
 						console.log(listingNum);
 						var listingType = this.listings[listingNum].type;
-						if (listingType.toLowerCase() == selectedType.toLowerCase()){
+						if (listingType.toLowerCase() == selectedType.toLowerCase()) {
 							filteredListings.push(this.listings[listingNum]);
 						}
 					}
 					return filteredListings;
 				},
-				searchListings: function (){
+				searchListings: function () {
 					this.displayListings();
 					this.listings = this.getAllListings();
-					
+
 					var foundListing = [];
 					var selectedType = this.selected;
 					var selectedAddress = this.address;
 					var selectedStart = "";
 					var selectedEnd = "";
-					if (this.selectedStartDate != ""){
+					if (this.selectedStartDate != "") {
 						selectedStart = Date.parse(this.selectedStartDate);
 					}
 					if (this.selectedEndDate != "") {
@@ -299,17 +319,17 @@
 
 					this.listings = filteredType;
 					this.markers = [];
-					
+
 					console.log(this.listings);
-					for (idx in this.listings){
+					for (idx in this.listings) {
 						var tempArray = L.latLng(this.listings[idx].lat, this.listings[idx].long);
-						this.markers.push({position: tempArray, name: this.listings[idx].name});
+						this.markers.push({ position: tempArray, name: this.listings[idx].name });
 					}
 
-					
+
 				},
 
-				clearFilter: function (){
+				clearFilter: function () {
 					this.displayListings();
 					this.selected = '*';
 					this.selectedStartDate = "";
@@ -325,6 +345,7 @@
 		.navbar-toggle-color {
 			background-color: grey;
 		}
+
 		#map {
 			height: 500px;
 			width: 100%
