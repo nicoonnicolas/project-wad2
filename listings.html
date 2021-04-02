@@ -46,6 +46,7 @@
 		}
 		firebase.initializeApp(firebaseConfig);
 	</script>
+        <title>Huddle</title>
 
 </head>
 
@@ -143,9 +144,9 @@
 			props: ['listing', 'images', 'url'],
 			template: `
 			
-			<div>
-				<b-card no-body class="listingresults__card mb-3"  >
-					<b-card-img :src="images" top class="rounded-0"></b-card-img>
+			<div class="listingresults__card">
+				<b-card no-body >
+					<b-card-img :src="images" top></b-card-img>
 					<div class="listingresults__card__overlay"><a class="listingresults__card__overlay__link" v-bind:href="url">Explore</a></div>
 					<b-card-body>
 						<b-card-title>{{listing.address}} #{{listing.unit}} Singapore {{listing.postal}}</b-card-title>

@@ -51,6 +51,7 @@
 	<script>
 		var user_id = sessionStorage.getItem('userId')
 	</script>
+        <title>Huddle</title>
 
 </head>
 
@@ -74,22 +75,12 @@
 						<h3>{{name}}</h3>
 						<h5 class="mt-3">{{address}}</h5>
 					</div>
-					<!-- <div class="d-flex justify-content-between">
-						<div>
-							<p class="text-right">Booking Period: {{booking.startDate}} to {{booking.endDate}}</p>
-						</div>
-						<div><a href="">Edit Booking</a></div>
-					</div> -->
 					<template v-if="show">
 					<b-card-group deck>
 						<b-card header="Your Booked Dates">
 								<b-list-group>
-									<!-- class="justify-content-between"  -->
 									<b-list-group-item v-for="date in booking.dates"> 
 										<div>{{date}}</div>
-										<!-- <div>
-											<b-icon icon="trash" variant="danger"></b-icon>
-										</div> -->
 									</b-list-group-item>
 								</b-list-group>
 							</b-card>
@@ -132,7 +123,8 @@
 					user: '',
 					listing_id: '',
 					dates: [],
-					recurring_days: ""
+					recurring_days: "",
+					space: ''
 				},
 
 			},
@@ -141,7 +133,7 @@
 					days = this.days + ' days'
 					total_price = this.days * this.price * 0.90
 					price_per_day = "SGD " + this.price
-					var total = "SGD " + (Math.round((total_price + Number.EPSILON) * 100) / 100)
+					total = "SGD " + (Math.round((total_price + Number.EPSILON) * 100) / 100)
 					this.booking["totalPrice"] = total_price.toFixed(2);
 					var table = [
 						{ order: 'Space', cost: this.type },
@@ -161,14 +153,12 @@
 				let uri = window.location.search
 				let params = new URLSearchParams(uri);
 
-				// this.booking.user = params.get("user")
 				this.booking.user = user_id
-				// console.log(user)
 				this.booking.listing_id = params.get("listing_id")
 				this.booking.startDate = params.get("start_date")
 				this.booking.endDate = params.get("end_date")
+				this.booking.space = params.get("space")
 				this.is_recurring = params.get("is_recurring")
-
 				if (params.get("recurring_days") !== null){
 					this.booking.recurring_days = params.get("recurring_days").split(',')
 				}
