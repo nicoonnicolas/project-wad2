@@ -1,16 +1,9 @@
 <html>
 	<head>
-		<meta
-			name="google-signin-client_id"
-			content="999591178620-sgthqg1ea8e8uo0qiuhstkra6ms3783a.apps.googleusercontent.com"
-		/>
-		<script
-			src="https://apis.google.com/js/platform.js?onload=onLoad"
-			async
-			defer
-		></script>
+		<meta name="google-signin-client_id" content="999591178620-sgthqg1ea8e8uo0qiuhstkra6ms3783a.apps.googleusercontent.com"/>
+		<script	src="https://apis.google.com/js/platform.js?onload=onLoad" async defer></script>
+		<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v10.0&appId=170765158203845" nonce="cdrsWJUF"></script>
 		<title>Huddle</title>
-
 	</head>
 	<body onload="onLoad()">
 		<script>
@@ -20,12 +13,12 @@
 				// 	console.log("User signed out.");
 				// });
 				// document.location.href = "https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=http://localhost/application-name/logoutUser";
+				FB.logout(function(response) {});
 				var logoutPage = "https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=http://localhost/project-wad2/index.html";
 				location.replace("index.html");
 			}
 
 			function onLoad() {
-				console.log("On Load");
 				sessionStorage.clear();
 				gapi.load("auth2", function () {
 					gapi.auth2.init();
@@ -33,5 +26,6 @@
 				signOut();
 			}
 		</script>
+		
 	</body>
 </html>
