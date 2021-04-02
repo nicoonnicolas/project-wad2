@@ -45,9 +45,9 @@
         <script src="https://unpkg.com/vue-chartjs/dist/vue-chartjs.min.js"></script>
 
         <style lang="scss">
-            .carousel {
+            #carousel-1 {
                 width:640px;
-                height:360px;
+                /* height:330px; */
                 overflow: hidden;
             }
         </style>
@@ -67,15 +67,16 @@
                     id="carousel-1"
                     v-model="slide"
                     :interval="4000"
+                    fade
                     controls
                     indicators
                     >
                     
-                    <carou-slide  v-for="image in images" v-bind:image="image" ></carou-slide>
+                        <carou-slide  v-for="image in images" v-bind:image="image"></carou-slide>
                     
-                </b-carousel>
+                    </b-carousel>
                 
-            </b-container>
+                </b-container>
                 <br>
 
                 <b-row id="name">
