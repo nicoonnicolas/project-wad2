@@ -44,6 +44,13 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
         <script src="https://unpkg.com/vue-chartjs/dist/vue-chartjs.min.js"></script>
 
+        <style lang="scss">
+            .carousel {
+                width:640px;
+                height:360px;
+                overflow: hidden;
+            }
+        </style>
     </head>
 
     <body>
@@ -52,7 +59,7 @@
     
             <b-container class="header"> 
                 <b-carousel
-                class="header__carousel"
+                class="header__carousel carousel"
                 id="carousel-1"
                 v-model="slide"
                 :interval="4000"
