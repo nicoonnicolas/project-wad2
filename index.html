@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<title>Login</title>
-
+		<meta charset="UTF-8" />
 		<!--Styling for Login-->
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous"/>
 		<link type="text/css" rel="stylesheet" href="scss/index.css" />
@@ -31,10 +31,10 @@
 					</div>
 					<div class="c__login">
 						<div class="c__container links">
-							<div onclick="checkLoginState()" class="fb-login-button" data-width="" data-size="large" data-button-type="login_with" data-layout="default" data-auto-logout-link="false" data-use-continue-as="false"></div>
+							<fb:login-button scope="public_profile,email" onlogin="checkLoginState();"></fb:login-button>
 						</div>
 					</div>
-                    <br>
+					<br>
 					<div class="c__login">
 						<div class="c__container links">
 							<div id="signInButton" class="g-signin2" data-onsuccess="onSignIn"></div>
@@ -71,10 +71,12 @@
 					// 'onfailure': onFailure
 				});
 			}
+
+			/*Google Sign in*/
 			function onSignIn(googleUser) {
 				
 				var profile = googleUser.getBasicProfile();
-				console.log("ID: " + profile.getId()); // Do not send to your backend! Use an ID token instead.
+				console.log("ID: " + profile.getId()); 
 				checkUserExists(googleUser);
 			}
 
@@ -107,58 +109,74 @@
 					} else {
 						alert("Welcome to Huddles, " + userFullName);
 						sessionStorage.setItem("userId", userID);
-						// location.replace("listings.html");
 					}
 				});
 			}
 
 			/*Facebook Sign In */
-			function facebookLogin(){
-				console.log("Welcome!  Fetching your information.... ");
-				FB.api("/me", function (response) {
-					console.log(response.id);
-					sessionStorage.setItem("userId", response.id);
-					console.log(sessionStorage.getItem("userId"));
-					console.log("I");
-				});
-			}
-
-			window.fbAsyncInit = function () {
-				console.log("E");
-				FB.init({
-					appId: "170765158203845",
-					cookie: true, 		// Enable cookies to allow the server to access the session.
-					xfbml: true, 		// Parse social plugins on this webpage.
-					version: "v10.0", 	// Use this Graph API version for this call.
-				});
-				console.log("F");
-				FB.getLoginStatus(function (response) {
-					statusChangeCallback(response); // Returns the login status.
-					console.log("H");
-				});
-				console.log("G");
-			};
-
 			function statusChangeCallback(response) {
-				console.log("A");
-				console.log(response);
 				if (response.status === "connected") {
-					facebookLogin();
-					console.log("B");
+					testAPI();
 				} else {
-					console.log("C")
 					document.getElementById("status").innerHTML =
 						"Please log " + "into this webpage.";
 				}
 			}
+
 			function checkLoginState() {
 				FB.getLoginStatus(function (response) {
 					statusChangeCallback(response);
-					console.log("D");
 				});
 			}
 
+			window.fbAsyncInit = function () {
+				FB.init({
+					appId: "170765158203845",
+					cookie: true, 
+					xfbml: true, 
+					version: "v10.0",
+				});
+				FB.getLoginStatus(function (response) {
+					statusChangeCallback(response);
+				});
+			};
 
+			function testAPI() {
+				console.log("Welcome!  Fetching your information.... ");
+				FB.api("/me", function (response) {
+					console.log("Successful login for: " + response.name);
+					console.log("Email: " + response.id);
+					checkFacebookUserExist(response.id, response.name);
+				});
+			};
+
+			function checkFacebookUserExist(userID, name) {
+				var user = firebase.database().ref("users/" + userID);
+				user.once("value").then((snapshot) => {
+					if (snapshot.exists()) {
+						location.replace("listings.html");
+						sessionStorage.setItem("userId", userID);
+					} else {
+						registerFacebookUser(userID, name);
+					}
+				});
+			}
+
+			function registerFacebookUser(userID, name){
+				firebase.database().ref('users/' + userID).set({
+					email: "",
+					name: name,
+					role: "customer"
+				}, function (error) {
+					if (error) {
+						alert("Unable to Login using Facebook!");
+					} else {
+						alert("Welcome to Huddles, " + name);
+						sessionStorage.setItem("userId", userID);
+						location.replace("listings.html");
+					}
+				});
+			}
 		</script>
 		<script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
 		<script crossorigin="anonymous" src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v10.0&appId=170765158203845&autoLogAppEvents=1" nonce="CcD2SZWp" async defer ></script>
