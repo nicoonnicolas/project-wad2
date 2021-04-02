@@ -60,19 +60,22 @@
             <huddlenavbar :check="true" :payment="false"></huddlenavbar>
     
             <b-container class="header"> 
-                <b-carousel
-                class="header__carousel carousel"
-                id="carousel-1"
-                v-model="slide"
-                :interval="4000"
-                controls
-                indicators
-                >
+                <b-container>
 
-                <carou-slide  v-for="image in images" v-bind:image="image" ></carou-slide>
-
+                    <b-carousel
+                    class="header__carousel carousel"
+                    id="carousel-1"
+                    v-model="slide"
+                    :interval="4000"
+                    controls
+                    indicators
+                    >
+                    
+                    <carou-slide  v-for="image in images" v-bind:image="image" ></carou-slide>
+                    
                 </b-carousel>
-
+                
+            </b-container>
                 <br>
 
                 <b-row id="name">
@@ -87,46 +90,46 @@
                 </b-row>
 
                 <br>
-
+                
                 <b-row id="content" class="listing">
-                    <b-col class="listing__details" sm="12" md="6" lg="6" id="col1">
-                        <div>
-                            <b-table-simple class="listing__details__table" hover small caption-top responsive>
-                              <b-thead>
-                                <b-tr>
-                                  <b-th class="listing__details__table__title" colspan='2'>Listing Details</b-th>
-                                </b-tr>
-                              </b-thead>
-                              <b-tbody>
-                                <b-tr class="listing__details__cell">
-                                  <b-th class="listing__details__cell__header">Area</b-th>
-                                  <b-td>{{area}}</b-td>
-                                </b-tr>
-                                <b-tr class="listing__details__cell">
-                                  <b-th class="listing__details__cell__header">Type</b-th>
-                                  <b-td>{{type}}</b-td>
-                                </b-tr>
-                                <b-tr class="listing__details__cell">
-                                  <b-th class="listing__details__cell__header">Capacity</b-th>
-                                  <b-td>{{capacity}}</b-td>
-                                </b-tr>
-                                <b-tr class="listing__details__cell listing__details__cell--close">
-                                    <b-th class="listing__details__cell__header">Price per day</b-th>
-                                    <b-td>${{price}}</b-td>
-                                </b-tr>
-                              </b-tbody>
-                            </b-table-simple>
-                        </div>
-                        <radar class="listing__details__chart" v-if="loaded" v-bind:data="reviewData"></radar>
-                        <div></div>
-                    </b-col>
-
-                    <b-col sm="12" md="6" lg="6" id="col2">
-                        <b-form class="listing__form" @reset="onReset" @submit="onSubmit">
-                            <b-card header-class="listing__details__table__title"       
-                            header="Make a booking"
-                            header-bg-variant="dark"
-                            header-text-variant="white">
+                        <b-col class="listing__details"id="col1">
+                            <div>
+                                <b-table-simple class="listing__details__table" hover small caption-top responsive>
+                                    <b-thead>
+                                        <b-tr>
+                                            <b-th class="listing__details__table__title" colspan='2'>Listing Details</b-th>
+                                        </b-tr>
+                                    </b-thead>
+                                    <b-tbody>
+                                        <b-tr class="listing__details__cell">
+                                            <b-th class="listing__details__cell__header">Area</b-th>
+                                            <b-td>{{area}}</b-td>
+                                        </b-tr>
+                                        <b-tr class="listing__details__cell">
+                                            <b-th class="listing__details__cell__header">Type</b-th>
+                                            <b-td>{{type}}</b-td>
+                                        </b-tr>
+                                        <b-tr class="listing__details__cell">
+                                            <b-th class="listing__details__cell__header">Capacity</b-th>
+                                            <b-td>{{capacity}}</b-td>
+                                        </b-tr>
+                                        <b-tr class="listing__details__cell listing__details__cell--close">
+                                            <b-th class="listing__details__cell__header">Price per day</b-th>
+                                            <b-td>${{price}}</b-td>
+                                        </b-tr>
+                                    </b-tbody>
+                                </b-table-simple>
+                            </div>
+                            <radar class="listing__details__chart" v-if="loaded" v-bind:data="reviewData"></radar>
+                            <div></div>
+                        </b-col>
+                        
+                        <b-col id="col2">
+                            <b-form class="listing__form" @reset="onReset" @submit="onSubmit">
+                                <b-card header-class="listing__details__table__title"       
+                                header="Make a booking"
+                                header-bg-variant="dark"
+                                header-text-variant="white">
                                 <b class="listing__form__subheader">Preferred Space: {{form.area}}</b> <br>
 
                                 <div class="listing__form__desc">
@@ -227,7 +230,7 @@
 
         Vue.component('carou-slide', {
             props: ['image'],
-            template: `<b-carousel-slide class="header__carousel__image"
+            template: `<b-carousel-slide 
                         :img-src="'./images/listing/'+image"
                         ></b-carousel-slide>`
         })

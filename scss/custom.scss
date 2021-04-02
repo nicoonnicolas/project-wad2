@@ -5,17 +5,20 @@
 
 //ListingDetails.html
 
+
 .header {
 	&__carousel {
-		background: #ababab;
+		background: #ffffff;
 		text-shadow: 1px 1px 2px #333;
-		max-width: 1000px;
 		position: relative;
 		margin: auto;
+		max-width: 100%;
+		height: auto;
+
 
 		&__image {
-			max-width: 100%;
-			max-height: auto;
+			width: 100%;
+			// max-height: auto;
 			background-color: #fff;
 		}
 	}
@@ -96,8 +99,8 @@
 .search {
 	border: none;
 	background: #eee;
-	padding: 4px;
-	margin: 3px;
+	padding: 2rem;
+	margin: 10px;
 
 	&__address {
 		display: flex;
@@ -116,21 +119,29 @@
 		}
 	}
 
+	&__form {
+		padding-left: 1rem;
+		margin-top: 1rem;
+		margin-bottom: 1.25rem;
+	}
 	&__inputs {
 		padding: 3px;
 		display: flex;
-		align-items: center;
 	}
 
 	&__submit {
-		margin-top: 4px;
-		padding: 4px;
-		margin-bottom: 5px;
+		justify-content: center;
+
+		&__form {
+			text-align: center;
+			margin-bottom: 5px;
+		}
 	}
 	&__button {
 		font-weight: bold;
 		letter-spacing: 2px;
-		padding: 13px 17px;
+		padding: 13px 15px;
+		margin-right: 3px;
 		border: none;
 		border-radius: 2px;
 		transition: color 0.2s linear;
@@ -144,7 +155,7 @@ $col-spacing: 5px;
 	&__pagination {
 		text-align: center !important;
 		margin-bottom: 5px !important;
-		padding: 5px; 	
+		padding: 5px;
 	}
 
 	&__card {
@@ -192,7 +203,6 @@ $col-spacing: 5px;
 	max-height: 600px;
 }
 
-
 // bookings.html
 
 #row {
@@ -225,7 +235,7 @@ $col-spacing: 5px;
 .bookings {
 	overflow: hidden;
 	// max-width: 562px;
-	
+
 	&__cancel {
 		justify-content: center;
 		padding-bottom: 50px;
@@ -236,15 +246,15 @@ $col-spacing: 5px;
 	.bookings {
 		min-width: 962px;
 	}
-};
+}
 
 //payment.html
-.bg{
+.bg {
 	background-image: url("../images/app/bg.svg");
 	height: 100%;
 }
 .checkout {
-	&__booking{
+	&__booking {
 		margin: 5px;
 
 		&__image {
@@ -255,70 +265,60 @@ $col-spacing: 5px;
 			position: relative;
 		}
 
-		&__time{
-
+		&__time {
 			padding: 10px 56px 0;
-
 		}
 	}
 
-	&__header{
+	&__header {
 		align-items: center;
 		justify-content: center;
-
 	}
 
-	&__price{
-		
-		&__header{
+	&__price {
+		&__header {
 			padding: 5px;
 			width: 30%;
 			text-transform: uppercase;
 			border-bottom: 3px solid $primary-colour;
 		}
-		&__wrapper{
+		&__wrapper {
 			align-content: center;
 			padding: 40px;
 			background-color: whitesmoke;
 		}
 	}
-
-	
 }
 
-.card{
+.card {
 	position: relative;
 	bottom: 20px;
-	&__block{
+	&__block {
 		padding: 60px;
 
-		&__col{
+		&__col {
 			padding: 40px;
 			border: 2px solid rgb(72, 78, 80);
 			border-radius: 10px;
-			&__title{
+			&__title {
 				margin-bottom: 60px;
 				text-transform: uppercase;
 			}
 
-			&__date{
+			&__date {
 				padding: 20px;
 				border-left: 5px solid lightblue;
 
-				&--list{
+				&--list {
 					padding: 20px;
-
 				}
 			}
-
 		}
 	}
-
 }
 
 // paid.html
-.paid{
-
+.paid {
 	height: 90vh;
 	text-align: center;
 	position: relative;
@@ -326,58 +326,56 @@ $col-spacing: 5px;
 	display: flex;
 	align-items: center;
 	overflow: hidden;
-	
-	&__content{
+
+	&__content {
 		max-width: 600px;
 		margin: 0 auto;
 
-
-		
-		&__header{
+		&__header {
 			position: relative;
 			font-size: 4.5rem;
 			margin: 0 0 10px;
 			line-height: 1;
 		}
-	
-		&__desc{
+
+		&__desc {
 			position: relative;
 			font-size: 1.1rem;
 			line-height: 1.4;
 		}
-		
+
 		&__link {
 			margin: auto;
 			padding: 10px;
 			text-decoration: none;
 			color: $primary-colour;
 			position: relative;
-			transition: all .3s cubic-bezier(.2, 0, 0, 1);
+			transition: all 0.3s cubic-bezier(0.2, 0, 0, 1);
 			z-index: 1;
-			
+
 			&:after {
-			  content: '';
-			  height: 2px;
-			  position: absolute;
-			  bottom: 0;
-			  right: 1.25rem;
-			  left: 1.25rem;
-			  background-color: $primary-colour;
-			  transition: all .3s cubic-bezier(.2, 0, 0, 1);
-			  transform-origin: bottom center;
-			  z-index: -1;
+				content: "";
+				height: 2px;
+				position: absolute;
+				bottom: 0;
+				right: 1.25rem;
+				left: 1.25rem;
+				background-color: $primary-colour;
+				transition: all 0.3s cubic-bezier(0.2, 0, 0, 1);
+				transform-origin: bottom center;
+				z-index: -1;
 			}
-			
+
 			&:hover {
-			  color: white;
-			  text-decoration: none;
-			  
-			  &:after {
-				right: 0;
-				left: 0;
-				height: 100%;
-			  }
+				color: white;
+				text-decoration: none;
+
+				&:after {
+					right: 0;
+					left: 0;
+					height: 100%;
+				}
 			}
-		  }
+		}
 	}
 }

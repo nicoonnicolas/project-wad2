@@ -7,6 +7,7 @@
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.0/gsap.min.js"></script>
 
+	<link type="text/css" rel="stylesheet" href="scss/custom.css" />
 	<!-- Load Vue followed by BootstrapVue -->
 	<script src="https://unpkg.com/vue@latest/dist/vue.min.js"></script>
 	<script src="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.js"></script>
@@ -15,7 +16,6 @@
 	<!-- Load the following for BootstrapVueIcons support -->
 	<script src="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue-icons.min.js"></script>
 
-	<link type="text/css" rel="stylesheet" href="scss/custom.css" />
 	<!-- Firebase Source Files-->
 	<script src="https://www.gstatic.com/firebasejs/8.3.0/firebase-app.js"></script>
 	<!-- <script src="https://www.gstatic.com/firebasejs/8.3.0/firebase-analytics.js"></script> -->
@@ -46,7 +46,7 @@
 		}
 		firebase.initializeApp(firebaseConfig);
 	</script>
-        <title>Huddle</title>
+	<title>Huddle</title>
 
 </head>
 
@@ -56,54 +56,51 @@
 
 		<!-------------------- SEARCH BAR-------------- -->
 		<b-container class="mb-5">
-			<b-container class="mt-4">
-				<div>
-					<div class="search p-4 mt-3">
-						<h3 class="heading mt-5 text-center">Start Searching with Huddle</h3>
-						<div class="search__address">
-							<b-form-input class="search__address__input" placeholder="e.g. 12 Victoria Rd"
-								v-model="address"></b-form-input>
-						</div>
-						<b-row class="mt-4 g-1 px-4 mb-5">
-							<b-col lg="4">
-								<div class="search__inputs">
-									<b-form-select v-model="selected" :options="listing_type">
-									</b-form-select>
 
-								</div>
-							</b-col>
-							<b-col lg="4">
-								<div class="search__inputs">
-									<b-form-datepicker v-model="selectedStartDate" placeholder="Choose a Start Date">
-									</b-form-datepicker>
-								</div>
-							</b-col>
-
-							<b-col lg="4">
-								<div class="search__inputs">
-									<b-form-datepicker v-model="selectedEndDate" placeholder="Choose an End Date">
-									</b-form-datepicker>
-								</div>
-							</b-col>
-						</b-row>
-						<b-row class="search__submit">
-							<b-col sm="6" class="mb-2">
-								<div>
-									<input type='button' class="search__button btn-primary" v-on:click="searchListings"
-										value="Go">
-								</div>
-
-							</b-col>
-							<b-col sm="6">
-								<div>
-									<input type='button' class="search__button btn-warning" v-on:click="clearFilter"
-										value="Clear">
-								</div>
-							</b-col>
-						</b-row>
+			<div>
+				<div class="search">
+					<h3 class="heading mt-5 text-center">Start Searching with Huddle</h3>
+					<div class="search__address">
+						<b-form-input class="search__address__input" placeholder="e.g. 12 Victoria Rd"
+							v-model="address"></b-form-input>
 					</div>
+					<b-row class="search__form">
+						<b-col lg="4">
+							<div class="search__inputs">
+								<b-form-select v-model="selected" :options="listing_type">
+								</b-form-select>
+
+							</div>
+						</b-col>
+						<b-col lg="4">
+							<div class="search__inputs">
+								<b-form-datepicker v-model="selectedStartDate" placeholder="Choose a Start Date">
+								</b-form-datepicker>
+							</div>
+						</b-col>
+
+						<b-col lg="4">
+							<div class="search__inputs">
+								<b-form-datepicker v-model="selectedEndDate" placeholder="Choose an End Date">
+								</b-form-datepicker>
+							</div>
+						</b-col>
+					</b-row>
+					<b-row class="search__submit">
+						<b-col class="search__submit__form">
+
+							<input type='button' class="search__button btn-primary" v-on:click="searchListings"
+								value="Go">
+
+							<input type='button' class="search__button btn-warning" v-on:click="clearFilter"
+								value="Clear">
+
+						</b-col>
+					</b-row>
+
 				</div>
-			</b-container>
+			</div>
+
 		</b-container>
 
 		<!-- --------------------Listing and Map Main Body------------ -->
@@ -125,19 +122,19 @@
 						<b-row>
 							<b-col>
 								<div class="listingresults__pagination">
-									
-									<b-pagination align="center" v-model="currentPage" :total-rows="rows" :per-page="perPage"
-									aria-controls="my-table"></b-pagination>
+
+									<b-pagination align="center" v-model="currentPage" :total-rows="rows"
+										:per-page="perPage" aria-controls="my-table"></b-pagination>
 								</div>
-								
-									
-									<listings data-aos="zoom-in" v-for="listing in listingsPage" v-bind:listing="listing"
+
+
+								<listings data-aos="zoom-in" v-for="listing in listingsPage" v-bind:listing="listing"
 									v-bind:images="'./images/listing/' + listing.images[0]"
 									v-bind:url="'listingdetails.html?listing=' + listing.number">
 								</listings>
-						
-						</b-col>
-					</b-row>
+
+							</b-col>
+						</b-row>
 					</b-container>
 				</b-col>
 			</b-row>

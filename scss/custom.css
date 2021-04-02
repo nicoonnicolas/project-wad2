@@ -26482,15 +26482,15 @@ body {
 }
 
 .header__carousel {
-  background: #ababab;
+  background: #ffffff;
   text-shadow: 1px 1px 2px #333;
-  max-width: 1000px;
   position: relative;
   margin: auto;
+  max-width: 100%;
+  height: auto;
 }
 .header__carousel__image {
-  max-width: 100%;
-  max-height: auto;
+  width: 100%;
   background-color: #fff;
 }
 .header__subheader {
@@ -26552,8 +26552,8 @@ body {
 .search {
   border: none;
   background: #eee;
-  padding: 4px;
-  margin: 3px;
+  padding: 2rem;
+  margin: 10px;
 }
 .search__address {
   display: flex;
@@ -26570,20 +26570,27 @@ body {
   padding: 10px;
   border-radius: 5px;
 }
+.search__form {
+  padding-left: 1rem;
+  margin-top: 1rem;
+  margin-bottom: 1.25rem;
+}
 .search__inputs {
   padding: 3px;
   display: flex;
-  align-items: center;
 }
 .search__submit {
-  margin-top: 4px;
-  padding: 4px;
+  justify-content: center;
+}
+.search__submit__form {
+  text-align: center;
   margin-bottom: 5px;
 }
 .search__button {
   font-weight: bold;
   letter-spacing: 2px;
-  padding: 13px 17px;
+  padding: 13px 15px;
+  margin-right: 3px;
   border: none;
   border-radius: 2px;
   transition: color 0.2s linear;
