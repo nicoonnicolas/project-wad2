@@ -118,29 +118,35 @@
 				FB.api("/me", function (response) {
 					console.log(response.id);
 					sessionStorage.setItem("userId", response.id);
-					document.writeln(response.id);
+					console.log(sessionStorage.getItem("userId"));
+					console.log("I");
 				});
 			}
 
 			window.fbAsyncInit = function () {
+				console.log("E");
 				FB.init({
 					appId: "170765158203845",
 					cookie: true, 		// Enable cookies to allow the server to access the session.
 					xfbml: true, 		// Parse social plugins on this webpage.
 					version: "v10.0", 	// Use this Graph API version for this call.
 				});
-
+				console.log("F");
 				FB.getLoginStatus(function (response) {
 					statusChangeCallback(response); // Returns the login status.
-					console.log(response);
-					console.log("This is a login status!");
+					console.log("H");
 				});
+				console.log("G");
 			};
 
 			function statusChangeCallback(response) {
+				console.log("A");
+				console.log(response);
 				if (response.status === "connected") {
 					facebookLogin();
+					console.log("B");
 				} else {
+					console.log("C")
 					document.getElementById("status").innerHTML =
 						"Please log " + "into this webpage.";
 				}
@@ -148,6 +154,7 @@
 			function checkLoginState() {
 				FB.getLoginStatus(function (response) {
 					statusChangeCallback(response);
+					console.log("D");
 				});
 			}
 
