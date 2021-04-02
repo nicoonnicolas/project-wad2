@@ -256,96 +256,112 @@
 				displayListings: function () {
 					var allListings = this.getAllListings();
 					this.listings = allListings;
-					for (listing in this.listings){
-						var tempArray = L.latLng(listing.lat, listing.long);
-						this.markers.push(tempArray);
+					var tempLatLongList = [];
+					Object.keys(allListings).forEach(function(key) {
+						let listing = allListings[key];
+						let latLong = L.latLng(listing.lat, listing.long);
+						tempLatLongList.push(latLong);
+					});
+					this.markers = tempLatLongList;
+				},
+				searchDate: function (listingsArray, selectedStart, selectedEnd){
+					var filteredListings = [];
+					// console.log(listingsArray);
+					if (selectedStart == "" || selectedEnd == ""){
+						// console.log(listingsArray);
+						return listingsArray;
+					} else {
+						for (listing in listingsArray){
+							// console.log(listing);
+							var listingStart = Date.parse(this.listings[listing].start);
+							var listingEnd = Date.parse(this.listings[listing].end);
+							if (listingStart < selectedStart && listingEnd > selectedEnd ){
+								filteredListings.push(this.listings[listing]);
+							} else {
+								filteredListings.push(this.listings[listing]);
+							}
+						}
+						// console.log(filteredListings);
+						return filteredListings;
 					}
 				},
+				searchAddress: function (listingArray, selectedAddress){
+					var filteredListings = [];
+					// console.log(selectedAddress);
+					for (listing in listingArray){
+						// console.log(this.listings[listing]);
+						var listingAddress = this.listings[listing].address;
+						var listingName = this.listings[listing].name;
+						if (listingAddress.toLowerCase().indexOf(selectedAddress.toLowerCase()) != -1 || 
+						listingName.toLowerCase().indexOf(selectedAddress.toLowerCase()) != -1){
+							filteredListings.push(this.listings[listing]);
+						}
+					}
+					// console.log("searchAddress: ");
+					// console.log(filteredListings);
+					return filteredListings;
+				},
+				searchType: function (listingArray, selectedType){
+					var filteredListings = [];
+					console.log(listingArray);
+					if (selectedType == "*"){
+						return listingArray;
+					}
+					for (listing in listingArray){
+						console.log(listing);
+						console.log(this.listings[listing]);
+						var listingType = this.listings[listing].type;
+						if (listingType == selectedType){
+							filteredListing.push(this.listings[listing]);
+						}
+					}
+					return listingArray;
+				},
 				searchListings: function (){
-					var allListings = this.getAllListings();
+					// var allListings = this.listings;
+					this.displayListings();
+					this.listings = this.getAllListings();
+					
 					var foundListing = [];
 					var selectedType = this.selected;
 					var selectedAddress = this.address;
-					var selectedStart = Date.parse(this.selectedStartDate);
-					var selectedEnd = Date.parse(this.selectedEndDate);
-					var filteredListings = [];
-					for (listing in allListings){
-						var listingAddress = listing.address;
-						var listingName = listing.name;
-						if (listingAddress.indexOf(selectedAddress) != -1 || listingName.indexOf(selectedAddress != -1)){
-							filteredListings.push(listing);
-						}
+					var selectedStart = "";
+					var selectedEnd = "";
+					if (this.selectedStartDate != ""){
+						selectedStart = Date.parse(this.selectedStartDate);
+					}
+					if (this.selectedEndDate != "") {
+						selectedEnd = Date.parse(this.selectedEndDate);
 					}
 
-					/* TODO: Nicolas to continue here */
-					if (selectedStart != "" && selectedEnd != ""){
-						for (listing in filteredListings){
-							var listingStart = listing.start;
-							var listingEnd = listing.end;
-							if (listingStart < selectedStart && listingEnd > selectedEnd ){
-								if (selectedType != "*" && selectedType == listingType) {
-									foundListing.push(filteredListings[listing]);
-								} else {
-									foundListing.push(filteredListings[listing]);
-								}
-							}
-						}
-					} else {
-						for (listing in filteredListings){
-							if (selectedType != "*" && selectedType == listingType) {
-								foundListing.push(filteredListings[listing]);
-							} else {
-								foundListing.push(filteredListings[listing]);
-							}
-						}
-					}
-					// console.log(selectedType != "*" && selectedStart != "" && selectedEnd != "");
-					// if (selectedType != "*" && selectedStart != "" && selectedEnd != ""){
-					// 	for (listingNum in allListings){
-					// 		var listingStart = Date.parse(allListings[listingNum].start);
-					// 		var listingEnd = Date.parse(allListings[listingNum].end);
-					// 		var listingType = allListings[listingNum].type;
-					// 		// console.log(selectedStart < listingStart && listingEnd > selectedEnd);
-					// 		if (listingStart < selectedStart && listingEnd > selectedEnd && listingType == selectedType){
-					// 			foundListing.push(allListings[listingNum]);
-					// 		}
-					// 	}
-					// } 
-					// if (selectedType == "*" && selectedStart != "" && selectedEnd != ""){
-					// 	for (listingNum in allListings){
-					// 		var listingStart = Date.parse(allListings[listingNum].start);
-					// 		var listingEnd = Date.parse(allListings[listingNum].end);
-					// 		// console.log(selectedStart < listingStart && listingEnd > selectedEnd);
-					// 		if (listingStart < selectedStart && listingEnd > selectedEnd){
-					// 			foundListing.push(allListings[listingNum]);
-					// 		}
-					// 	}
-					// } 
-					// if (selectedType != "" && (selectedStart != "" || selectedEnd != "")){
-					// 	for (listingNum in allListings){
-					// 		if (allListings[listingNum].type == selectedType){
-					// 			foundListing.push(allListings[listingNum]);
-					// 		}
-					// 	}
-					// } else {
-					// 	for (listingNum in allListings){
-					// 		var listingStart = Date.parse(allListings[listingNum].start);
-					// 		var listingEnd = Date.parse(allListings[listingNum].end);
-					// 		// console.log(selectedStart < listingStart && listingEnd > selectedEnd);
-					// 		if (listingStart < selectedStart && listingEnd > selectedEnd){
-					// 			foundListing.push(allListings[listingNum]);
-					// 		}
-					// 	}
-					// }
+					// console.log(selectedStart);
+					// console.log(selectedEnd);
 
-					this.listings = foundListing;
-					var tempLatLong = [];
+					var filteredDate = this.searchDate(this.listings, selectedStart, selectedEnd);
+					var filteredAddress = this.searchAddress(filteredDate, selectedAddress);
+					var filteredType = this.searchType(filteredAddress, selectedType);
+
+					this.listings = filteredType;
 					this.markers = [];
+					
+					console.log(this.listings);
+
+					// var tempLatLongList = [];
+					// Object.keys(this.listings).forEach(function(key) {
+					// 	let listing = this.listings[key];
+					// 	let latLong = L.latLng(listing.lat, listing.long);
+					// 	tempLatLongList.push(latLong);
+					// });
+					// this.markers = tempLatLongList;
+
 					for (listing in this.listings){
 						var tempArray = L.latLng(listing.lat, listing.long);
 						this.markers.push(tempArray);
 					}
+
+					
 				},
+
 				clearFilter: function (){
 					this.displayListings();
 					this.selected = '*';
@@ -353,7 +369,7 @@
 					this.selectedEndDate = "";
 				},
 				displayMarker: function(marker){
-					console.log(marker);
+					// console.log(marker);
 					return marker;
 				}
 				// displayMap: function (){
