@@ -26489,7 +26489,6 @@ body {
   margin: auto;
 }
 .header__carousel__image {
-  display: block;
   max-width: 100%;
   max-height: auto;
   background-color: #fff;
@@ -26545,6 +26544,9 @@ body {
   display: block;
   max-width: 100%;
   max-height: auto;
+}
+.listing__form__submit {
+  text-align: center;
 }
 
 .search {

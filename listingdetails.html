@@ -69,7 +69,7 @@
                 indicators
                 >
 
-                <carou-slide v-for="image in images" v-bind:image="image" ></carou-slide>
+                <carou-slide  v-for="image in images" v-bind:image="image" ></carou-slide>
 
                 </b-carousel>
 
@@ -181,12 +181,12 @@
                                 <small>Final price will be calculated at checkout</small>
                             </b-card>
                             <br>
-                            <b-form-row class="text-center">
+                            <b-form-row class="listing__form__submit">
                                 <b-col>
-                                    <b-button type="reset" variant="secondary">Clear</b-button>
+                                    <b-button class="btn-warning" type="reset" variant="secondary">Clear</b-button>
                                 </b-col>
                                 <b-col>
-                                    <b-button type="submit" variant="primary">Submit</b-button>
+                                    <b-button class="btn-primary" type="submit" variant="primary">Submit</b-button>
                                 </b-col>
                             </b-form-row>
                           </b-form>
@@ -226,7 +226,7 @@
 
         Vue.component('carou-slide', {
             props: ['image'],
-            template: `<b-carousel-slide 
+            template: `<b-carousel-slide class="header__carousel__image"
                         :img-src="'./images/listing/'+image"
                         ></b-carousel-slide>`
         })

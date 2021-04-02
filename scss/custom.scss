@@ -14,7 +14,6 @@
 		margin: auto;
 
 		&__image {
-			display: block;
 			max-width: 100%;
 			max-height: auto;
 			background-color: #fff;
@@ -84,6 +83,10 @@
 				max-width: 100%;
 				max-height: auto;
 			}
+		}
+
+		&__submit{
+			text-align: center;
 		}
 	}
 }
