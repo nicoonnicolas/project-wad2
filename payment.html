@@ -143,7 +143,7 @@
 					total = "SGD " + (Math.round((total_price + Number.EPSILON) * 100) / 100)
 					this.booking["totalPrice"] = total_price.toFixed(2);
 					var table = [
-						{ order: 'Space', cost: this.type },
+						{ order: 'Space', cost: this.booking.space },
 						{ order: 'Price per Day', cost: price_per_day },
 						{ order: 'Booking Days', cost: days },
 						{ order: 'Service Charge', cost: '10%' },
