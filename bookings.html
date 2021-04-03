@@ -35,7 +35,6 @@
                 measurementId: "G-4M8XE224JF",
             }
             firebase.initializeApp(firebaseConfig);
-                // firebase.analytics();
 	    </script>
 
 
@@ -114,10 +113,7 @@
                         
                         var userID = sessionStorage.getItem("userId");
 
-                        // Filters '/booking' object based on user ID, which can be found in /users. I think you will need to link up with Nicholas on how to get User ID! For now I just harded coded the User ID in .equalTo(), this is the only part you need to change in future
-                        var bookings = firebase.database().ref("booking").orderByChild("user").equalTo(userID).on("value", (snapshot) => {
-
-                            // store snapshot.val() in your own variable
+                            var bookings = firebase.database().ref("booking").orderByChild("user").equalTo(userID).on("value", (snapshot) => {
 
                             var foundBooking = [];
                             
@@ -134,7 +130,7 @@
                             }
 
                             if(foundBooking.length > 0) {
-                                // add all the extra info into bookings
+                                
                                 this.bookings = foundBooking;
 
                                 var finalBookings = [];
@@ -206,10 +202,6 @@
                         }
                     },
 
-                    // animateTitle() {
-                    //     
-                    // },
-
                     animate() {
                         gsap.fromTo("#moveTitle", {opacity: 0}, {opacity: 1, duration: 0.7});
                         gsap.fromTo("#move", {opacity: 0, x: -300}, {opacity: 1, x: 0, duration: 1, stagger: 0.5}).delay(0.5);
@@ -224,16 +216,7 @@
                             ref.remove();
                             window.location.reload(false);
                         }
-                    },
-
-                    // toListings() {
-                    //     setTimeout(function(){ window.location.href='listings.html';}, 1500);
-                    //     gsap.fromTo("#moveTitle", {opacity: 1}, {opacity: 0, duration: 0.5});
-                    //     gsap.fromTo("#move", {opacity:1 , x: 0}, {opacity: 0, x: 300, duration: 1, stagger: 0.5});
-                    //     gsap.fromTo("#move2", {opacity: 1}, {opacity: 0, duration: 0.5});
-                    // },
-
-                    // Finding a way to animate the elements when leaving the page
+                    }
                   
                 }
             })
