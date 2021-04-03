@@ -4,8 +4,8 @@
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<script type="text/javascript" src="vue.js"></script>
+	<link href="scss/hover-min.css" rel="stylesheet">
 
-	
 	<!-- Load Vue followed by BootstrapVue -->
 	<script src="https://unpkg.com/vue@latest/dist/vue.min.js"></script>
 	<script src="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.js"></script>
@@ -22,8 +22,6 @@
 	integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ=="
 	crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment-recur/1.0.7/moment-recur.min.js"></script>
-	<link href="scss/hover-min.css" rel="stylesheet">
-	
 	<script>moment().format();</script>
 	
 	<link type="text/css" rel="stylesheet" href="scss/custom.css" />
@@ -54,9 +52,6 @@
         <title>Huddle</title>
 
 </head>
-
-<!-- http://localhost/project-wad2/payment.html?booking_price=5&customer_id=2&listing_id=10&start_date=2021-03-17&end_date=2021-03-20&is_recurring=true  -->
-
 
 <body>
 	<div id='app'>
@@ -178,8 +173,6 @@
 
 				this.getListingDetails(this.booking.listing_id)
 				this.processBooking(this.booking.startDate, this.booking.endDate, this.recurring_days)
-			},
-			updated() {
 			},
 			mounted: function () {
 				// email: sarahwoon@gmail.com
