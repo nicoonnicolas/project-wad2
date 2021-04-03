@@ -67,7 +67,7 @@
 				<b-col md class="checkout__booking">
 					<img class="checkout__booking checkout__booking__image" :src="image">
 					<div class="card">		
-						<div class="card__block mb-30">
+						<div class="card__block">
 							<b-row>
 								<b-col class="card__block__col">
 									<div class="card__block__col__title">
@@ -97,10 +97,10 @@
 				<b-col md align-self="center" class="checkout__price">
 					<div class="checkout__price__wrapper">
 
-						<div class="mt-5">
+						<div>
 							<h4 class="checkout__price__header">Order Details</h4>
 							<b-table borderless thead-class="d-none" :items="table"></b-table>
-							<div class="mt-2" ref='paypal'></div>
+							<div class="checkout__price__payment" ref='paypal'></div>
 						</div>
 						
 					</div>

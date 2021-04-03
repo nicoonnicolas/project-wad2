@@ -23,6 +23,13 @@
 		}
 	}
 
+	&__title{
+		text-align: center !important;
+	}
+	&__name{
+		margin-left: auto;
+		margin-right: auto;
+	}
 	&__subheader {
 		font-style: italic;
 
@@ -101,7 +108,10 @@
 	background: #eee;
 	padding: 2rem;
 	margin: 10px;
-
+	
+	&__heading{
+		margin-top: 1.25rem;
+	}
 	&__address {
 		display: flex;
 		justify-content: center;
@@ -287,6 +297,10 @@ $col-spacing: 5px;
 			padding: 40px;
 			background-color: whitesmoke;
 		}
+
+		&__payment{
+			margin-top: 1rem;
+		}
 	}
 }
 
@@ -314,6 +328,8 @@ $col-spacing: 5px;
 				}
 			}
 		}
+
+	
 	}
 }
 
