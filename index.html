@@ -8,9 +8,7 @@
 		<link type="text/css" rel="stylesheet" href="scss/index.css" />
 		<link href="scss/hover-min.css" rel="stylesheet">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
-
-
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.0/gsap.min.js"></script>
+		
 		<meta name="google-signin-client_id" content="999591178620-sgthqg1ea8e8uo0qiuhstkra6ms3783a.apps.googleusercontent.com"/>
 		<script	src="https://apis.google.com/js/platform.js" async defer></script>
 
@@ -77,7 +75,6 @@
 			function onSignIn(googleUser) {
 				
 				var profile = googleUser.getBasicProfile();
-				console.log("ID: " + profile.getId()); 
 				checkUserExists(googleUser);
 			}
 
