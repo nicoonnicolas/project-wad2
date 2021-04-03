@@ -112,8 +112,8 @@
                         
                         var userID = sessionStorage.getItem("userId");
 
-                        // Filters '/booking' object based on user ID, which can be found in /users. I think you will need to link up with Nicholas on how to get User ID! For now I just harded coded the User ID in .equalTo(), this is the only part you need to change in future
-                        var bookings = firebase.database().ref("booking").orderByChild("user").equalTo(userID).on("value", (snapshot) => {
+                            var bookings = firebase.database().ref("booking").orderByChild("user").equalTo(userID).on("value", (snapshot) => {
+
                             var foundBooking = [];
                             
                             for (j in snapshot.val()) {
@@ -129,7 +129,7 @@
                             }
 
                             if(foundBooking.length > 0) {
-                                // add all the extra info into bookings
+                                
                                 this.bookings = foundBooking;
 
                                 var finalBookings = [];
@@ -214,7 +214,7 @@
                             ref.remove();
                             window.location.reload(false);
                         }
-                    },
+                    }
                   
                 }
             })
