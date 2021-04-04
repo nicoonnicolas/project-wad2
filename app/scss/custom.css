@@ -26789,7 +26789,7 @@ body {
   margin: auto;
   padding: 8px;
   text-decoration: none;
-  color: #a2d4dd;
+  color: #60a3bc;
   position: relative;
   transition: all 0.3s cubic-bezier(0.2, 0, 0, 1);
   z-index: 1;
@@ -26801,7 +26801,7 @@ body {
   bottom: 0;
   right: 1.25rem;
   left: 1.25rem;
-  background-color: #a2d4dd;
+  background-color: #60a3bc;
   transition: all 0.3s cubic-bezier(0.2, 0, 0, 1);
   transform-origin: bottom center;
   z-index: -1;
