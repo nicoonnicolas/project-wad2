@@ -161,6 +161,9 @@
                                         placeholder="Choose a date"
                                         @input="hideAll"
                                     ></b-form-datepicker>
+                                    <div v-if="isAfter">
+                                        <small style="color:red;">End date is before start date</small>
+                                    </div>
                                 </b-form-group>
                                 <b-form-group>
                                     <b-form-checkbox
@@ -179,19 +182,18 @@
                                     </b-form-group>
                                 </div>
                                 <small>Final price will be calculated at checkout</small>
-                            </b-card>
-                            <br>
-                            <b-form-row class="listing__form__submit">
-                                <b-col>
-                                    <b-button class="btn-warning" type="reset" variant="secondary">Clear</b-button>
-                                </b-col>
-                                <b-col>
-                                    <b-button class="btn-primary" type="submit" variant="primary">Submit</b-button>
-                                </b-col>
-                            </b-form-row>
-                          </b-form>
-                          <br>
-                          <br>
+                                <b-form-row class="listing__form__submit">
+                                    <b-col>
+                                        <b-button class="btn-warning" type="reset" variant="secondary">Clear</b-button>
+                                    </b-col>
+                                    <b-col>
+                                        <b-button class="btn-primary" type="submit" variant="primary">Submit</b-button>
+                                    </b-col>
+                                </b-form-row>
+                                </b-card>
+                            </b-form>
+                        <br>
+                        <br>
                     <b-col>
                 </b-row>
             </b-container>
@@ -343,6 +345,7 @@
             images: ['1000/image1.png'],
             validDateStart: null,
             validDateEnd: null,
+            isAfter: false,
             form: {
                 start_date: '',
                 end_date: '',
@@ -413,8 +416,10 @@
                 if (this.form.end_date != "") {
                     this.validDateEnd = null;
                 }
+                this.isAfter = false;
             },
             checkInvalid() {
+                this.isAfter = false;
                 if (this.form.start_date == "") {
                     this.validDateStart = false;
                     return false;
@@ -425,6 +430,7 @@
                 }
                 if (this.form.start_date > this.form.end_date) {
                     this.validDateEnd = false;
+                    this.isAfter = true;
                     return false;
                 }
 
