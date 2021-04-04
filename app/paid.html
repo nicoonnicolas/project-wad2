@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<script type="text/javascript" src="vue.js"></script>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.0/gsap.min.js"></script>
+
+	<!-- <link type="text/css" rel="stylesheet" href="bootstrap-vue-dev/custom.css" /> -->
+	<link type="text/css" rel="stylesheet" href="scss/custom.css" />
+
+	<!-- Load Vue followed by BootstrapVue -->
+	<script src="https://unpkg.com/vue@latest/dist/vue.min.js"></script>
+	<script src="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.js"></script>
+
+	<!-- Load the following for BootstrapVueIcons support -->
+	<script src="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue-icons.min.js"></script>
+	<link href="scss/hover-min.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+
+	<title>Huddle</title>
+
+</head>
+
+<body>
+	<div id='app'>
+		<!-- --------------------NAVBAR------------------------- -->
+		<div>
+			<huddlenavbar :check="true" :payment="true"></huddlenavbar>
+		</div>
+		<div class="bg paid">
+			<div class="paid__content">
+
+				<p class="paid__content__header animate__animated animate__tada">Thank You!</p>
+				<p class="paid__content__desc">Please check your <a href="bookings.html" class="paid__content__link">bookings</a> to view your booking details</p>
+
+				<div class="animate__animated animate__pulse animate__slower animate__infinite">
+					<a class="paid__content__link" href="./listings.html">Return to homepage</a>
+				</div>
+			</div>		
+		</div>
+		
+	</div>
+
+	<script src="navbar.js"></script>
+	<script>
+		if (sessionStorage.getItem("userId") == null){
+			location.replace("index.html");
+		};
+
+		var vm = new Vue({
+			el: '#app'
+
+		})
+
+	</script>
+</body>
+
+</html>

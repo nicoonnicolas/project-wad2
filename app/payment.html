@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<script type="text/javascript" src="vue.js"></script>
+	<link href="scss/hover-min.css" rel="stylesheet">
+
+	<!-- Load Vue followed by BootstrapVue -->
+	<script src="https://unpkg.com/vue@latest/dist/vue.min.js"></script>
+	<script src="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.js"></script>
+	
+	<!-- Load the following for BootstrapVueIcons support -->
+	<script src="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue-icons.min.js"></script>
+	
+	<!-- Firebase Source Files-->
+	<script src="https://www.gstatic.com/firebasejs/8.3.0/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-database.js"></script>
+	
+	<!-- DateTime Formatting using Moment JS -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"
+	integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ=="
+	crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment-recur/1.0.7/moment-recur.min.js"></script>
+	<script>moment().format();</script>
+	
+	<link type="text/css" rel="stylesheet" href="scss/custom.css" />
+	<!-- PayPal API -->
+	<script
+		src="https://www.paypal.com/sdk/js?currency=SGD&client-id=ARqV8Dq2UHOZV1yd0pSTUq2O0mt-zXjTO4iUafSZoC52Cv2fm8_jEvuev9c5o_MRPl1CMFckaj1Z5ipe"></script>
+
+	<script>
+		if (sessionStorage.getItem("userId") == null){
+			location.replace("index.html");
+		};
+
+		// Initialize Firebase
+		var firebaseConfig = {
+			apiKey: "AIzaSyDhBjd0INJO6MpP_SX3vJJFRQzgrc1yCbc",
+			authDomain: "just-clover-301402.firebaseapp.com",
+			databaseURL:
+				"https://just-clover-301402-default-rtdb.firebaseio.com",
+			projectId: "just-clover-301402",
+			storageBucket: "just-clover-301402.appspot.com",
+			messagingSenderId: "999591178620",
+			appId: "1:999591178620:web:5ed2ca489e1fee2836b4f9",
+			measurementId: "G-4M8XE224JF",
+		}
+		firebase.initializeApp(firebaseConfig);
+		const AppDB = firebase.database();
+
+	</script>
+	<script>
+		var user_id = sessionStorage.getItem('userId')
+	</script>
+        <title>Huddle</title>
+
+</head>
+
+<body>
+	<div id='app'>
+		<!-- --------------------NAVBAR------------------------- -->
+
+		<div>
+			<huddlenavbar :check="true" :payment="true"></huddlenavbar>
+		</div>
+
+
+		<b-container class="bg" fluid>
+			<b-row>
+				<b-col md class="checkout__booking">
+					<img class="checkout__booking checkout__booking__image" :src="image">
+					<div class="card">		
+						<div class="card__block">
+							<b-row>
+								<b-col class="card__block__col">
+									<div class="card__block__col__title">
+										<h4>{{name}}</h4>
+										<h5 >{{address}}</h5>
+									</div>
+									<template v-if="show">
+										<b-card-group class="card__block__col__date--list" deck>
+											<b-card header="Your Booked Dates">
+												<b-list-group>
+													<b-list-group-item v-for="date in booking.dates"> 
+														<div>{{date}}</div>
+													</b-list-group-item>
+												</b-list-group>
+											</b-card>
+										</b-card-group>
+									</template>
+									<div class="card__block__col__date" v-else>
+										<p>{{booking.startDate}} to {{booking.endDate}}</p>
+									</div>
+								</b-col>
+								
+							</b-row>
+					</div>
+					</div>
+				</b-col>
+				<b-col md align-self="center" class="checkout__price">
+					<div class="checkout__price__wrapper">
+
+						<div>
+							<h4 class="checkout__price__header">Order Details</h4>
+							<b-table borderless thead-class="d-none" :items="table"></b-table>
+							<div class="checkout__price__payment" ref='paypal'></div>
+						</div>
+						
+					</div>
+				</b-col>
+			</b-row>
+		</b-container>
+
+	</div>
+	<script src="navbar.js"></script>
+	<script>
+		var vm = new Vue({
+			el: '#app',
+			data: {
+				paidFor: true,
+				errors: '',
+				name: '',
+				address: '',
+				days: '',
+				price: 0,
+				type: '',
+				load: false,
+				is_recurring: false,
+				show: false,
+				booking: {
+					startDate: "",
+					endDate: "",
+					totalPrice: 0,
+					user: '',
+					listing_id: '',
+					dates: [],
+					recurring_days: "",
+					space: ''
+				},
+
+			},
+			computed: {
+				table: function () {
+					days = this.days + ' days'
+					total_price = this.days * this.price * 0.90
+					price_per_day = "SGD " + this.price
+					total = "SGD " + (Math.round((total_price + Number.EPSILON) * 100) / 100)
+					this.booking["totalPrice"] = total_price.toFixed(2);
+					var table = [
+						{ order: 'Space', cost: this.booking.space },
+						{ order: 'Price per Day', cost: price_per_day },
+						{ order: 'Booking Days', cost: days },
+						{ order: 'Service Charge', cost: '10%' },
+						{ order: 'Total', cost: total },
+					]
+					return table
+				},
+				image: function () {
+					url = 'images/listing/' + this.booking.listing_id + "/image1.png"
+					return url
+				},
+
+			},
+			created() {
+				let uri = window.location.search
+				let params = new URLSearchParams(uri);
+
+				this.booking.user = user_id
+				this.booking.listing_id = params.get("listing_id")
+				this.booking.startDate = params.get("start_date")
+				this.booking.endDate = params.get("end_date")
+				this.booking.space = params.get("space")
+				this.is_recurring = params.get("is_recurring")
+				if (params.get("recurring_days") !== null){
+					this.booking.recurring_days = params.get("recurring_days").split(',')
+				}
+
+				this.getListingDetails(this.booking.listing_id)
+				this.processBooking(this.booking.startDate, this.booking.endDate, this.recurring_days)
+			},
+			mounted: function () {
+				// email: sarahwoon@gmail.com
+				// pw: 2G?yV/pI
+				window.paypal
+					.Buttons({
+						createOrder: (data, actions) => {
+							return actions.order.create({
+								purchase_units: [
+									{
+										description: 'Space Booking',
+										amount: {
+											currency_code: 'SGD',
+											value: this.booking.totalPrice
+										}
+									}
+								]
+							});
+						},
+						onApprove: async (data, actions) => {
+							this.addBooking()
+							window.location.replace("http://localhost/project-wad2/paid.html");
+						},
+						onError: err => {
+
+							this.errors = err
+						}
+					})
+					.render(this.$refs.paypal);
+			},
+			methods: {
+				getListingDetails: function (id) {
+					var listing = AppDB.ref("listing/" + id);
+					listing.on("value", (snapshot) => {
+						if (snapshot.val() != null) {
+							details = snapshot.val();
+							this.name = details.name
+							this.address = details.address + " " + details.postal + " #" + details.unit
+							this.type = details.type
+							this.price = parseFloat(details.price)
+							this.load = true
+						}
+					});
+				},
+				processBooking(start_date, end_date, reccuring_arr) {
+
+					start = moment(start_date, "YYYY-MM-DD")
+					end = moment(end_date, "YYYY-MM-DD")
+					
+					if (this.is_recurring === 'true') {
+						this.show = true
+						weeks = end.diff(start, 'weeks')
+						recurring_days = this.booking.recurring_days
+						this.booking.dates = this.getNextEvents(start_date, end_date, weeks, recurring_days, 1)
+						this.days = this.booking.dates.length
+					}
+					else {
+						this.days = parseInt(end.diff(start, 'days')) + 1
+					}
+				},
+				addBooking() {
+					var bookingRef = AppDB.ref('booking/')
+					bookingRef.push(this.booking)
+				},
+				getNextEvents(startDate, end, numEvents, recurring_days, weekIndex) {
+					var events = moment().recur(startDate, end)
+						.every(recurring_days) //Tues, Wed
+						.daysOfWeek() // Days of the week
+						.every(weekIndex) //every X number weeks
+					return events.all("dddd, MMMM DD");
+				},
+			}
+		}
+		)
+
+	</script>
+
+</body>
+
+</html>

@@ -1,0 +1,182 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<title>Login</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!--Styling for Login-->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+		integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous" />
+	<link type="text/css" rel="stylesheet" href="scss/index.css" />
+	<link href="scss/hover-min.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
+	<meta name="google-signin-client_id"
+		content="999591178620-sgthqg1ea8e8uo0qiuhstkra6ms3783a.apps.googleusercontent.com" />
+	<script src="https://apis.google.com/js/platform.js" async defer></script>
+
+	<!-- Firebase Source Files-->
+	<script src="https://www.gstatic.com/firebasejs/8.3.0/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-database.js"></script>
+	<title>Huddle</title>
+
+</head>
+
+<body>
+	<div class="c">
+
+		<div class="c__container animate__animated animate__zoomIn">
+			<div class="c__card">
+					<div class="c__logo ">
+						<img src="images/app/logo.JPG" class="c__logo__image hvr-wobble-top" alt="Logo" />
+					</div>
+					<div class="c__login">
+						
+						<div class="c__login__content fb-login-button" onlogin="checkLoginState()" data-width="250px" data-size="large"
+						data-button-type="continue_with" data-layout="default" data-max-rows="1"
+						data-auto-logout-link="false" data-use-continue-as="true"></div>
+						
+						<div id="signInButton" class="c__login__content g-signin2" data-onsuccess="onSignIn"></div>
+					</div>
+				</div>
+		</div>
+	</div>
+		<script>
+			//Firebase Configuration
+			var firebaseConfig = {
+				apiKey: "AIzaSyDhBjd0INJO6MpP_SX3vJJFRQzgrc1yCbc",
+				authDomain: "just-clover-301402.firebaseapp.com",
+				databaseURL:
+				"https://just-clover-301402-default-rtdb.firebaseio.com",
+				projectId: "just-clover-301402",
+				storageBucket: "just-clover-301402.appspot.com",
+				messagingSenderId: "999591178620",
+			appId: "1:999591178620:web:5ed2ca489e1fee2836b4f9",
+			measurementId: "G-4M8XE224JF",
+		};
+
+		firebase.initializeApp(firebaseConfig);
+
+		function renderButton() {
+			gapi.signin2.render('signInButton', {
+				'scope': 'profile email',
+				'width': 240,
+				'height': 50,
+				'longtitle': true,
+				'theme': 'dark',
+				'onsuccess': onSignIn,
+			});
+		}
+
+		/*Google Sign in*/
+		function onSignIn(googleUser) {
+
+			var profile = googleUser.getBasicProfile();
+			checkUserExists(googleUser);
+		}
+
+		function checkUserExists(googleUser) {
+			var profile = googleUser.getBasicProfile();
+			var userID = profile.getId();
+			var user = firebase.database().ref("users/" + userID);
+			user.once("value").then((snapshot) => {
+				if (snapshot.exists()) {
+					location.replace("listings.html");
+					sessionStorage.setItem("userId", userID);
+					sessionStorage.setItem("loginType", "google");
+				} else {
+					registerUser(googleUser);
+				}
+			});
+		}
+
+		function registerUser(googleUser) {
+			var profile = googleUser.getBasicProfile();
+			var userID = profile.getId();
+			var userEmail = profile.getEmail();
+			var userFullName = profile.getName();
+			firebase.database().ref('users/' + userID).set({
+				email: userEmail,
+				name: userFullName,
+				role: "customer"
+			}, function (error) {
+				if (error) {
+					alert("Unable to Login using Google!");
+				} else {
+					alert("Welcome to Huddle, " + userFullName);
+					sessionStorage.setItem("userId", userID);
+				}
+			});
+		}
+
+		/*Facebook Sign In */
+		function statusChangeCallback(response) {
+			if (response.status === "connected") {
+				facebookLogin();
+			} else {
+				document.getElementById("status").innerHTML =
+					"Please log " + "into this webpage.";
+			}
+		}
+
+		function checkLoginState() {
+			FB.getLoginStatus(function (response) {
+				statusChangeCallback(response);
+			});
+		}
+
+		window.fbAsyncInit = function () {
+			FB.init({
+				appId: "170765158203845",
+				cookie: true,
+				xfbml: true,
+				version: "v10.0",
+			});
+			FB.getLoginStatus(function (response) {
+				statusChangeCallback(response);
+			});
+		};
+
+		function facebookLogin() {
+			FB.api("/me", function (response) {
+				checkFacebookUserExist(response.id, response.name);
+			});
+		};
+
+		function checkFacebookUserExist(userID, name) {
+			var user = firebase.database().ref("users/" + userID);
+			user.once("value").then((snapshot) => {
+				if (snapshot.exists()) {
+					location.replace("listings.html");
+					sessionStorage.setItem("userId", userID);
+				} else {
+					registerFacebookUser(userID, name);
+				}
+			});
+		}
+
+		function registerFacebookUser(userID, name) {
+			firebase.database().ref('users/' + userID).set({
+				email: "",
+				name: name,
+				role: "customer"
+			}, function (error) {
+				if (error) {
+					alert("Unable to Login using Facebook!");
+				} else {
+					alert("Welcome to Huddle, " + name);
+					sessionStorage.setItem("userId", userID);
+					sessionStorage.setItem("loginType", "facebook");
+					location.replace("listings.html");
+				}
+			});
+		}
+	</script>
+	<script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
+	<script async defer crossorigin="anonymous"
+		src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v10.0&appId=170765158203845"
+		nonce="C0VTwW2e"></script>
+</body>
+
+</html>

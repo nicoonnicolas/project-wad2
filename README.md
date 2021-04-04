@@ -58,3 +58,8 @@ A platform to easily find and book co-working spaces that suit your needs.
 
 ## Use
 * Visit http://localhost/app/ to start making bookings!
+
+### Making PayPal Transactions
+* Under http://localhost/payment.html, paypal transactions can be made to the following PayPal account:    
+* Email: sarahwoon@gmail.com
+* Password: 2G?yV/pI

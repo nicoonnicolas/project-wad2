@@ -1,0 +1,25 @@
+<html>
+	<head>
+		<meta name="google-signin-client_id" content="999591178620-sgthqg1ea8e8uo0qiuhstkra6ms3783a.apps.googleusercontent.com"/>
+		<script	src="https://apis.google.com/js/platform.js?onload=onLoad" async defer></script>
+		<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v10.0&appId=170765158203845" nonce="cdrsWJUF"></script>
+		<title>Huddle</title>
+	</head>
+	<body onload="onLoad()">
+		<script>
+			function signOut() {
+				FB.logout(function(response) {});
+				location.replace("index.html");
+			}
+
+			function onLoad() {
+				sessionStorage.clear();
+				gapi.load("auth2", function () {
+					gapi.auth2.init();
+				});
+				signOut();
+			}
+		</script>
+		
+	</body>
+</html>
