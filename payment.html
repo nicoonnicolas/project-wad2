@@ -30,6 +30,10 @@
 		src="https://www.paypal.com/sdk/js?currency=SGD&client-id=ARqV8Dq2UHOZV1yd0pSTUq2O0mt-zXjTO4iUafSZoC52Cv2fm8_jEvuev9c5o_MRPl1CMFckaj1Z5ipe"></script>
 
 	<script>
+		if (sessionStorage.getItem("userId") == null){
+			location.replace("index.html");
+		};
+
 		// Initialize Firebase
 		var firebaseConfig = {
 			apiKey: "AIzaSyDhBjd0INJO6MpP_SX3vJJFRQzgrc1yCbc",

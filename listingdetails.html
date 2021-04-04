@@ -201,6 +201,10 @@
     <script src="navbar.js"></script>
 
     <script>
+        if (sessionStorage.getItem("userId") == null){
+            location.replace("index.html");
+        };
+
         Vue.component('radar', {
             extends: VueChartJs.Radar,
             props: ['data'],

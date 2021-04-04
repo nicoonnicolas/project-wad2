@@ -86,6 +86,10 @@
         <script src="navbar.js"></script>
 
         <script>
+            if (sessionStorage.getItem("userId") == null){
+				location.replace("index.html");
+			};
+
             var vm = new Vue({
                 el: '#app',
                 data: {
