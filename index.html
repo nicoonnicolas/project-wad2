@@ -28,19 +28,18 @@
 
 		<div class="c__container animate__animated animate__zoomIn">
 			<div class="c__card">
-				<div class="c__logo">
-					<img src="images/app/logo.JPG" class="c__logo__image hvr-wobble-top" alt="Logo" />
+					<div class="c__logo ">
+						<img src="images/app/logo.JPG" class="c__logo__image hvr-wobble-top" alt="Logo" />
+					</div>
+					<div class="c__login">
+						
+						<div class="c__login__content fb-login-button" onlogin="checkLoginState()" data-width="250px" data-size="large"
+						data-button-type="continue_with" data-layout="default" data-max-rows="1"
+						data-auto-logout-link="false" data-use-continue-as="true"></div>
+						
+						<div id="signInButton" class="c__login__content g-signin2" data-onsuccess="onSignIn"></div>
+					</div>
 				</div>
-				<div class="c__login">
-					
-					<div class="c__login__ content fb-login-button" onlogin="checkLoginState()" data-width="250px" data-size="large"
-					data-button-type="continue_with" data-layout="default" data-max-rows="1"
-					data-auto-logout-link="false" data-use-continue-as="true"></div>
-					
-					<div id="signInButton" class="c__login__content g-signin2" data-onsuccess="onSignIn"></div>
-				</div>
-				
-			</div>
 		</div>
 	</div>
 		<script>
