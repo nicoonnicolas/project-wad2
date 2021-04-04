@@ -4,7 +4,7 @@ A platform to easily find and book co-working spaces that suit your needs.
 ## Installation
 
 ### Set up project:
-* Place the project into your WAMP folder at C:\wamp64\www\
+* Place the project (app) into your WAMP folder at C:\wamp64\www\
 
 <br>
 
@@ -60,6 +60,6 @@ A platform to easily find and book co-working spaces that suit your needs.
 * Visit http://localhost/app/ to start making bookings!
 
 ### Making PayPal Transactions
-* Under http://localhost/payment.html, paypal transactions can be made to the following PayPal account:    
+* Under http://localhost/app/payment.html, paypal transactions can be made to the following PayPal account:    
 * Email: sarahwoon@gmail.com
 * Password: 2G?yV/pI
