@@ -26493,6 +26493,13 @@ body {
   width: 100%;
   background-color: #fff;
 }
+.header__title {
+  text-align: center !important;
+}
+.header__name {
+  margin-left: auto;
+  margin-right: auto;
+}
 .header__subheader {
   font-style: italic;
 }
@@ -26554,6 +26561,9 @@ body {
   background: #eee;
   padding: 2rem;
   margin: 10px;
+}
+.search__heading {
+  margin-top: 1.25rem;
 }
 .search__address {
   display: flex;
@@ -26720,6 +26730,9 @@ body {
   align-content: center;
   padding: 40px;
   background-color: whitesmoke;
+}
+.checkout__price__payment {
+  margin-top: 1rem;
 }
 
 .card {
