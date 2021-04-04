@@ -67,7 +67,7 @@ A platform to easily find and book co-working spaces that suit your needs.
 ### Login Methods:
 * Under http://localhost/app/, users can login via 2 methods:
 
-* Gmail
+* Google Sign in (Gmail Account)
     *nickwijaya.is216@gmail.com
     * Password: i<3IS216
 
