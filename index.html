@@ -103,7 +103,7 @@
 					if (error) {
 						alert("Unable to Login using Google!");
 					} else {
-						alert("Welcome to Huddles, " + userFullName);
+						alert("Welcome to Huddle, " + userFullName);
 						sessionStorage.setItem("userId", userID);
 					}
 				});
@@ -164,7 +164,7 @@
 					if (error) {
 						alert("Unable to Login using Facebook!");
 					} else {
-						alert("Welcome to Huddles, " + name);
+						alert("Welcome to Huddle, " + name);
 						sessionStorage.setItem("userId", userID);
 						sessionStorage.setItem("loginType", "facebook");
 						location.replace("listings.html");
