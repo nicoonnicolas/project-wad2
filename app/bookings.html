@@ -62,14 +62,17 @@
                                     {{booking["address"]}}<br>
                                     #{{booking["unit"]}}<br><br>    
                                     Date: {{booking["startDate"]}} to {{booking["endDate"]}} <br>
-                                    Recurring Days: 
-                                    <span v-for="day in booking['recurringDays']">
-                                        {{day}}; 
-                                    </span> <br>
-                                    Booked Dates:
-                                    <span v-for="date in booking['recurringDates']">
-                                        {{date}}; 
-                                    </span> <br>
+                                    <div v-if="recurring">
+                                        Recurring Days:
+                                        <span v-for="day in booking['recurringDays']">
+                                            {{day}}; 
+                                        </span> <br>
+                                        Booked Dates:
+                                        <span v-for="date in booking['recurringDates']">
+                                            {{date}}; 
+                                        </span>
+                                    </div>
+                                    <br>
                                     Price: ${{booking["totalPrice"]}}
                                 </b-card-text>
                                 <div class="bookings__cancel">
@@ -103,7 +106,8 @@
                 data: {
                     bookings: null,
                     allListings: null,
-                    finalBookings: null
+                    finalBookings: null,
+                    recurring: true,
                 },
                 created: function () {
                     this.listings = "";
@@ -138,6 +142,9 @@
                                 var listing_id = obj.listing_id;
                                 var recurringDates = obj.dates;
                                 var recurringDays = obj.recurring_days;
+                                if (recurringDays.length == 1 && recurringDays[0] == ""){
+                                    this.recurring = false;
+                                }
 
                                 foundBooking.push({bookingID, listing_id, startDate, endDate, totalPrice, recurringDates, recurringDays});
                             };
