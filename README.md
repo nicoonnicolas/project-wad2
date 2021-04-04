@@ -65,10 +65,10 @@ A platform to easily find and book co-working spaces that suit your needs.
 * Visit http://localhost/app/ to start making bookings!
 
 ### Login Methods:
-* Under http://localhost/app/, users can login via 2 methods:
+Under http://localhost/app/, users can login via 2 methods:
 
 * Google Sign in (Gmail Account)
-    * nickwijaya.is216@gmail.com
+    * Email: nickwijaya.is216@gmail.com
     * Password: i<3IS216
 
 * Facebook
@@ -76,7 +76,7 @@ A platform to easily find and book co-working spaces that suit your needs.
     * Password: i<3IS216
 
 ### Making Payments:
-* Under http://localhost/app/payment.html, transactions can be made via PayPal through 2 payment methods:
+Under http://localhost/app/payment.html, transactions can be made via PayPal through 2 payment methods:
 * PayPal Account
     * Email: sarahwoon@gmail.com
     * Password: 2G?yV/pI
