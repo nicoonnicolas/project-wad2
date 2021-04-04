@@ -18,7 +18,6 @@
 
 		&__image {
 			width: 100%;
-			// max-height: auto;
 			background-color: #fff;
 		}
 	}
@@ -174,13 +173,12 @@ $col-spacing: 5px;
 		&__overlay {
 			position: absolute;
 			bottom: 0;
-			background: rgba(255, 255, 255, 0); /* Black see-through */
+			background: rgba(255, 255, 255, 0);
 			color: #f1f1f1;
 			width: 100%;
 			transition: 0.5s ease;
 			opacity: 0;
 			color: white;
-			// font-size: 20px;
 			padding: 15px;
 			text-align: right;
 
@@ -226,7 +224,6 @@ $col-spacing: 5px;
 	opacity: 0;
 }
 #move {
-	/* max-height: 20rem; */
 	height: auto;
 	width: 60%;
 	margin: auto;
@@ -244,7 +241,6 @@ $col-spacing: 5px;
 
 .bookings {
 	overflow: hidden;
-	// max-width: 562px;
 
 	&__cancel {
 		justify-content: center;
