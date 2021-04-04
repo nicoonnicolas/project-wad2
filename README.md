@@ -64,10 +64,28 @@ A platform to easily find and book co-working spaces that suit your needs.
 ### Using the app:
 * Visit http://localhost/app/ to start making bookings!
 
-### Making PayPal transactions:
-* Under http://localhost/app/payment.html, paypal transactions can be made using the following PayPal account:    
+### Login Methods:
+* Under http://localhost/app/, users can login via 2 methods:
+
+* Gmail
+    *nickwijaya.is216@gmail.com
+    * Password: i<3IS216
+
+* Facebook
+    * Facebook Login: nickwijaya.is216@gmail.com
+    * Password: i<3IS216
+
+### Making Payments:
+* Under http://localhost/app/payment.html, transactions can be made via PayPal through 2 payment methods:
+* PayPal Account
     * Email: sarahwoon@gmail.com
     * Password: 2G?yV/pI
+* Credit Card Account
+    * Credit Card Number: 4096 3663 7405 2639
+    * Expirty Date: 04/26
+    * CVV: 123
+    * All other inputs (Name, Address, Postal Code, Phone Number) may be randomly filled in as this is a fake credit card account.
+
 
 ***
 
