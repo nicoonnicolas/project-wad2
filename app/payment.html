@@ -75,19 +75,13 @@
 							<b-row>
 								<b-col class="card__block__col">
 									<div class="card__block__col__title">
-										<h4>{{name}}</h4>
-										<h5 >{{address}}</h5>
+										<h5>{{name}}</h5>
+										<h6>{{address}}</h6>
 									</div>
 									<template v-if="show">
-										<b-card-group class="card__block__col__date--list" deck>
-											<b-card header="Your Booked Dates">
-												<b-list-group>
-													<b-list-group-item v-for="date in booking.dates"> 
-														<div>{{date}}</div>
-													</b-list-group-item>
-												</b-list-group>
-											</b-card>
-										</b-card-group>
+										<div v-for="date in booking.dates"> 
+											<p>{{date}}</p>
+										</div>
 									</template>
 									<div class="card__block__col__date" v-else>
 										<p>{{booking.startDate}} to {{booking.endDate}}</p>
