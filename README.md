@@ -72,4 +72,4 @@ A platform to easily find and book co-working spaces that suit your needs.
 ***
 
 ## Credits
-* Penguin Image from [felizanonuevo] (https://muuseo.com/felizanonuevo#floor)
+* Penguin Image from [felizanonuevo](https://muuseo.com/felizanonuevo#floor)
