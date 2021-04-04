@@ -163,21 +163,21 @@
 
 			},
 			created() {
-				let uri = window.location.search
+				let uri = window.location.search;
 				let params = new URLSearchParams(uri);
 
-				this.booking.user = user_id
-				this.booking.listing_id = params.get("listing_id")
-				this.booking.startDate = params.get("start_date")
-				this.booking.endDate = params.get("end_date")
-				this.booking.space = params.get("space")
-				this.is_recurring = params.get("is_recurring")
+				this.booking.user = user_id;
+				this.booking.listing_id = params.get("listing_id");
+				this.booking.startDate = params.get("start_date");
+				this.booking.endDate = params.get("end_date");
+				this.booking.space = params.get("space");
+				this.is_recurring = params.get("is_recurring");
 				if (params.get("recurring_days") !== null){
-					this.booking.recurring_days = params.get("recurring_days").split(',')
+					this.booking.recurring_days = params.get("recurring_days").split(',');
 				}
 
-				this.getListingDetails(this.booking.listing_id)
-				this.processBooking(this.booking.startDate, this.booking.endDate, this.recurring_days)
+				this.getListingDetails(this.booking.listing_id);
+				this.processBooking(this.booking.startDate, this.booking.endDate, this.recurring_days);
 			},
 			mounted: function () {
 				// email: sarahwoon@gmail.com
@@ -198,12 +198,11 @@
 							});
 						},
 						onApprove: async (data, actions) => {
-							this.addBooking()
-							location.replace('paid.html')
+							this.addBooking();
+							location.replace('paid.html');
 						},
 						onError: err => {
-
-							this.errors = err
+							this.errors = err;
 						}
 					})
 					.render(this.$refs.paypal);
@@ -214,33 +213,33 @@
 					listing.on("value", (snapshot) => {
 						if (snapshot.val() != null) {
 							details = snapshot.val();
-							this.name = details.name
-							this.address = details.address + " " + details.postal + " #" + details.unit
-							this.type = details.type
-							this.price = parseFloat(details.price)
-							this.load = true
+							this.name = details.name;
+							this.address = details.address + " " + details.postal + " #" + details.unit;
+							this.type = details.type;
+							this.price = parseFloat(details.price);
+							this.load = true;
 						}
 					});
 				},
 				processBooking(start_date, end_date, reccuring_arr) {
 
-					start = moment(start_date, "YYYY-MM-DD")
-					end = moment(end_date, "YYYY-MM-DD")
+					start = moment(start_date, "YYYY-MM-DD");
+					end = moment(end_date, "YYYY-MM-DD");
 					
 					if (this.is_recurring === 'true') {
-						this.show = true
-						weeks = end.diff(start, 'weeks')
-						recurring_days = this.booking.recurring_days
-						this.booking.dates = this.getNextEvents(start_date, end_date, weeks, recurring_days, 1)
-						this.days = this.booking.dates.length
+						this.show = true;
+						weeks = end.diff(start, 'weeks');
+						recurring_days = this.booking.recurring_days;
+						this.booking.dates = this.getNextEvents(start_date, end_date, weeks, recurring_days, 1);
+						this.days = this.booking.dates.length;
 					}
 					else {
-						this.days = parseInt(end.diff(start, 'days')) + 1
+						this.days = parseInt(end.diff(start, 'days')) + 1;
 					}
 				},
 				addBooking() {
-					var bookingRef = AppDB.ref('booking/')
-					bookingRef.push(this.booking)
+					var bookingRef = AppDB.ref('booking/');
+					bookingRef.push(this.booking);
 				},
 				getNextEvents(startDate, end, numEvents, recurring_days, weekIndex) {
 					var events = moment().recur(startDate, end)

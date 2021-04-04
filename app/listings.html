@@ -159,7 +159,7 @@
 				`,
 				methods: {
 					redirect: function(url) {
-						location.href = url
+						location.href = url;
 					},
 				}
 			});
@@ -198,13 +198,13 @@
 				},
 				computed: {
 					rows() {
-						return Object.keys(this.listings).length
+						return Object.keys(this.listings).length;
 					},
 					listingsPage() {
-						return Object.entries(this.listings).slice((this.currentPage - 1) * this.perPage, (this.currentPage - 1) * this.perPage + this.perPage).map(entry => entry[1])
+						return Object.entries(this.listings).slice((this.currentPage - 1) * this.perPage, (this.currentPage - 1) * this.perPage + this.perPage).map(entry => entry[1]);
 					},
 					markersPage() {
-						return Object.entries(this.markers).slice((this.currentPage - 1) * this.perPage, (this.currentPage - 1) * this.perPage + this.perPage).map(entry => entry[1])
+						return Object.entries(this.markers).slice((this.currentPage - 1) * this.perPage, (this.currentPage - 1) * this.perPage + this.perPage).map(entry => entry[1]);
 					}
 				},
 				created: function () {
@@ -224,7 +224,7 @@
 						this.markers = tempLatLongList;
 						this.loaded = true;
 					});
-					this.getWeather()
+					this.getWeather();
 				},
 				methods: {
 					getWeather: function() {

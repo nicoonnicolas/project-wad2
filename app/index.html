@@ -54,19 +54,19 @@
 				messagingSenderId: "999591178620",
 			appId: "1:999591178620:web:5ed2ca489e1fee2836b4f9",
 			measurementId: "G-4M8XE224JF",
-		};
+			};
 
-		firebase.initializeApp(firebaseConfig);
+			firebase.initializeApp(firebaseConfig);
 
-		function renderButton() {
-			gapi.signin2.render('signInButton', {
-				'scope': 'profile email',
-				'width': 240,
-				'height': 50,
-				'longtitle': true,
-				'theme': 'dark',
-				'onsuccess': onSignIn,
-			});
+			function renderButton() {
+				gapi.signin2.render('signInButton', {
+					'scope': 'profile email',
+					'width': 240,
+					'height': 50,
+					'longtitle': true,
+					'theme': 'dark',
+					'onsuccess': onSignIn,
+				});
 		}
 
 		/*Google Sign in*/
