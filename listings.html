@@ -55,11 +55,11 @@
 							
 							<h3 class="">Start Searching with Huddle</h3>
 						</div>
-						<div class="search__address">
+						<div class="search__form">
 							<b-form-input class="search__address__input" placeholder="e.g. 12 Victoria Rd"
 								v-model="address"></b-form-input>
 						</div>
-						<b-row class="search__form">
+						<b-row  class="search__form">
 							<b-col lg="4">
 								<div class="search__inputs">
 									<b-form-select v-model="selected" :options="listing_type">
@@ -94,7 +94,7 @@
 			<!-- --------------------Listing and Map Main Body------------ -->
 			<b-container >
 				<b-row>
-					<b-col lg>
+					<b-col lg class="map">
 						<div v-if="loaded" id="map">
 							<l-map :zoom="zoom" :center="center">
 								<l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>

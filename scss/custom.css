@@ -13232,6 +13232,7 @@ input[type=color].form-control:disabled {
 }
 
 /*# sourceMappingURL=bootstrap-vue.min.css.map */
+/* Contains default font and theme colors for Huddle Web Application */
 /*!
  * Bootstrap v4.6.0 (https://getbootstrap.com/)
  * Copyright 2011-2021 The Bootstrap Authors
@@ -26467,13 +26468,13 @@ input[type=color].form-control:disabled {
 /*# sourceMappingURL=bootstrap-vue.min.css.map */
 @font-face {
   font-family: "poppinsregular";
-  src: url("http://localhost/project-wad2/scss/fonts/poppins-regular-webfont.woff2") format("woff2"), url("http://localhost/project-wad2/scss/fonts/poppins-regular-webfont.woff") format("woff");
+  src: url("http://localhost/app/scss/fonts/poppins-regular-webfont.woff2") format("woff2"), url("http://localhost/app/scss/fonts/poppins-regular-webfont.woff") format("woff");
   font-weight: normal;
   font-style: normal;
 }
 @font-face {
   font-family: "poppinslight";
-  src: url("http://localhost/project-wad2/scss/fonts/poppins-light-webfont.woff2") format("woff2"), url("http://localhost/project-wad2/scss/fonts/poppins-light-webfont.woff") format("woff");
+  src: url("http://localhost/app/scss/fonts/poppins-light-webfont.woff2") format("woff2"), url("http://localhost/app/scss/fonts/poppins-light-webfont.woff") format("woff");
   font-weight: normal;
   font-style: normal;
 }
@@ -26565,14 +26566,17 @@ body {
 .search__heading {
   margin-top: 1.25rem;
 }
-.search__address {
+.search__form {
   display: flex;
   justify-content: center;
-  padding-left: 5px;
-  padding-right: 5px;
+  align-items: center;
+  padding-left: 1rem;
+  margin-top: 1rem;
+  margin-bottom: 1.25rem;
 }
-.search__address__input {
-  width: 100%;
+.search__input {
+  align-items: center;
+  width: 90%;
   margin-bottom: auto;
   margin-top: 20px;
   height: 50px;
@@ -26580,14 +26584,10 @@ body {
   padding: 10px;
   border-radius: 5px;
 }
-.search__form {
-  padding-left: 1rem;
-  margin-top: 1rem;
-  margin-bottom: 1.25rem;
-}
 .search__inputs {
   padding: 3px;
   display: flex;
+  text-align: center;
 }
 .search__submit {
   justify-content: center;
@@ -26606,6 +26606,10 @@ body {
   transition: color 0.2s linear;
 }
 
+.map {
+  margin-bottom: 1.25rem;
+}
+
 .listingresults {
   overflow: auto;
 }
@@ -26621,7 +26625,6 @@ body {
   position: absolute;
   bottom: 0;
   background: rgba(255, 255, 255, 0);
-  /* Black see-through */
   color: #f1f1f1;
   width: 100%;
   transition: 0.5s ease;
@@ -26667,7 +26670,6 @@ body {
 }
 
 #move {
-  /* max-height: 20rem; */
   height: auto;
   width: 60%;
   margin: auto;

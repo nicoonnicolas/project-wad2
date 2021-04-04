@@ -10359,6 +10359,7 @@ a.text-dark:focus, a.text-dark:hover {
   }
 }
 /*# sourceMappingURL=bootstrap.min.css.map */
+/* Contains default font and theme colors for Huddle Web Application */
 /*!
  * Bootstrap v4.6.0 (https://getbootstrap.com/)
  * Copyright 2011-2021 The Bootstrap Authors
@@ -23594,13 +23595,13 @@ input[type=color].form-control:disabled {
 /*# sourceMappingURL=bootstrap-vue.min.css.map */
 @font-face {
   font-family: "poppinsregular";
-  src: url("http://localhost/project-wad2/scss/fonts/poppins-regular-webfont.woff2") format("woff2"), url("http://localhost/project-wad2/scss/fonts/poppins-regular-webfont.woff") format("woff");
+  src: url("http://localhost/app/scss/fonts/poppins-regular-webfont.woff2") format("woff2"), url("http://localhost/app/scss/fonts/poppins-regular-webfont.woff") format("woff");
   font-weight: normal;
   font-style: normal;
 }
 @font-face {
   font-family: "poppinslight";
-  src: url("http://localhost/project-wad2/scss/fonts/poppins-light-webfont.woff2") format("woff2"), url("http://localhost/project-wad2/scss/fonts/poppins-light-webfont.woff") format("woff");
+  src: url("http://localhost/app/scss/fonts/poppins-light-webfont.woff2") format("woff2"), url("http://localhost/app/scss/fonts/poppins-light-webfont.woff") format("woff");
   font-weight: normal;
   font-style: normal;
 }
@@ -23624,6 +23625,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-shrink: 0;
 }
 .c__container {
   display: flex;
@@ -23635,9 +23637,9 @@ body {
   z-index: 0;
   position: relative;
   overflow: hidden;
-  width: 768px;
+  width: 468px;
   max-width: 80%;
-  min-height: 580px;
+  min-height: 480px;
   transition: all 0.6s ease-in-out;
 }
 .c__card {
@@ -23659,6 +23661,7 @@ body {
   position: relative;
   height: 170px;
   width: 170px;
+  max-width: 300px;
   top: -20px;
   z-index: 5;
   border-radius: 50%;
@@ -23669,14 +23672,15 @@ body {
 .c__logo__image {
   height: 150px;
   width: 150px;
+  max-width: 300px;
   border-radius: 50%;
   border: 2px solid white;
 }
 .c__login {
   display: flex;
   justify-content: center !important;
-  align-items: flex-start;
-  position: relative;
+  align-items: center;
+  flex-direction: column;
   margin-top: 1.25rem;
   padding: 1rem 1rem;
 }

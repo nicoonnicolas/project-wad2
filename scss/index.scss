@@ -8,44 +8,7 @@ body {
 
 
 // DRY (Don't Repeat Your CSS!) functions to implement flexbox
-@function getJustify($arg) {
-	$justify: (
-		"sa": space-around,
-		"sb": space-between,
-		"se": space-evenly,
-		"c": center,
-		"fs": flex-start,
-		"fe": flex-end,
-	);
 
-	@each $key, $value in $justify {
-		@if ($key == $arg) {
-			@return $value;
-		}
-	}
-}
-
-//Get the value for align-items
-@function checkAlign($arg) {
-	$align: (
-		"b": baseline,
-		"s": stretch,
-		"c": center,
-		"fs": flex-start,
-		"fe": flex-end,
-	);
-
-	@each $key, $value in $align {
-		@if ($key == $arg) {
-			@return $value;
-		}
-	}
-}
-
-@mixin d-flex() {
-	display: flex;
-	@content;
-}
 
 //center login
 @mixin centerer {
@@ -60,11 +23,11 @@ body {
 }
 
 .c {
-	// @extend .container;
 	@include centerer;
 	@include d-flex {
 		justify-content: getJustify(c);
 		align-items: checkAlign(c);
+		flex-shrink: 0;
 
 	}
 	
@@ -82,9 +45,9 @@ body {
 
 		position: relative;
 		overflow: hidden;
-		width: 768px;
+		width: 468px;
 		max-width: 80%;
-		min-height: 580px;
+		min-height: 480px;
 		transition: all 0.6s ease-in-out;
 
 	}
@@ -111,6 +74,8 @@ body {
 		position: relative;
 		height: 170px;
 		width: 170px;
+		max-width: 300px;
+
 		top: -20px;
 		z-index: 5;
 		border-radius: 50%;
@@ -121,6 +86,7 @@ body {
 		&__image {
 			height: 150px;
 			width: 150px;
+			max-width: 300px;
 			border-radius: 50%;
 			border: 2px solid white;
 		}
@@ -128,18 +94,16 @@ body {
 	&__login{
 		@include d-flex {
 			justify-content: getJustify(c) !important;
-			align-items: checkAlign(fs);
+			align-items: checkAlign(c);
+			flex-direction: column;
 			
 			
 		}
-		position: relative;
 		margin-top: 1.25rem;
 		padding: 1rem 1rem;
 		
 		&__content{
-
 			padding: 1.25rem;
-
 		}
 
 	}
