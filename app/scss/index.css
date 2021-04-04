@@ -23625,6 +23625,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 100%;
 }
 .c__container {
   display: flex;
