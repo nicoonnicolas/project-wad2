@@ -37,17 +37,18 @@ A platform to easily find and book co-working spaces that suit your needs.
 ### Run Sass watcher:
 * In a terminal/command prompt:
     ```
-    sass --watch C:\wamp64\www\project-wad2\scss\custom.scss C:\wamp64\www\project-wad2\scss\custom.css
+    sass --watch C:\wamp64\www\project-wad2\scss\
     ```
 * It should state
     ```
     Sass is watching for changes. Press Ctrl-C to stop.
     ```
     
-* This will help you to convert your custom.scss to custom.css when there are changes to the custom.scss file
-    ```
-    Compiled C:\wamp64\www\app\scss\custom.scss to C:\wamp64\www\app\scss\custom.css.
-    ```
+* This will help you to convert your scss files to css files when there are changes to the scss files
+    * For example: custom.scss
+        ```
+        Compiled C:\wamp64\www\app\scss\custom.scss to C:\wamp64\www\app\scss\custom.css.
+        ```
 
 <br>
 
