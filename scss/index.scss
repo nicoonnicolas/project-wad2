@@ -24,6 +24,11 @@ body {
 
 .c {
 	@include centerer;
+	@include d-flex {
+		justify-content: getJustify(c);
+		align-items: checkAlign(c);
+
+	}
 
 	
 	&__container {
