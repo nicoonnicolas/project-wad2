@@ -37,7 +37,7 @@ A platform to easily find and book co-working spaces that suit your needs.
 ### Run Sass watcher:
 * In a terminal/command prompt:
     ```
-    sass --watch C:\wamp64\www\app\scss\
+    sass --watch C:\wamp64\www\app\scss
     ```
 * It should state
     ```
