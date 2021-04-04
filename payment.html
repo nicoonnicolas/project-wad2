@@ -115,6 +115,7 @@
 			el: '#app',
 			data: {
 				paidFor: true,
+				errors: '',
 				name: '',
 				address: '',
 				days: '',
@@ -199,7 +200,8 @@
 							window.location.replace("http://localhost/project-wad2/paid.html");
 						},
 						onError: err => {
-							console.log(err);
+
+							this.errors = err
 						}
 					})
 					.render(this.$refs.paypal);
