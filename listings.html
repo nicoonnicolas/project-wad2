@@ -26,6 +26,8 @@
 		<link rel="stylesheet" href="//unpkg.com/leaflet/dist/leaflet.css" />
 		<script src="//unpkg.com/leaflet/dist/leaflet.js"></script>
 		<script src="//unpkg.com/vue2-leaflet"></script>
+		<script src="https://unpkg.com/axios/dist/axios.js"></script>
+
 		<script>
 			// Initialize Firebase
 			var firebaseConfig = {
@@ -94,15 +96,18 @@
 			<!-- --------------------Listing and Map Main Body------------ -->
 			<b-container >
 				<b-row>
-					<b-col lg class="map">
-						<div v-if="loaded" id="map">
-							<l-map :zoom="zoom" :center="center">
-								<l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
-								<l-marker v-for="marker in markersPage" :lat-lng="marker.position">
-									<l-popup :content="marker.name">
-									</l-popup>
-								</l-marker>
-							</l-map>
+					<b-col>
+						<h5 style="text-transform: capitalize;">Weather Now: {{ weather }} <img :src="wicon"/></h5> 
+						<div lg class="map">
+							<div v-if="loaded" id="map">
+								<l-map :zoom="zoom" :center="center">
+									<l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
+									<l-marker v-for="marker in markersPage" :lat-lng="marker.position">
+										<l-popup :content="marker.name">
+										</l-popup>
+									</l-marker>
+								</l-map>
+							</div>
 						</div>
 					</b-col>
 					<b-col lg>
@@ -188,6 +193,8 @@
 					url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
 					attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
 					marker: L.latLng(1.3501, 103.8108),
+					weather: "",
+					wicon: "http://openweathermap.org/img/w/01d.png"
 				},
 				computed: {
 					rows() {
@@ -217,8 +224,21 @@
 						this.markers = tempLatLongList;
 						this.loaded = true;
 					});
+					this.getWeather()
 				},
 				methods: {
+					getWeather: function() {
+						let url = "http://api.openweathermap.org/data/2.5/weather?q=Singapore,sg&APPID=01c166374938ecd660d7cc3625edb77f";
+                    axios.get(url)
+					.then(response => {
+                            let obj = response.data.weather[0];
+							this.weather = obj.description;
+							this.wicon = "http://openweathermap.org/img/w/" + obj.icon + ".png"
+                        })
+                        .catch( error => {
+                            this.weather = "Error Retrieving Weather"
+                        });
+					},
 					getAllListings: function () {
 						var listings = firebase.database().ref("listing/");
 						allListings = "";
