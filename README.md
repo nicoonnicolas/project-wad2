@@ -1,6 +1,7 @@
 # Huddle
 A platform to easily find and book co-working spaces that suit your needs. 
- 
+
+***
 ## Installation
 
 ### Set up project:
@@ -31,6 +32,7 @@ A platform to easily find and book co-working spaces that suit your needs.
         1.32.8
         ```
 
+***
 
 ## Run
 
@@ -55,11 +57,19 @@ A platform to easily find and book co-working spaces that suit your needs.
 ### Run WAMP:
 * Run your WAMP server to serve the app
 
+***
 
 ## Use
+
+### Using the app:
 * Visit http://localhost/app/ to start making bookings!
 
-### Making PayPal Transactions
-* Under http://localhost/app/payment.html, paypal transactions can be made to the following PayPal account:    
-* Email: sarahwoon@gmail.com
-* Password: 2G?yV/pI
+### Making PayPal transactions:
+* Under http://localhost/app/payment.html, paypal transactions can be made using the following PayPal account:    
+    * Email: sarahwoon@gmail.com
+    * Password: 2G?yV/pI
+
+***
+
+## Credits
+* Penguin Image from [felizanonuevo] (https://muuseo.com/felizanonuevo#floor)
