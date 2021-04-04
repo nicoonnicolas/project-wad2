@@ -62,7 +62,7 @@
                                     {{booking["address"]}}<br>
                                     #{{booking["unit"]}}<br><br>    
                                     Date: {{booking["startDate"]}} to {{booking["endDate"]}} <br>
-                                    <div v-if="booking['recurringDays'].length == 1 && booking['recurringDays'][0]==''">
+                                    <div v-if="!(booking['recurringDays'].length == 1 && booking['recurringDays'][0]=='')">
                                         Recurring Days:
                                         <span v-for="day in booking['recurringDays']">
                                             {{day}}; 
