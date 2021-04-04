@@ -64,7 +64,11 @@
                                     Date: {{booking["startDate"]}} to {{booking["endDate"]}} <br>
                                     Recurring Days: 
                                     <span v-for="day in booking['recurringDays']">
-                                        {{day}};
+                                        {{day}}; 
+                                    </span> <br>
+                                    Booked Dates:
+                                    <span v-for="date in booking['recurringDates']">
+                                        {{date}}; 
                                     </span> <br>
                                     Price: ${{booking["totalPrice"]}}
                                 </b-card-text>
@@ -132,9 +136,10 @@
                                 var endDate = obj.endDate;
                                 var totalPrice = obj.totalPrice;
                                 var listing_id = obj.listing_id;
-                                var recurringDays = obj.dates;
+                                var recurringDates = obj.dates;
+                                var recurringDays = obj.recurring_days;
 
-                                foundBooking.push({bookingID, listing_id, startDate, endDate, totalPrice, recurringDays});
+                                foundBooking.push({bookingID, listing_id, startDate, endDate, totalPrice, recurringDates, recurringDays});
                             };
 
                             if(foundBooking.length > 0) {
@@ -155,6 +160,7 @@
                                                 var endDate = b.endDate;
                                                 var totalPrice = b.totalPrice;
                                                 var recurringDays = b.recurringDays;
+                                                var recurringDates = b.recurringDates;
 
                                                 // i
                                                 var name = i.name;
@@ -164,7 +170,7 @@
                                                 var capacity = i.capacity;
                                                 var image = i.image;
                                                 
-                                                finalBookings.push({bookingID, name, address, unit, postal, capacity, image, startDate, endDate, totalPrice, recurringDays});
+                                                finalBookings.push({bookingID, name, address, unit, postal, capacity, image, startDate, endDate, totalPrice, recurringDays, recurringDates});
                                             }
                                         }
                                     }
