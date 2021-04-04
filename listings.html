@@ -130,22 +130,24 @@
 		<script>
 			Vue.component('listings', {
 				props: ['listing', 'images', 'url'],
-				template: `
-				
+				template: 
+				`
 				<div class="listingresults__card">
 					<b-card no-body >
 						<b-card-img :src="images" top></b-card-img>
 						<div class="listingresults__card__overlay"><a class="listingresults__card__overlay__link" v-bind:href="url">Explore</a></div>
 						<b-card-body>
-							<b-card-title>{{listing.address}} #{{listing.unit}} Singapore {{listing.postal}}</b-card-title>
-							<b-card-text>
-											<b>Workspace: </b>{{listing.type}} <br> 
-											<b>Capacity: </b>{{listing.capacity}} <br> 
-											<b>Area: </b>{{listing.area}} <br>
-										</b-card-text>
-							</b-card-body>
+							<b-card-title>{{listing.name}}</b-card-title>
+								<b-card-text>
+									<b>Address: </b> {{listing.address}} #{{listing.unit}} <br>
+									<b>Workspace: </b>{{listing.type}} <br> 
+									<b>Capacity: </b>{{listing.capacity}} <br> 
+									<b>Area: </b>{{listing.area}} <br>
+								</b-card-text>
+						</b-card-body>
 					</b-card>
-				</div>`
+				</div>
+				`
 			});
 		</script>
 		<script>
